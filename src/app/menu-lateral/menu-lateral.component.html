@@ -1,0 +1,119 @@
+
+<div class="nav-side-menu">
+
+      <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content">TEMPORARIO</i>
+      <div class="menu-list">	
+
+            <ul id="menu-content" class="menu-content collapse out">
+                  <li data-toggle="collapse" data-target="#config" class="active" aria-expanded="true">
+                        <a href="#">
+                              <b style="font-size: 17px">Á</b>rea de 
+                              <b style="font-size: 17px">C</b>onfiguração <span></span>
+                              
+                        </a>
+                  </li>
+
+                   <!--UL -->
+                  <ul class="sub-menu .collapse.show" id="config">
+                              <li align="center"  class="collapsed active">
+                                    <b style="font-size: 15px">S</b>elecionar 
+                                    <b style="font-size: 15px">A</b>lgoritmo de 
+                                    <b style="font-size: 15px">S</b>ubstituição
+                              </li>
+                              <!-- Selecionar Algoritmo -->
+                              <ul class="sub-menu .collapse.show in" id="algoritmo">
+                              
+                                    <select [(ngModel)]="escalonador" class="form-control" id="selectAlgoritmo">
+                                          <option value=info disabled>Algoritmo de substituição</option>
+                                          <option value="FIFO">FIFO (First In, First Out)</option>
+                                          
+                                    </select>
+                               </ul>
+
+                        <!-- CRIAR Processos -->
+                        <li  align="center" data-toggle="collapse" data-target="#add" class="collapsed active">
+
+                              <b style="font-size: 15px;">C</b>riar 
+                              <b style="font-size: 15px">P</b>rocessos
+                        </li>
+
+                        <ul class="sub-menu .collapse.show" id="add">
+                              <!--CHECKBOX *** CRIAR PROCESSOS ALEATORIOS-->
+                              <div style="background: rgb(218, 218, 218)">
+                                    <div>
+                                          <label style="margin-left: 15px" for="check">
+                                                <input [(ngModel)]="aleatorio" type="checkbox" id="check" name="check" style="margin-left: 10px;" value="false">
+                                                Deseja gerar processos com valores aleatórios para sua simulação ?
+                                                
+                                                <button *ngIf="aleatorio" class="btn btn-outline-primary" 
+                                                      id="btnCad" (click)="geradorAleatorio()">
+                                                      <i class="fa fa-cogs" aria-hidden="true"></i>
+                                                      <b> Gerar Processos </b>
+                                                </button>
+                                          </label>
+                                    </div>
+                              </div>
+                               <!--FORMULARIO PARA CADASTRO DO PROCESSO-->
+                              <form *ngIf="!aleatorio" class="form-group">
+                                    
+                                    <div class="form-group">
+                                          <p  align="center">Nome do Processo <p>
+
+                                          <select [(ngModel)]="p.nome" class="form-control"  id="processo" name="processo">
+                                                <option value="" disabled selected>Nome do processo</option>
+                                                  <option *ngFor="let pr of listaNomes">{{pr}}</option>
+                                          </select>
+                                    </div>
+                                    <div>
+                                          <input [(ngModel)]="nPaginas" type="number" id="execucao" name="execucao" min="1" max="4" class="form-control" 
+                                          placeholder="Qtd. Páginas" >
+                                    </div>
+                              
+                                    <div  id="botoes" align="center"><!--Detalhe aqui    V -->
+                                          <button class="btn btn-success" id="btnCad" ng-show="!p.bit" (click)="cadastrar(p)">
+                                                <i class="fa-solid fa-circle-plus" aria-hidden="true"></i> Criar</button>
+                                          <button class="btn btn-danger" id="btnCan" (click)="cancelar()">
+                                                <i class="fa-duotone fa-circle-minus" aria-hidden="true"></i> Cancelar</button>
+                                    </div>
+                              </form>
+                        </ul>
+
+
+                        <!--TABELA DE PROCESSOS-->
+                        <div>
+                              <div>
+                                    <li class="active collapsed" data-toggle="collapse" aria-expanded="false" data-target="#tabela" >
+                                          <p align="center">Tabela de Processos</p></li>
+
+                                    <!-- Listar processos na tabela --> <!--aria-expanded="{{processos.length == 0? 'false' : 'true'}}"class="{{processos.length == 0? 'sub-menu collapsed collapse' : 'sub-menu collapsed collapse in'}}"-->
+                                    <ul  
+                                           id="tabela" style="height: auto !important;">
+                                          <table class="table table-borded" id="tabelaProcesso" style="font-size: 12px" 
+                                          *ngIf="listaProcessos.length >= 0">
+                                                <tr align=center>
+                                                      <td>Processo</td>
+                                                      <td>Páginas</td>
+                                                      <td>Remover</td>
+                                                </tr><!---->
+                                                <tr style="text-align:center;" *ngFor="let pr of listaProcessos">
+                                                      <td style="width: 5px;"> {{pr.nome}}
+                                                            
+                                                            <b><i class="fa fa-square" aria-hidden="true" style="color:{{pr.cor}};"></i> 
+                                                                  &nbsp;</b>
+                                                      </td>
+                                                      <td>{{pr.pagina.length}}</td>
+                                                      <td>
+                                                            <button type="button" class="btn btn-outline-danger" (click)="excluir(pr)">
+                                                                  <i class="glyphicon glyphicon-remove" style="color:{{pr.cor}};"></i>
+                                                            </button>
+                                                      </td>
+                                                </tr>
+                                          </table><!--style="text-align: center"-->
+                                          <!-- <h6  *ngIf="listaProcessos.length < 1">Não há processo cadastrado.</h6>  -->
+                                    </ul>
+                              </div>
+                        </div>
+                  </ul>
+            </ul>
+      </div>
+</div> 

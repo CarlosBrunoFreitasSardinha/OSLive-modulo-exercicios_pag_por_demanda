@@ -1,0 +1,34 @@
+
+<!-- Animação---------------------------------------------------------------------------------------------------------------->
+<div class="fifo">
+      <div >
+            <h5 style="text-align: center; font-weight: bold;">Ordem de Carga da Página na Memória Física</h5>
+      </div>
+      <div align="center" class="linha">
+            <table class="table" id="tabelaExec" border="2">
+                  <tr height="33" style="text-align: center; width: 50px;" >
+                        <td style="font-size: 12px ; background: #2e2d2c;color: #FFFFFF">TimeStamp</td>
+                        <!-- ng-repeat="r in listaFIFO"-->
+                        <td *ngFor="let pagina of filaFIFO.lista" width="40" style="animation-delay: 500ms; font-size: 12px">
+                              {{pagina.timeStamp!= 0? pagina.timeStamp:'-'}}
+                        </td>
+                  </tr>
+                  <tr  height="33"  style="text-align: center;width: 50px;">
+                        <td style="font-size: 12px ;background: rgb(63, 61, 61);color: #FFFFFF" >Página</td>
+                        <!--ng-repeat="p in listaFIFO" -->
+                        <td *ngFor="let pag of filaFIFO.lista" width="40" style="animation-delay: 500ms; background-color:{{pag.cor}}; color: #FFFFFF; font-size: 12px">
+                              {{pag.timeStamp!= 0? pag.toString():'-'}}
+                        </td>
+                  </tr>
+            </table>
+            <div><p class="alertafifo"></p></div>
+      </div>
+</div>
+<script type="text/javascript">
+$(function(){
+      $("alertafifo").remove();
+});
+</script>
+<!-- TABELA DE PAGINAS DO PROCESSO A-->
+<footer id="rodape">
+</footer>	 
