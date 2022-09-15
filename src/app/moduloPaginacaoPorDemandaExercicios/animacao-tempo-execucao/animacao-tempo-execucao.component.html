@@ -1,0 +1,70 @@
+<!-- Animação---------------------------------------------------------------------------------------------------------------->
+<div class="fifo">
+      <div  align="center" class="linha">
+            <h5 style="text-align: center; font-weight: bold;">Ordem de Carga da Página na Memória Física</h5>
+      </div>
+      
+      <div align="center" class="linha">
+            <table class="table" id="tabelaExec" border="2">
+                  <tr height="33" style="text-align: center; width: 50px;" >
+                        <td style="font-size: 12px ; background: #2e2d2c;color: #FFFFFF">TimeStamp</td>
+
+                        <td *ngFor="let j of filaFIFO.lista; index as k;" 
+                        [ngClass]="corrigir? (opcaoSelecionadaCorrecao[k])?'tdAcerto':'tdErro':''" 
+                        width="40" style="animation-delay: 500ms; font-size: 12px">
+                               <!-- {{listaPaginasResposta[k].timeStamp!= 0? listaPaginasResposta[k].timeStamp:'-'}} -->
+                               {{j.timeStamp}}
+                        </td>
+                  </tr>
+                  <tr  height="33"  style="text-align: center;width: 50px;">
+                        <td style="font-size: 12px ;background: rgb(63, 61, 61);color: #FFFFFF" >Página</td>
+                        
+                        <td *ngFor="let i of listaPaginasResposta; index as k;" width="40" 
+                        style="text-align: center;animation-delay: 500ms; background-color:{{listaPaginasResposta[k].cor}}; color: #FFFFFF; font-size: 12px">
+                              
+                        <select [ngClass]="corrigir? (opcaoSelecionadaCorrecao[k])?'selectOptionAcerto':'selectOptionErro':''" class="form-control selectOption"  id="resposta" name="resposta" style="text-align: center;"
+                              (change)="insereResposta($event)" [(ngModel)]="opcaoSelecionada[k]">
+                                          <option value='' disabled selected> - </option>
+                                          <option *ngFor="let pr of listaPaginas; index as l;" [value]="[k, l]">{{pr.toString()}}</option>
+                              </select>
+                        </td>
+                  </tr>
+            </table>
+            <button class="btn btn-success" (click)="correcao()">
+                  <i class="fa-solid fa-circle-plus" aria-hidden="true"></i>
+                  Corrigir
+            </button>
+            <div><p class="alertafifo"></p></div>
+      </div>
+            
+      <div align="center" class="linha">
+      </div>
+      <!--Correção tabela resultado-->
+      <div align="center" class="linha" *ngIf="corrigir">
+            <table class="table" id="tabelaExec" border="2">
+                  <tr height="33" style="text-align: center; width: 50px;" >
+                        <td style="font-size: 12px ; background: #2e2d2c;color: #FFFFFF">TimeStamp</td>
+                        <!-- ng-repeat="r in listaFIFO"-->
+                        <td *ngFor="let pagina of filaFIFO.lista" width="40" style="animation-delay: 500ms; font-size: 12px">
+                              {{pagina.timeStamp!= 0? pagina.timeStamp:'-'}}
+                        </td>
+                  </tr>
+                  <tr  height="33"  style="text-align: center;width: 50px;">
+                        <td style="font-size: 12px ;background: rgb(63, 61, 61);color: #FFFFFF" >Página</td>
+                        <!--ng-repeat="p in listaFIFO" -->
+                        <td *ngFor="let pag of filaFIFO.lista" width="40" style="animation-delay: 500ms; background-color:{{pag.cor}}; color: #FFFFFF; font-size: 12px">
+                              {{pag.timeStamp!= 0? pag.toString():'-'}}
+                        </td>
+                  </tr>
+            </table>
+            <div><p class="alertafifo"></p></div>
+      </div>
+</div>
+<script type="text/javascript">
+$(function(){
+      $("alertafifo").remove();
+});
+</script>
+<!-- TABELA DE PAGINAS DO PROCESSO A-->
+<footer id="rodape">
+</footer>	 

@@ -3,17 +3,19 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MenuLateralComponent } from './menu-lateral/menu-lateral.component';
-import { AreaExercicioComponent } from './area-exercicio/area-exercicio.component';
-import { AnimacaoTempoExecucaoComponent } from './animacao-tempo-execucao/animacao-tempo-execucao.component';
+import { MenuLateralComponent } from './moduloPaginacaoPorDemandaExercicios/menu-lateral/menu-lateral.component';
+import { AreaExercicioComponent } from './moduloPaginacaoPorDemandaExercicios/area-exercicio/area-exercicio.component';
+import { AnimacaoTempoExecucaoComponent } from './moduloPaginacaoPorDemandaExercicios/animacao-tempo-execucao/animacao-tempo-execucao.component';
 import { FormsModule } from '@angular/forms';
+import { HomePaginacaoPorDemandaExerciciosComponent } from './moduloPaginacaoPorDemandaExercicios/home-paginacao-por-demanda-exercicios/home-paginacao-por-demanda-exercicios.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuLateralComponent,
     AreaExercicioComponent,
-    AnimacaoTempoExecucaoComponent
+    AnimacaoTempoExecucaoComponent,
+    HomePaginacaoPorDemandaExerciciosComponent,
   ],
   imports: [
     BrowserModule,

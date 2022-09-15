@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-import { Processo } from './Classes/Processo';
-import { FIFO } from './Classes/FIFO';
+import { Component, OnInit } from '@angular/core';
+import { Processo } from '../../Classes/Processo';
+import { FIFO } from '../../Classes/FIFO';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-home-paginacao-por-demanda-exercicios',
   template: `
             <app-menu-lateral
                     (enviarDados)="setDadosProcesso($event)"></app-menu-lateral>
@@ -19,16 +19,22 @@ import { FIFO } from './Classes/FIFO';
             `
           ,
 })
-export class AppComponent {
+export class HomePaginacaoPorDemandaExerciciosComponent implements OnInit {
   public getDadosProcesso: Array<Processo> = [];
   public getDadosPaginas: FIFO = new FIFO();
 
   title = 'OSlive-Ex-paginacao-por-demanda';
 
   public setDadosProcesso(event:Array<Processo>){
-    this.getDadosProcesso = event;
- } 
- public setDadosMemoriaFisica(event:FIFO){
-    this.getDadosPaginas = event;
- } 
+      this.getDadosProcesso = event;
+  } 
+  public setDadosMemoriaFisica(event:FIFO){
+      this.getDadosPaginas = event;
+  } 
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
 }

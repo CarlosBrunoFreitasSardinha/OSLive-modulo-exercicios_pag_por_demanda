@@ -1,8 +1,8 @@
 import { TmplAstBoundAttribute } from '@angular/compiler';
 import { AfterContentChecked, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FIFO } from '../FIFO';
-import { MemoriaFisica } from '../MemoriaFisica';
-import { Processo } from '../Processo';
+import { FIFO } from '../../Classes/FIFO';
+import { MemoriaFisica } from '../../Classes/MemoriaFisica';
+import { Processo } from '../../Classes/Processo';
 
 @Component({
   selector: 'app-area-exercicio',
