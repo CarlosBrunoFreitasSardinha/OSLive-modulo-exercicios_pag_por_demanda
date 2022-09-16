@@ -16,7 +16,7 @@ export class FIFO {
       listaVazia():boolean{
             return this.lista.length ==0;
       }
-      addPaginaEmMemoriaFisica(memoriaFisica: Array<MemoriaFisica>, proc: Processo, num: number, timestamp:number):number{
+      addPaginaEmMemoriaFisica(memoriaFisica: Array<MemoriaFisica>, proc: Processo, num: number, timestamp:number, RespostaAluno: boolean = false):number{
             var posicaoParaInsercao:number = this.memoriaFisicaCheia(memoriaFisica);
             if(posicaoParaInsercao==-1){
                   posicaoParaInsercao = this.lista[0].indiceMemoriaFisica;
@@ -32,7 +32,7 @@ export class FIFO {
             proc.pagina[num].indiceMemoriaFisica = posicaoParaInsercao;
             proc.pagina[num].timeStamp = timestamp;
             
-            this.lista.push(proc.pagina[num]);
+            if(!RespostaAluno)this.lista.push(proc.pagina[num]);
 
             return posicaoParaInsercao;
       }

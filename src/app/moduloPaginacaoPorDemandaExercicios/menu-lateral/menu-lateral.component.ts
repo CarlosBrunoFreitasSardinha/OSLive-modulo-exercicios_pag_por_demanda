@@ -1,5 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { flush } from '@angular/core/testing';
+import { Component, EventEmitter, OnInit, Output, AfterContentChecked } from '@angular/core';
 import { Processo } from '../../Classes/Processo';
 
 @Component({
@@ -8,9 +7,10 @@ import { Processo } from '../../Classes/Processo';
   styleUrls: ['./menu-lateral.component.css']
 })
 
-export class MenuLateralComponent implements OnInit {
+export class MenuLateralComponent implements OnInit, AfterContentChecked {
 
   @Output() public enviarDados = new EventEmitter();
+  @Output() public enviarTipoExercicio = new EventEmitter();
 
   public aleatorio: boolean = false;
   public geraAleatorio: boolean = false;
@@ -22,25 +22,43 @@ export class MenuLateralComponent implements OnInit {
 
   public listaProcessos: Array<Processo> = [];
   public listaNomes: Array<string> = ["A", "B", "C", "D"];
+  public listaDeExercicios: Array<{tipo:string, exec: Number}> =[
+                            {tipo:"Sequência de Alocação da Memória Física", exec: 0},
+                            {tipo:"Preencher Memória Lógica", exec: 1},
+                            {tipo:"Preencher Memória Fisica", exec: 2},
+                            {tipo:"Determinar Página Vítima", exec: 3},
+                          ];
+  public exercicioSelecionado:{tipo:string, exec: Number} = {tipo:"", exec: 0};
 
   
   
   ngOnInit(): void {
   }
   
+  ngAfterContentChecked(): void {
+  }
+
+  escolheExercicio(event:any){
+    const arr = event.target.value.split(',');    
+    this.exercicioSelecionado={tipo:arr[0], exec: Number(arr[1])};
+    console.log("numEmitido: "+Number(arr[1]))
+    this.enviarTipoExercicio.emit(Number(arr[1]));
+  }
+  
   geradorAleatorio():void{
     console.log('infoxXx --' + this.aleatorio);
 	
-	if(this.aleatorio){
-		for (var i = 0; i < this.listaNomes.length; i++) {
-      var x = (Number)(Math.round(Math.random() * 2) + 2);
-			this.cadastrar(new Processo(this.listaNomes[i], x, this.gera_cor(), false));
-		}	
-    const input = document.querySelector('#check');
-     console.log(input);
-	}else{
-    console.log('-- .:: xXx ::. --' );      
-	  }
+      if(this.aleatorio){
+        for (var i = 0; i < this.listaNomes.length; i++) {
+          var x = (Number)(Math.round(Math.random() * 2) + 2);
+          this.cadastrar(new Processo(this.listaNomes[i], x, this.gera_cor()));
+        }	
+        const input = document.querySelector('#check');
+        console.log("input->")
+        console.log(input);
+      }else{
+        console.log('-- .:: xXx ::. --' );      
+        }
     this.aleatorio = false;
   }
 
@@ -53,7 +71,7 @@ export class MenuLateralComponent implements OnInit {
         cor += hexadecimais[Math.floor(Math.random() * 16)];
     }
     return cor;
-}
+  }
 
   elementoExiste(str:string):number{
     for(var i=0; i<this.listaProcessos.length;i++){
@@ -63,6 +81,7 @@ export class MenuLateralComponent implements OnInit {
     }
     return -1;
   }
+
   excluir(proc: Processo):void{ 
     // console.log('REMOVER ----------------> ' + proc.toString());
     var v:number = this.elementoExiste(proc.nome);
@@ -71,13 +90,17 @@ export class MenuLateralComponent implements OnInit {
       console.log('Sucesso!!! '+v);
     }
   }
+
   cadastrar(proc: Processo):void{ 
-    // console.log('CADASTRAR --> ' + proc.toString());
+    console.log('CADASTRAR --> ' + proc.toString());
     
-    if(this.validaP(proc) && this.elementoExiste(proc.nome)==-1)
-      {
-        if(proc.pagina.length!=0)this.listaProcessos.push(new Processo(proc.nome, proc.pagina.length, this.gera_cor(), proc.bit));
-        else this.listaProcessos.push(new Processo(proc.nome, this.nPaginas, this.gera_cor(), proc.bit));
+    if(this.validaP(proc) && this.elementoExiste(proc.nome)==-1){
+
+        if(proc.pagina.length!=0){
+          this.listaProcessos.push(new Processo(proc.nome, proc.pagina.length, this.gera_cor(), proc.bit));
+        }
+        else {
+          this.listaProcessos.push(new Processo(proc.nome, this.nPaginas, this.gera_cor(), proc.bit));}
         // this.imprimeProcessosLog();
         this.enviarDados.emit(this.listaProcessos);
       }
@@ -96,12 +119,14 @@ export class MenuLateralComponent implements OnInit {
     
     return true;
   }
+
   cancelar():void{
     console.log('<---------------- OPERAÇÃO CANCELADA ----------------> ');
     this.p.nome = '';
     this.p.pagina = [];
     this.p.bit = false;
   }
+
   onSelect(proc: Processo): void {
     // this.selectedProcesso = proc;
   }

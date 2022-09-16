@@ -22,8 +22,11 @@
                         <td *ngFor="let i of listaPaginasResposta; index as k;" width="40" 
                         style="text-align: center;animation-delay: 500ms; background-color:{{listaPaginasResposta[k].cor}}; color: #FFFFFF; font-size: 12px">
                               
-                        <select [ngClass]="corrigir? (opcaoSelecionadaCorrecao[k])?'selectOptionAcerto':'selectOptionErro':''" class="form-control selectOption"  id="resposta" name="resposta" style="text-align: center;"
+                        <select class="form-control selectOption"  id="resposta" name="resposta" style="text-align: center;"
+                              
+                              [ngClass]="corrigir? (opcaoSelecionadaCorrecao[k])?'selectOptionAcerto':'selectOptionErro':''" 
                               (change)="insereResposta($event)" [(ngModel)]="opcaoSelecionada[k]">
+                              
                                           <option value='' disabled selected> - </option>
                                           <option *ngFor="let pr of listaPaginas; index as l;" [value]="[k, l]">{{pr.toString()}}</option>
                               </select>

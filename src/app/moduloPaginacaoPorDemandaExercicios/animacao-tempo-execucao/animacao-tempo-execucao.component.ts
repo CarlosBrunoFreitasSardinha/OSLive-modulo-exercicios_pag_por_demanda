@@ -24,7 +24,6 @@ export class AnimacaoTempoExecucaoComponent implements OnInit, AfterContentCheck
 
   constructor() { }
   ngOnChanges(changes: SimpleChanges): void {
-    
     for(var i = 0; i<this.filaFIFO.lista.length;i++){
       this.listaPaginasResposta[i] = new Pagina('-');
       this.opcaoSelecionada.push([]);

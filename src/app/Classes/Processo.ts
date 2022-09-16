@@ -3,10 +3,10 @@ import { Pagina } from "./Pagina";
 export class Processo{
     public nome: string;
     public pagina: Array<Pagina> = [];
-    public cor: string;
+    public cor: string ;
     public bit: boolean;
     
-      constructor(_nome: string, _pagina: number, _cor: string, _bit: boolean,) {
+      constructor(_nome: string, _pagina: number, _cor: string , _bit: boolean = false,) {
         this.nome = _nome;
         this.cor = _cor;
         this.bit = _bit;
@@ -15,7 +15,6 @@ export class Processo{
             this.pagina.push(new Pagina( _nome, _cor,i));
           }
         }
-
 
         toString() { //public : by default
 

@@ -29,12 +29,11 @@
                                                       {{paginaProcessoX.indiceMemoriaLogicaProc}}</td>
                                                 <td style="-webkit-transition-delay:{{1 * 500}}ms; background-color:{{p.cor}}; color: #fff; font-size: 10px">
                                                       
-                                                      <button alt="Página fora da memóroria física" class="btn btn-light" (click)="paginaStatus(p, paginaProcessoX.indiceMemoriaLogicaProc)">&nbsp;
+                                                      <button alt="Página fora da memóroria física" class="btn btn-light" [disabled]="exercicioSelecionado==2"
+                                                      (click)="mudaStatusPagina(p, paginaProcessoX.indiceMemoriaLogicaProc)">
+                                                            &nbsp;
                                                             <i *ngIf="!(paginaProcessoX.timeStamp==0)" class="glyphicon glyphicon-ok" style="color: black;" ></i>
                                                             <i *ngIf="paginaProcessoX.timeStamp==0" class="glyphicon glyphicon-remove" style="color: black;" ></i>
-                                                            <!-- <i [ngClass]="  
-                                                            {'glyphicon glyphicon-ok': paginaProcessoX.alocado, 'glyphicon glyphicon-remove': !paginaProcessoX.alocado}"
-                                                            style="color: black;" ></i> -->
                                                             {{p.nome}} </button>
                                                 </td>
                                           </tr>
@@ -79,11 +78,37 @@
                         <td>Página</td>
                         <td>Conteúdo</td>
                   </thead>
-                  <tr align="center" height="33" *ngFor="let m of memoriaF" style="-webkit-transition-delay:{{1 * 500}}ms; background-color:{{m.cor}}; color: #FFFFFF; font-size: 12px" >
-                        <td >{{m.endereco}}</td>
-                        <td >{{m.nome}}</td>
+                  <!--Exercicio Preencher Memoria Fisica-->
+                  <tr align="center" height="33" *ngFor="let m of (exercicioSelecionado==2) ? respostaMemoriaFisica:memoriaF; index as k" style="-webkit-transition-delay:{{1 * 500}}ms; background-color:{{m.cor}}; color: #FFFFFF; font-size: 12px" >
+                        <td >{{m.endereco}}
+                              
+                                    &nbsp;
+                                    <i *ngIf="exercicioSelecionado==2 && corrigir && opcaoSelecionadaCorrecao[k]" class="glyphicon glyphicon-ok" style="color: black;" ></i>
+                                    <i *ngIf="exercicioSelecionado==2 && corrigir && !opcaoSelecionadaCorrecao[k]" class="glyphicon glyphicon-remove" style="color: black;" ></i>
+                        </td>
+                        <td >
+                              <select *ngIf="exercicioSelecionado==2" class="form-control selectOption"  id="resposta" name="resposta" style="text-align: center;"
+                              
+                              [ngClass]="corrigir? (opcaoSelecionadaCorrecao[k])?'selectOptionAcerto':'selectOptionErro':''" 
+                              (change)="insereResposta($event)" [(ngModel)]="opcaoSelecionada[k]">
+                              
+                                          <option value='' disabled selected> - </option>
+                                          <option *ngFor="let pr of filaDePaginas; index as l;" [value]="[k, l]">
+                                                {{pr.toString()}} 
+                                          </option>
+                                          
+                              </select>
+                              {{m.nome}}
+                              &nbsp;
+                              <i *ngIf="(exercicioSelecionado!=2) && (m.horaCarga!=0)" class="glyphicon glyphicon-ok" style="color: black;" ></i>
+                        </td>
                   </tr>
             </table>
+            
+            <button *ngIf="exercicioSelecionado==2" class="btn btn-success" (click)="correcao()">
+                  <i class="fa-solid fa-circle-plus" aria-hidden="true"></i>
+                  Corrigir
+            </button>
             <div><p class="alertamf"></p></div>
       </div>
 

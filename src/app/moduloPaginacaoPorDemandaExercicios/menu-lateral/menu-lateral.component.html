@@ -15,20 +15,35 @@
 
                    <!--UL -->
                   <ul class="sub-menu .collapse.show" id="config">
-                              <li align="center"  class="collapsed active">
-                                    <b style="font-size: 15px">S</b>elecionar 
-                                    <b style="font-size: 15px">A</b>lgoritmo de 
-                                    <b style="font-size: 15px">S</b>ubstituição
-                              </li>
-                              <!-- Selecionar Algoritmo -->
-                              <ul class="sub-menu .collapse.show in" id="algoritmo">
+
+                        <!-- Selecionar Tipo De Exercício -->
+                        <li align="center"  class="collapsed active">
+                              <b style="font-size: 15px">T</b>ipo de 
+                              <b style="font-size: 15px">E</b>xercício
+                        </li>
                               
-                                    <select [(ngModel)]="escalonador" class="form-control" id="selectAlgoritmo">
-                                          <option value=info disabled>Algoritmo de substituição</option>
-                                          <option value="FIFO">FIFO (First In, First Out)</option>
-                                          
-                                    </select>
-                               </ul>
+                        <ul class="sub-menu .collapse.show in" id="algoritmo">
+                        
+                              <select  class="form-control" id="selectAlgoritmo" (change)="escolheExercicio($event)">
+                                    <option value=info disabled>Exercícios Disponíveis</option>
+                                    <option *ngFor="let idx of listaDeExercicios" [value]="[idx.tipo, idx.exec]">{{idx.tipo}}</option>
+                              </select>
+                        </ul>
+
+                        <!-- Selecionar Algoritmo -->
+                        <li align="center"  class="collapsed active">
+                              <b style="font-size: 15px">S</b>elecionar 
+                              <b style="font-size: 15px">A</b>lgoritmo de 
+                              <b style="font-size: 15px">S</b>ubstituição
+                        </li>
+                        <ul class="sub-menu .collapse.show in" id="algoritmo">
+                        
+                              <select [(ngModel)]="escalonador" class="form-control" id="selectAlgoritmo">
+                                    <option value=info disabled>Algoritmo de substituição</option>
+                                    <option value="FIFO">FIFO (First In, First Out)</option>
+                                    
+                              </select>
+                        </ul>
 
                         <!-- CRIAR Processos -->
                         <li  align="center" data-toggle="collapse" data-target="#add" class="collapsed active">
