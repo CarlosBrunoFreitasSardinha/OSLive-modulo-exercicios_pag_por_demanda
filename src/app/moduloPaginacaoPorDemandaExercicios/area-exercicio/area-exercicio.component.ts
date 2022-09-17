@@ -1,5 +1,5 @@
-import { TmplAstBoundAttribute } from '@angular/compiler';
-import { AfterContentChecked, Component, DoCheck, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+
+import { AfterContentChecked, Component, DoCheck, AfterViewChecked, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Pagina } from 'src/app/Classes/Pagina';
 import { FIFO } from '../../Classes/FIFO';
 import { MemoriaFisica } from '../../Classes/MemoriaFisica';
@@ -10,7 +10,7 @@ import { Processo } from '../../Classes/Processo';
   templateUrl: './area-exercicio.component.html',
   styleUrls: ['./area-exercicio.component.css']
 })
-export class AreaExercicioComponent implements OnInit, OnChanges, AfterContentChecked {
+export class AreaExercicioComponent implements OnInit, OnChanges{
   public title: string = "Exercícios de Paginação por Demanda com Substituição de Páginas";
   
   @Input() public listaProcessos: Array<Processo> = [];
@@ -34,30 +34,52 @@ export class AreaExercicioComponent implements OnInit, OnChanges, AfterContentCh
   corrigir: boolean = false;
 
   ngOnInit(): void {
+    console.log("ngOnInit")
     for(var i:number =0; i<this.TAM; i++){
       this.memoriaF.push(new MemoriaFisica(i, this.strMemoVazia, this.strMemoFisicaCor,  0));
     }
   }
   ngOnChanges(changes: SimpleChanges): void {
-      this.inicialChange();
-  }
-  ngAfterContentChecked(): void { 
-    for(var i =0; i<this.listaProcessos.length;i++){
-      if(!this.listaProcessos[i].bit){
-
-        this.alocaPaginaEmMemoriaFisica(this.listaProcessos[i], 0);
-        if(this.listaProcessos[i].pagina.length > 1) this.alocaPaginaEmMemoriaFisica(this.listaProcessos[i], 1);
-        this.listaProcessos[i].bit = !this.listaProcessos[i].bit;
-      }
-    }
+    console.log("ngOnChanges")
     
-    if(this.exercicioSelecionado==2){
-      this.preenchePaginas();
-    }
-
+      for(var i = 0; i<this.listaProcessos.length;i++){
+        if(!this.listaProcessos[i].bit){
+          this.alocaPaginaEmMemoriaFisica(this.listaProcessos[i], 0);
+  
+          if(this.listaProcessos[i].pagina.length > 1) {
+            this.alocaPaginaEmMemoriaFisica(this.listaProcessos[i], 1);
+          }
+  
+          this.listaProcessos[i].bit = !this.listaProcessos[i].bit;
+        }
+      }
+     
+      if(this.exercicioSelecionado==2 || this.exercicioSelecionado==1){
+        if(this.exercicioSelecionado==1)this.respostaMemoriaLogica = [];
+          this.filaDePaginas = [];
+    
+        for(let item of this.listaProcessos){
+          if(this.exercicioSelecionado==1){
+            this.respostaMemoriaLogica.push(new Processo(item.nome, item.pagina.length, item.cor,));
+          }
+          else if(this.exercicioSelecionado==2){
+            for(let i of item.pagina){// console.log("proc: "+item.nome+" qt"+item.pagina.length+" pag: "+i.toString())
+              this.filaDePaginas.push(i);
+            }
+          }
+        }
+      }
+      this.inicialChange();
+      console.log("\n OnChange -> respostaMemoriaLogica")
+      console.log(this.respostaMemoriaLogica)
+      console.log("\n OnChange -> listaProcessos")
+      console.log(this.listaProcessos)
   }
   
   inicialChange():void{
+    console.log("\n\t inicialChange")
+    if (this.exercicioSelecionado==1){
+    }
     if(this.exercicioSelecionado==2){
       
       this.respostaMemoriaFisica = [];
@@ -65,13 +87,11 @@ export class AreaExercicioComponent implements OnInit, OnChanges, AfterContentCh
       for(var i:number =0; i<this.TAM; i++){
          this.respostaMemoriaFisica.push(new MemoriaFisica(i, this.strMemoVazia, this.strMemoFisicaCor,  0));
       }
-
-      this.preenchePaginas();
     }
   }
 
-
   insereResposta(event: any):void{
+    console.log("\n\t InsereResposta")
     const arr = event.target.value.split(',');
     var i = Number(arr[0]);
     var j = Number(arr[1]);
@@ -81,13 +101,13 @@ export class AreaExercicioComponent implements OnInit, OnChanges, AfterContentCh
     this.opcaoSelecionada[i] = [i,j];
     this.opcaoSelecionadaCorrecao[i] = (this.respostaMemoriaFisica[i].nome == this.memoriaF[i].nome);
   }
-  
+
   correcao():void{
     this.corrigir=!this.corrigir;
   }
 
   alocaPaginaEmMemoriaFisica(proc: Processo, num:number):boolean{
-    console.log("|> alocaPaginaEmMemoriaFisica");
+    console.log("|> ALOCA");
     this.filaAlgoritmoSelecionado.addPaginaEmMemoriaFisica(this.memoriaF, proc, num, this.timestamp);
     
     this.timestamp+=1;
@@ -98,7 +118,7 @@ export class AreaExercicioComponent implements OnInit, OnChanges, AfterContentCh
   desalocaPaginaEmMemoriaFisica(proc: Processo, num:number):boolean{
     var i = this.filaAlgoritmoSelecionado.removerProcesso(this.memoriaF, proc, num);
     this.enviarDadosMemoria.emit(this.filaAlgoritmoSelecionado);
-    console.log("DESALOCA =======");
+    console.log("|> DESALOCA");
     if(i!=-1)return true;
     return false;
   }
@@ -106,16 +126,6 @@ export class AreaExercicioComponent implements OnInit, OnChanges, AfterContentCh
   mudaStatusPagina(proc: Processo, num:number):void{
     if(proc.pagina[num].timeStamp!=0)this.desalocaPaginaEmMemoriaFisica(proc, num);
     else this.alocaPaginaEmMemoriaFisica(proc, num);
-  }
-  preenchePaginas():void{
-    this.filaDePaginas = [];
-
-    for(let item of this.listaProcessos){
-      for(let i of item.pagina){
-        // console.log("proc: "+item.nome+" qt"+item.pagina.length+" pag: "+i.toString())
-        this.filaDePaginas.push(i);
-      }
-    }
   }
   counter(i: number) {
     return new Array(i);
