@@ -8,11 +8,13 @@ import { ConditionalExpr } from '@angular/compiler';
   template: `
             <app-menu-lateral
                     (enviarDados)="setDadosProcesso($event)"
-                    (enviarTipoExercicio)="setTipoExercicio($event)"></app-menu-lateral>
+                    (enviarTipoExercicio)="setTipoExercicio($event)"
+                    (enviarRespostaMemoriaLogica)="setRespostaMemoriaLogica($event)"></app-menu-lateral>
 
             <app-area-exercicio 
                     [listaProcessos]="getDadosProcesso" 
                     [exercicioSelecionado]="getTipoExercicio" 
+                    [respostaMemoriaLogica]="getRespostaMemoriaLogica" 
                     (enviarDadosMemoria)="setDadosMemoriaFisica($event)"></app-area-exercicio>
             
             <app-animacao-tempo-execucao *ngIf="getTipoExercicio==0"
@@ -23,19 +25,25 @@ import { ConditionalExpr } from '@angular/compiler';
           ,
 })
 export class AppComponent {
-  public getDadosProcesso: Array<Processo> = [];
-  public getDadosPaginas: FIFO = new FIFO();
-  public getTipoExercicio: Number = new Number;
-
-  title = 'OSlive-Ex-paginacao-por-demanda';
-
-  public setTipoExercicio(event:number){
-        this.getTipoExercicio = event;
-        } 
-  public setDadosProcesso(event:Array<Processo>){
-        this.getDadosProcesso = event;
-        } 
-  public setDadosMemoriaFisica(event:FIFO){
-        this.getDadosPaginas = event;
-        } 
+        public getDadosProcesso: Array<Processo> = [];
+        public getDadosPaginas: FIFO = new FIFO();
+        public getTipoExercicio: Number = new Number;
+        public getRespostaMemoriaLogica: Array<Processo> = [];
+      
+        title = 'OSlive-Ex-paginacao-por-demanda';
+      
+        public setTipoExercicio(event:number){
+                this.getTipoExercicio = event;
+              } 
+        public setDadosProcesso(event:Array<Processo>){
+              this.getDadosProcesso = event;
+              } 
+        public setDadosMemoriaFisica(event:FIFO){
+              this.getDadosPaginas = event;
+              } 
+      public setRespostaMemoriaLogica(event:Array<Processo>){
+                this.getRespostaMemoriaLogica = [];
+                this.getRespostaMemoriaLogica = event;
+              console.log("HOME-Component - Fui ativado ")
+              } 
 }

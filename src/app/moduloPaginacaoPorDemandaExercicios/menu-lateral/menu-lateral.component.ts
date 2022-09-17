@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, AfterContentChecked } from '@angular/core';
+import { count } from 'rxjs';
 import { Processo } from '../../Classes/Processo';
 
 @Component({
@@ -9,8 +10,9 @@ import { Processo } from '../../Classes/Processo';
 
 export class MenuLateralComponent implements OnInit, AfterContentChecked {
 
-  @Output() public enviarDados = new EventEmitter();
-  @Output() public enviarTipoExercicio = new EventEmitter();
+  @Output() public enviarRespostaMemoriaLogica:EventEmitter<any> = new EventEmitter();
+  @Output() public enviarDados:EventEmitter<any> = new EventEmitter();
+  @Output() public enviarTipoExercicio:EventEmitter<any> = new EventEmitter();
 
   public aleatorio: boolean = false;
   public geraAleatorio: boolean = false;
@@ -21,6 +23,7 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
   public selectedProcesso = new Processo('', 0, '#000', false);
 
   public listaProcessos: Array<Processo> = [];
+  public respostaMemoriaLogica: Array<Processo> = [];
   public listaNomes: Array<string> = ["A", "B", "C", "D"];
   public listaDeExercicios: Array<{tipo:string, exec: Number}> =[
                             {tipo:"Sequência de Alocação da Memória Física", exec: 0},
@@ -53,9 +56,9 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
           var x = (Number)(Math.round(Math.random() * 2) + 2);
           this.cadastrar(new Processo(this.listaNomes[i], x, this.gera_cor()));
         }	
-        const input = document.querySelector('#check');
-        console.log("input->")
-        console.log(input);
+        // const input = document.querySelector('#check');
+        // console.log("input->")
+        // console.log(input.v);
       }else{
         console.log('-- .:: xXx ::. --' );      
         }
@@ -98,14 +101,17 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
 
         if(proc.pagina.length!=0){
           this.listaProcessos.push(new Processo(proc.nome, proc.pagina.length, this.gera_cor(), proc.bit));
+          this.respostaMemoriaLogica.push(new Processo(proc.nome, proc.pagina.length, this.gera_cor(), proc.bit));
         }
-        else {
-          this.listaProcessos.push(new Processo(proc.nome, this.nPaginas, this.gera_cor(), proc.bit));}
-        // this.imprimeProcessosLog();
+        else{
+          this.listaProcessos.push(new Processo(proc.nome, this.nPaginas, this.gera_cor(), proc.bit));
+          this.respostaMemoriaLogica.push(new Processo(proc.nome, this.nPaginas, this.gera_cor(), proc.bit));
+        } 
         this.enviarDados.emit(this.listaProcessos);
+        this.enviarRespostaMemoriaLogica.emit(this.respostaMemoriaLogica);
+        this.enviarRespostaMemoriaLogica = new EventEmitter();
       }
-    else 
-      {this.cancelar();}
+    else {this.cancelar();}
     
   }
 
