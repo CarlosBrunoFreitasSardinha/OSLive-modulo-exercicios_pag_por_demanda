@@ -12,11 +12,12 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
 
   @Output() public enviarRespostaMemoriaLogica:EventEmitter<any> = new EventEmitter();
   @Output() public enviarDados:EventEmitter<any> = new EventEmitter();
+  
   @Output() public enviarTipoExercicio:EventEmitter<any> = new EventEmitter();
+  @Output() public enviarTipoAlgoritmo:EventEmitter<any> = new EventEmitter();
 
   public aleatorio: boolean = false;
   public geraAleatorio: boolean = false;
-  public escalonador: string = 'FIFO';
   public nPaginas: number = 1;
   public p = new Processo('A',0,'#228B22',false);
   
@@ -31,7 +32,14 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
                             {tipo:"Preencher Memória Fisica", exec: 2},
                             {tipo:"Determinar Página Vítima", exec: 3},
                           ];
+  public algoritmoEscalonamento: Array<{tipo:string, exec: Number}> =[
+                            {tipo:"FCFS (first-come-first-served)", exec: 0},
+                            {tipo:"Histórico de bits de referência", exec: 1},
+                            {tipo:"Segunda Chance", exec: 2},
+                          ];
+
   public exercicioSelecionado:{tipo:string, exec: Number} = {tipo:"", exec: 0};
+  public escalonador: {tipo:string, exec: Number} = {tipo:"", exec: 0};
 
   
   
@@ -44,8 +52,15 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
   escolheExercicio(event:any){
     const arr = event.target.value.split(',');    
     this.exercicioSelecionado={tipo:arr[0], exec: Number(arr[1])};
-    console.log("numEmitido: "+Number(arr[1]))
+    console.log("numExecEmitido: "+Number(arr[1]))
     this.enviarTipoExercicio.emit(Number(arr[1]));
+  }
+
+  escolheEscalonador(event:any){
+    const arr = event.target.value.split(',');    
+    this.escalonador={tipo:arr[0], exec: Number(arr[1])};
+    console.log("numEscalonadorEmitido: "+Number(arr[1]))
+    this.enviarTipoAlgoritmo.emit(Number(arr[1]));
   }
   
   geradorAleatorio():void{

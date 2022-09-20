@@ -41,7 +41,7 @@ export class AreaExercicioComponent implements OnInit, OnChanges, AfterContentCh
       this.memoriaF.push(new MemoriaFisica(i, this.strMemoVazia, this.strMemoFisicaCor,  0));
     }
   }
-  ngOnChanges(changes: SimpleChanges): void {   
+  ngOnChanges(changes: SimpleChanges): void {
      this.preencherMemoriaFisica();
       if(this.exercicioSelecionado==2){
         this.filaDePaginas = [];

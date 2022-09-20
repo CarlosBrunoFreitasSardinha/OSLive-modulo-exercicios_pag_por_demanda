@@ -25,7 +25,7 @@
                         <ul class="sub-menu .collapse.show in" id="algoritmo">
                         
                               <select  class="form-control" id="selectAlgoritmo" (change)="escolheExercicio($event)">
-                                    <option value=info disabled>Exercícios Disponíveis</option>
+                                    <option value=info disabled selected>Exercícios Disponíveis</option>
                                     <option *ngFor="let idx of listaDeExercicios" [value]="[idx.tipo, idx.exec]">{{idx.tipo}}</option>
                               </select>
                         </ul>
@@ -38,10 +38,9 @@
                         </li>
                         <ul class="sub-menu .collapse.show in" id="algoritmo">
                         
-                              <select [(ngModel)]="escalonador" class="form-control" id="selectAlgoritmo">
-                                    <option value=info disabled>Algoritmo de substituição</option>
-                                    <option value="FIFO">FIFO (First In, First Out)</option>
-                                    
+                              <select class="form-control" id="selectAlgoritmo"  (change)="escolheEscalonador($event)">
+                                    <option value=info disabled selected>Algoritmo de substituição</option>
+                                    <option *ngFor="let idx of algoritmoEscalonamento" [value]="[idx.tipo, idx.exec]">{{idx.tipo}}</option>
                               </select>
                         </ul>
 
