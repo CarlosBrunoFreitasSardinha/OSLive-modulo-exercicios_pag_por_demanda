@@ -19,17 +19,31 @@
                               <table  align="center" class="table cbTesteBorder" id="tabelaExec">
                                     <caption>Mem. Lógica</caption>
                                     <thead >
-                                          <td *ngIf="algoritmoHistorico.historicoBit.length!=0" height="30.5">Pág</td>
-                                          <td *ngFor="let  bitAcess of algoritmoHistorico.historicoBit[0];index as arre">
+                                          <td *ngIf="listaProcessos.length!=0" height="30.5">Pág</td>
+                                          <td *ngFor="let  bitAcess of 
+                                          algoritmoSelecionado ==1
+                                          ?algoritmoHistorico.historicoBit[0]
+                                          : algoritmoSelecionado==0
+                                                ? counter(8)
+                                                : algoritmoSegundaChance.historicoBit[0];index as arre">
+                  
                                                 T{{arre}}</td>
-                                          <td *ngIf="algoritmoHistorico.historicoBit.length!=0">Resp.</td>
+                                          <td *ngIf="listaProcessos.length!=0">Resp.</td>
                                     </thead>
                                     <tbody  class="tbody"><!--*ngFor="let  paginaProcessoX of p.pagina;index as pag"-->
-                                          <tr  *ngFor="let p of algoritmoHistorico.lista; index as pag"
+                                          <tr  *ngFor="let p of  
+                                                algoritmoSelecionado ==1 ? algoritmoHistorico.lista
+                                                      : algoritmoSelecionado==0 ? algoritmoFCFS.lista 
+                                                                  : algoritmoSegundaChance.lista; 
+                                                index as pag"
                                           height="33" align="center"style="font-size: 10px"><!--p.cor-->
                                                 <td style="-webkit-transition-delay:{{1 * 500}}ms; background-color:{{p.cor}}; color: #fff; font-size: 12px">
                                                       {{p.toString()}}</td>
-                                                <td  *ngFor="let  bitAcess of algoritmoHistorico.historicoBit[pag];index as arre"
+                                                <td  *ngFor="let  bitAcess of 
+                                                
+                                                algoritmoSelecionado ==1 ? algoritmoHistorico.historicoBit[pag]
+                                                      : algoritmoSelecionado==0 ? counter(8)
+                                                                  : algoritmoSegundaChance.historicoBit[pag]; ;index as arre"
                                                       style="-webkit-transition-delay:{{1 * 500}}ms; background-color:{{p.cor}}; color: #fff; font-size: 10px">
                                                       {{bitAcess}}
                                                 </td>

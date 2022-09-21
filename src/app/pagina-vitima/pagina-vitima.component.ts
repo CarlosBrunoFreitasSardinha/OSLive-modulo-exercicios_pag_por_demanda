@@ -72,15 +72,21 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
         this.listaProcessos[i].bit = !this.listaProcessos[i].bit;
       }
     }
-    console.log('memoria fisica')
-    console.log(this.memoriaF)
-    console.log('Processo')
-    console.log(this.listaProcessos)
   }
 
   correcao():void{
     this.corrigir=!this.corrigir;
-    this.paginavitima = this.algoritmoHistorico.verificaBitReferencia();
+    if(this.algoritmoSelecionado==0){
+      
+    }
+    else if(this.algoritmoSelecionado==1){
+      this.paginavitima = this.algoritmoHistorico.verificaBitReferencia();
+    }
+    else{
+      console.log("segundaCHance")
+      console.log(this.algoritmoSegundaChance)
+      this.paginavitima = this.algoritmoSegundaChance.segundaChance(4);
+    }
     console.log("pagina Vitima: "+this.paginavitima)
   }
 
@@ -90,16 +96,34 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
   
   alocaPaginaEmMemoriaFisica(proc: Processo, num:number):boolean{
     console.log("|> ALOCA - "+proc.nome+" num="+num);
-    this.algoritmoHistorico.addPaginaEmMemoriaFisica(this.memoriaF, proc, num, this.timestamp);
+
+    if(this.algoritmoSelecionado==0){
+      
+    }
+    else if(this.algoritmoSelecionado==1){
+      this.algoritmoHistorico.addPaginaEmMemoriaFisica(this.memoriaF, proc, num, this.timestamp);
+    }
+    else{
+      this.algoritmoSegundaChance.addPaginaEmMemoriaFisica(this.memoriaF, proc, num, this.timestamp);
+    }
     
     this.timestamp+=1;
-    // this.enviarDadosMemoria.emit(this.algoritmoHistorico);
     return true;
   }
   
   desalocaPaginaEmMemoriaFisica(proc: Processo, num:number):boolean{
-    var i = this.algoritmoHistorico.removerProcesso(this.memoriaF, proc, num);
-    // this.enviarDadosMemoria.emit(this.algoritmoHistorico);
+    var i: number = 0;
+
+    if(this.algoritmoSelecionado==0){
+      
+    }
+    else if(this.algoritmoSelecionado==1){
+      i = this.algoritmoHistorico.removerProcesso(this.memoriaF, proc, num);
+    }
+    else{
+      i = this.algoritmoSegundaChance.removerProcesso(this.memoriaF, proc, num);
+    }
+
     console.log("|> DESALOCA");
     if(i!=-1)return true;
     return false;
