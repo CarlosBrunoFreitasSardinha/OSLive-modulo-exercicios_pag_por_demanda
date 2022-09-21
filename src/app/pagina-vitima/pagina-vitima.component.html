@@ -24,10 +24,11 @@
                                           algoritmoSelecionado ==1
                                           ?algoritmoHistorico.historicoBit[0]
                                           : algoritmoSelecionado==0
-                                                ? counter(8)
+                                                ? counter(1)
                                                 : algoritmoSegundaChance.historicoBit[0];index as arre">
-                  
-                                                T{{arre}}</td>
+
+                                                {{algoritmoSelecionado==0? 'TimeStamp':'T_'+arre}}
+                                          </td>
                                           <td *ngIf="listaProcessos.length!=0">Resp.</td>
                                     </thead>
                                     <tbody  class="tbody"><!--*ngFor="let  paginaProcessoX of p.pagina;index as pag"-->
@@ -42,10 +43,10 @@
                                                 <td  *ngFor="let  bitAcess of 
                                                 
                                                 algoritmoSelecionado ==1 ? algoritmoHistorico.historicoBit[pag]
-                                                      : algoritmoSelecionado==0 ? counter(8)
+                                                      : algoritmoSelecionado==0 ? counter(1)
                                                                   : algoritmoSegundaChance.historicoBit[pag]; ;index as arre"
                                                       style="-webkit-transition-delay:{{1 * 500}}ms; background-color:{{p.cor}}; color: #fff; font-size: 10px">
-                                                      {{bitAcess}}
+                                                      {{algoritmoSelecionado==0? memoriaF[pag].horaCarga:bitAcess}}
                                                 </td>
                                                 <td style="-webkit-transition-delay:{{1 * 500}}ms; background-color:{{p.cor}}; color: #fff; font-size: 12px">
                                                      <!-- [(ngModel)]="aleatorio" -->

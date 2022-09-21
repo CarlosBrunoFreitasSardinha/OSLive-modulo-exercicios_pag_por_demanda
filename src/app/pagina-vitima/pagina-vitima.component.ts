@@ -31,7 +31,6 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
   corrigir: boolean = false;
   paginavitima: number =0;
 
-  public filaAlgoritmoSelecionado: FIFO = new FIFO();
   public algoritmoFCFS = new FCFS();
   public algoritmoHistorico = new HitoricoBitReferencia();
   public algoritmoSegundaChance = new SegundaChance();
@@ -45,15 +44,6 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
     }
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.algoritmoSelecionado==0){
-      
-    }
-    else if(this.algoritmoSelecionado==1){
-      
-    }
-    else{
-      
-    }
     
     this.preencherMemoriaFisica();
   }
@@ -77,14 +67,12 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
   correcao():void{
     this.corrigir=!this.corrigir;
     if(this.algoritmoSelecionado==0){
-      
+      this.paginavitima = 0;
     }
     else if(this.algoritmoSelecionado==1){
       this.paginavitima = this.algoritmoHistorico.verificaBitReferencia();
     }
     else{
-      console.log("segundaCHance")
-      console.log(this.algoritmoSegundaChance)
       this.paginavitima = this.algoritmoSegundaChance.segundaChance(4);
     }
     console.log("pagina Vitima: "+this.paginavitima)
@@ -98,7 +86,7 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
     console.log("|> ALOCA - "+proc.nome+" num="+num);
 
     if(this.algoritmoSelecionado==0){
-      
+      this.algoritmoFCFS.addPaginaEmMemoriaFisica(this.memoriaF, proc, num, this.timestamp);
     }
     else if(this.algoritmoSelecionado==1){
       this.algoritmoHistorico.addPaginaEmMemoriaFisica(this.memoriaF, proc, num, this.timestamp);
@@ -115,7 +103,7 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
     var i: number = 0;
 
     if(this.algoritmoSelecionado==0){
-      
+      i = this.algoritmoFCFS.removerProcesso(this.memoriaF, proc, num);
     }
     else if(this.algoritmoSelecionado==1){
       i = this.algoritmoHistorico.removerProcesso(this.memoriaF, proc, num);
