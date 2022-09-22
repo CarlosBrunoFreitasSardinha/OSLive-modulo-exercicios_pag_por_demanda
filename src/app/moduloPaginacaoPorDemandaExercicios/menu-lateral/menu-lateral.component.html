@@ -5,7 +5,11 @@
       <div class="menu-list">	
 
             <ul id="menu-content" class="menu-content collapse out">
-                  <li data-toggle="collapse" data-target="#config" class="active" aria-expanded="true">
+                  <li class="active"
+                  data-bs-toggle="collapse" 
+                  data-bs-target="#config" 
+                  aria-controls="config" 
+                  aria-expanded="false">
                         <a href="#">
                               <b style="font-size: 17px">Á</b>rea de 
                               <b style="font-size: 17px">C</b>onfiguração <span></span>
@@ -14,15 +18,18 @@
                   </li>
 
                    <!--UL -->
-                  <ul class="sub-menu .collapse.show" id="config">
+                  <ul class="sub-menu collapse.show" id="config">
 
                         <!-- Selecionar Tipo De Exercício -->
-                        <li align="center"  class="collapsed active">
+                        <li align="center"  class="collapsed active"
+                        data-bs-toggle="collapse" 
+                        data-bs-target="#exercicio" 
+                        aria-controls="exercicio" 
+                        aria-expanded="false">
                               <b style="font-size: 15px">T</b>ipo de 
                               <b style="font-size: 15px">E</b>xercício
-                        </li>
-                              
-                        <ul class="sub-menu .collapse.show in" id="algoritmo">
+                        </li>       
+                        <ul class="sub-menu collapse.show" id="exercicio">
                         
                               <select  class="form-control" id="selectAlgoritmo" (change)="escolheExercicio($event)">
                                     <option value=info disabled selected>Exercícios Disponíveis</option>
@@ -31,12 +38,16 @@
                         </ul>
 
                         <!-- Selecionar Algoritmo -->
-                        <li align="center"  class="collapsed active">
+                        <li align="center"  class="collapsed active"
+                        data-bs-toggle="collapse" 
+                        data-bs-target="#algoritmo" 
+                        aria-controls="algoritmo" 
+                        aria-expanded="false">
                               <b style="font-size: 15px">S</b>elecionar 
                               <b style="font-size: 15px">A</b>lgoritmo de 
                               <b style="font-size: 15px">S</b>ubstituição
                         </li>
-                        <ul class="sub-menu .collapse.show in" id="algoritmo">
+                        <ul class="sub-menu collapse.show" id="algoritmo">
                         
                               <select class="form-control" id="selectAlgoritmo"  (change)="escolheEscalonador($event)">
                                     <option value=info disabled selected>Algoritmo de substituição</option>
@@ -45,13 +56,17 @@
                         </ul>
 
                         <!-- CRIAR Processos -->
-                        <li  align="center" data-toggle="collapse" data-target="#add" class="collapsed active">
+                        <li  align="center"class="collapsed active"
+                        data-bs-toggle="collapse" 
+                        data-bs-target="#add" 
+                        aria-controls="add" 
+                        aria-expanded="false">
 
                               <b style="font-size: 15px;">C</b>riar 
                               <b style="font-size: 15px">P</b>rocessos
                         </li>
 
-                        <ul class="sub-menu .collapse.show" id="add">
+                        <ul class="sub-menu collapse.show" id="add">
                               <!--CHECKBOX *** CRIAR PROCESSOS ALEATORIOS-->
                               <div style="background: rgb(218, 218, 218)">
                                     <div>
@@ -96,19 +111,23 @@
                         <!--TABELA DE PROCESSOS-->
                         <div>
                               <div>
-                                    <li class="active collapsed" data-toggle="collapse" aria-expanded="false" data-target="#tabela" >
-                                          <p align="center">Tabela de Processos</p></li>
+                                    <li class="active collapsed"
+                                    data-bs-toggle="collapse" 
+                                    data-bs-target="#tabelaProcesso" 
+                                    aria-controls="tabelaProcesso" 
+                                    aria-expanded="false">
+                                          <p align="center">Tabela de Processos</p>
+                                    </li>
 
                                     <!-- Listar processos na tabela --> <!--aria-expanded="{{processos.length == 0? 'false' : 'true'}}"class="{{processos.length == 0? 'sub-menu collapsed collapse' : 'sub-menu collapsed collapse in'}}"-->
-                                    <ul  
-                                           id="tabela" style="height: auto !important;">
+                                    <ul id="tabelaProcesso" style="height: auto !important;">
                                           <table class="table table-borded" id="tabelaProcesso" style="font-size: 12px" 
-                                          *ngIf="listaProcessos.length >= 0">
-                                                <tr align=center>
+                                          *ngIf="listaProcessos.length != 0">
+                                                <tr align="center">
                                                       <td>Processo</td>
                                                       <td>Páginas</td>
                                                       <td>Remover</td>
-                                                </tr><!---->
+                                                </tr>
                                                 <tr style="text-align:center;" *ngFor="let pr of listaProcessos">
                                                       <td style="width: 5px;"> {{pr.nome}}
                                                             

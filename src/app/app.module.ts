@@ -8,7 +8,7 @@ import { AreaExercicioComponent } from './moduloPaginacaoPorDemandaExercicios/ar
 import { AnimacaoTempoExecucaoComponent } from './moduloPaginacaoPorDemandaExercicios/animacao-tempo-execucao/animacao-tempo-execucao.component';
 import { FormsModule } from '@angular/forms';
 import { HomePaginacaoPorDemandaExerciciosComponent } from './moduloPaginacaoPorDemandaExercicios/home-paginacao-por-demanda-exercicios/home-paginacao-por-demanda-exercicios.component';
-import { PaginaVitimaComponent } from './pagina-vitima/pagina-vitima.component';
+import { PaginaVitimaComponent } from './moduloPaginacaoPorDemandaExercicios/pagina-vitima/pagina-vitima.component';
 
 @NgModule({
   declarations: [

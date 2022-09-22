@@ -1,11 +1,10 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { Processo } from '../Classes/Processo';
-import { FCFS } from '../Classes/FCFS';
-import { HitoricoBitReferencia } from '../Classes/HitoricoBitReferencia';
-import { SegundaChance } from '../Classes/SegundaChance';
-import { MemoriaFisica } from '../Classes/MemoriaFisica';
-import { FIFO } from '../Classes/FIFO';
-import { Pagina } from '../Classes/Pagina';
+import { Processo } from '../../Classes/Processo';
+import { FCFS } from '../../Classes/FCFS';
+import { HitoricoBitReferencia } from '../../Classes/HitoricoBitReferencia';
+import { SegundaChance } from '../../Classes/SegundaChance';
+import { MemoriaFisica } from '../../Classes/MemoriaFisica';
+import { Pagina } from '../../Classes/Pagina';
 
 @Component({
   selector: 'app-pagina-vitima',

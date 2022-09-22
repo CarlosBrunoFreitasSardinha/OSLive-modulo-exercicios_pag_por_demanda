@@ -9,14 +9,13 @@
 
 <!-- TABELAS DA MEMÓRIA LÓGICA DOS PROCESSOS------------------------------------------------------------------------------------------------------------------------------------>
 <div class="col-sm-9 col-sm-offset-1" align="left">
-      <div class="table-responsive cbTesteBorder">
+      <div class="table-responsive">
                   
-            <h5>Memória Lógica</h5>
             <div class="row align-items-start" >
                   <div class="col-6 col-sm-6" *ngFor="let p of (exercicioSelecionado!=1)?listaProcessos:respostaMemoriaLogica; index as proc">
                         <div class="row align-items-start">
                               <!-- TABELA MEMÓRIA LÓGICA DO PROCESSO-------------------------------------------------------------------->
-                              <table  *ngIf="((exercicioSelecionado!=1)?listaProcessos.length :respostaMemoriaLogica.length) > 0" align="center" class="table cbTesteBorder" id="tabelaExec">
+                              <table  *ngIf="((exercicioSelecionado!=1)?listaProcessos.length :respostaMemoriaLogica.length) > 0" align="center" class="table " id="tabelaExec">
                                     <caption>Mem. Lógica</caption>
                                     <thead >
                                           <td height="30.5">Pág</td>
@@ -42,7 +41,7 @@
                               </table>
       
                               <!-- TABELA DE PAGINAS DO PROCESSO-->
-                              <table *ngIf="listaProcessos.length >0" align="center" class="table cbTesteBorder" id="tabelaExec" border="2">
+                              <table *ngIf="listaProcessos.length >0" align="center" class="table " id="tabelaExec" border="2">
                                     <caption>Tabela de Páginas</caption>
                                     <thead>
                                           <td >End.ML</td>

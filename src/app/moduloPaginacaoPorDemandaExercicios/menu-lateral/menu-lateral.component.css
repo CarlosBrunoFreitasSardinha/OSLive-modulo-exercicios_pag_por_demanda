@@ -209,10 +209,10 @@
             margin: auto;
             padding: 6px;
       }
-      #algoritmo{
+      #algoritmo, #exercicio{
         text-align: center;
       }
-      #selectAlgoritmo, #algoritmo{        
+      #selectAlgoritmo, #algoritmo, #exercicio{        
         margin-top: 6px ; 
         margin-bottom: 6px;
         border-radius: 7px;

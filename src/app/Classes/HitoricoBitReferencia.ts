@@ -25,18 +25,45 @@ export class HitoricoBitReferencia {
 
       verificaBitReferencia(): number{
             var posicaoMenosAcessada = 0;
-            var qtAcesso = 0;
-
+            var count = 0;
+            var pos = 0;
+            var zero: Array<number> = [];
+            var apagar: Array<number> = [];
+            var parar:boolean = false;
+            
             for(var i =0; i< this.historicoBit.length; i++){
-                  var temp:number = 0;
-                  for(let j of this.historicoBit[i]){
-                      temp =  temp + j;
-                  }
-                  if(i == 0 || temp < qtAcesso) {
-                        posicaoMenosAcessada = i;
-                        qtAcesso = temp;
+                  if(this.historicoBit[i][0] == 0){
+                        zero.push(i);
+                        console.log("pos= "+i+" zero - "+this.historicoBit[i][0])
                   }
             }
+
+            while(!parar){
+                  pos+=1;
+                  apagar = [];
+                  
+                  for(var i = 0; i< zero.length; i++){
+                        if(this.historicoBit[zero[i]][pos] == 0) {
+                              posicaoMenosAcessada = zero[i];
+                              count+=1;
+                        }
+                        else apagar.push(zero[i]);
+                  }
+
+                  if(pos == 3)parar = true;
+                  
+                  if(count==0) apagar = [];
+                  else if(count == 1)parar = true;
+                  else {
+                        for( let i of apagar){
+                              var x = zero.indexOf(i);
+                              zero.splice(x, 1)
+                        }
+                        posicaoMenosAcessada = zero[0];
+                        count=0;
+                  }
+            }
+
             return posicaoMenosAcessada;
       }
       
