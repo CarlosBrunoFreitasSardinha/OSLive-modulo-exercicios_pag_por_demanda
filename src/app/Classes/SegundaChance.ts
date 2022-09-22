@@ -1,6 +1,7 @@
 import { Pagina } from './Pagina';
 import { MemoriaFisica } from './MemoriaFisica';
 import { Processo } from './Processo';
+import { Timestamp } from 'rxjs';
 
 export class SegundaChance {
       public lista: Array<Pagina> = [];
@@ -19,36 +20,24 @@ export class SegundaChance {
             var x: Array<number> = [];
             for(var i = 0; i< num;i++){
                   x[i] = Math.floor(Math.random() * 2);
+                  // x[i]=1;
             }
             return x;
       }
 
-      verificaBitReferencia(): number{
-            var posicaoMenosAcessada = 0;
-            var qtAcesso = 0;
-
-            for(var i =0; i< this.historicoBit.length; i++){
-                  var temp:number = 0;
-                  for(let j of this.historicoBit[i]){
-                      temp =  temp + j;
-                  }
-                  if(i == 0 || temp < qtAcesso) {
-                        posicaoMenosAcessada = i;
-                        qtAcesso = temp;
+      segundaChance(_time: number,): number{         
+            while(true){
+                  for(var i =0; i< this.historicoBit.length; i++){
+                        if(this.historicoBit[i][0] == 0 ){
+                              return i;
+                        }
+                        else {
+                              this.historicoBit[i][0]=0;
+                              this.lista[i].timeStamp = _time;
+                              _time+=1;
+                        }
                   }
             }
-            return posicaoMenosAcessada;
-      }
-      segundaChance(TAM: number,): number{
-            var eVitima: boolean = true;
-            var posicaoParaInsercao: number = 0;
-
-            while(eVitima){
-                  posicaoParaInsercao = this.verificaBitReferencia();
-                  if(this.historicoBit[posicaoParaInsercao][TAM-1]==1)this.historicoBit[posicaoParaInsercao][TAM-1]=0;
-                  else eVitima = false;
-            }
-            return posicaoParaInsercao;
       }
       
       addPaginaEmMemoriaFisica(memoriaFisica: Array<MemoriaFisica>, proc: Processo, num: number, timestamp:number):number{

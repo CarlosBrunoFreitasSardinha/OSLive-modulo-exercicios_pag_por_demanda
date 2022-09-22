@@ -24,6 +24,7 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
   timestamp:number = 100;
   strMemoFisicaCor: string = '#7FB174';
   strMemoVazia: string = '-';
+  arrayOrdem:Array<number> = [];
 
   public memoriaF: Array<MemoriaFisica> = [];
   public filaDePaginas: Array<Pagina> = [];
@@ -43,8 +44,19 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
     }
   }
   ngOnChanges(changes: SimpleChanges): void {
-    
     this.preencherMemoriaFisica();
+    
+    if(this.algoritmoSelecionado == 0){
+      this.arrayOrdem = this.counterComValor(this.algoritmoFCFS.lista.length);
+      this.arrayOrdem = this.embaralhamentoFisherYates(this.arrayOrdem)
+    }
+    else if(this.algoritmoSelecionado == 2){
+      this.arrayOrdem = this.counterComValor(this.algoritmoSegundaChance.lista.length);
+      this.arrayOrdem = this.embaralhamentoFisherYates(this.arrayOrdem)
+    }
+    else{
+      this.arrayOrdem = this.counterComValor(this.algoritmoHistorico.lista.length);
+    }
   }
 
   
@@ -57,12 +69,18 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
         if(this.listaProcessos[i].pagina.length > 1) {
           this.alocaPaginaEmMemoriaFisica(this.listaProcessos[i], 1);
         }
-
         this.listaProcessos[i].bit = !this.listaProcessos[i].bit;
       }
     }
   }
 
+  embaralhamentoFisherYates(array:Array<number>) {
+    for (var i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
   correcao():void{
     this.corrigir=!this.corrigir;
     if(this.algoritmoSelecionado==0){
@@ -72,13 +90,18 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
       this.paginavitima = this.algoritmoHistorico.verificaBitReferencia();
     }
     else{
-      this.paginavitima = this.algoritmoSegundaChance.segundaChance(4);
+      this.paginavitima = this.algoritmoSegundaChance.segundaChance(this.timestamp);
     }
     console.log("pagina Vitima: "+this.paginavitima)
   }
 
   counter(i: number) {
     return new Array(i);
+  }
+  counterComValor(i: number):Array<number>{
+    var lista = [];
+    for(var x = 0; x<i;x++)lista.push(x)
+    return lista;
   }
   
   alocaPaginaEmMemoriaFisica(proc: Processo, num:number):boolean{

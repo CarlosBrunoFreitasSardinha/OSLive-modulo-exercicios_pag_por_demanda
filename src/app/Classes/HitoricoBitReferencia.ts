@@ -34,7 +34,6 @@ export class HitoricoBitReferencia {
             for(var i =0; i< this.historicoBit.length; i++){
                   if(this.historicoBit[i][0] == 0){
                         zero.push(i);
-                        console.log("pos= "+i+" zero - "+this.historicoBit[i][0])
                   }
             }
 
