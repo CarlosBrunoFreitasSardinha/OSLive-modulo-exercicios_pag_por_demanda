@@ -1,5 +1,5 @@
 <!-- Animação---------------------------------------------------------------------------------------------------------------->
-<div class="fifo">
+<div class="fifo row align-items-end">
       <div  align="center" class="linha">
             <h5 style="text-align: center; font-weight: bold;">Ordem de Carga da Página na Memória Física</h5>
       </div>
@@ -20,9 +20,11 @@
                         <td style="font-size: 12px ;background: rgb(63, 61, 61);color: #FFFFFF" >Página</td>
                         
                         <td *ngFor="let i of listaPaginasResposta; index as k;" width="40" 
+                        class="leveSombreado"
                         style="text-align: center;animation-delay: 500ms; background-color:{{listaPaginasResposta[k].cor}}; color: #FFFFFF; font-size: 12px">
                               
-                        <select class="form-control selectOption"  id="resposta" name="resposta" style="text-align: center;"
+                        <select class="form-control selectOption"  id="resposta" name="resposta" 
+                              style="text-align: center; color: #000;background-color: #e0e0e0;"
                               
                               [ngClass]="corrigir? (opcaoSelecionadaCorrecao[k])?'selectOptionAcerto':'selectOptionErro':''" 
                               (change)="insereResposta($event)" [(ngModel)]="opcaoSelecionada[k]">
@@ -54,7 +56,8 @@
                   <tr  height="33"  style="text-align: center;width: 50px;">
                         <td style="font-size: 12px ;background: rgb(63, 61, 61);color: #FFFFFF" >Página</td>
                         <!--ng-repeat="p in listaFIFO" -->
-                        <td *ngFor="let pag of filaFIFO.lista" width="40" style="animation-delay: 500ms; background-color:{{pag.cor}}; color: #FFFFFF; font-size: 12px">
+                        <td class="leveSombreado"
+                        *ngFor="let pag of filaFIFO.lista" width="40" style="animation-delay: 500ms; background-color:{{pag.cor}}; color: #FFFFFF; font-size: 12px">
                               {{pag.timeStamp!= 0? pag.toString():'-'}}
                         </td>
                   </tr>

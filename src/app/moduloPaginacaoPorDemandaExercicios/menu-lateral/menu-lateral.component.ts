@@ -38,12 +38,13 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
                             {tipo:"Segunda Chance", exec: 2},
                           ];
 
-  public exercicioSelecionado:{tipo:string, exec: Number} = {tipo:"", exec: 0};
+  public exercicioSelecionado:{tipo:string, exec: Number} = {tipo:"", exec: -1};
   public escalonador: {tipo:string, exec: Number} = {tipo:"", exec: 0};
 
   
   
   ngOnInit(): void {
+    this.enviarTipoExercicio.emit(this.exercicioSelecionado.exec);
   }
   
   ngAfterContentChecked(): void {

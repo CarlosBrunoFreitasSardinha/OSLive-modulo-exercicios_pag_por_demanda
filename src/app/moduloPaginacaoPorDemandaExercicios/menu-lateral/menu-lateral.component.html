@@ -131,13 +131,13 @@
                                                 <tr style="text-align:center;" *ngFor="let pr of listaProcessos">
                                                       <td style="width: 5px;"> {{pr.nome}}
                                                             
-                                                            <b><i class="fa fa-square" aria-hidden="true" style="color:{{pr.cor}};"></i> 
+                                                            <b><i class="fa fa-square" aria-hidden="true" style="color:{{pr.cor}};box-shadow: inset 10em 1em rgba(0, 0, 0, 0.25);"></i> 
                                                                   &nbsp;</b>
                                                       </td>
                                                       <td>{{pr.pagina.length}}</td>
                                                       <td>
                                                             <button type="button" class="btn btn-outline-danger" (click)="excluir(pr)">
-                                                                  <i class="glyphicon glyphicon-remove" style="color:{{pr.cor}};"></i>
+                                                                  <i class="glyphicon glyphicon-remove leveSombreado" style="color:{{pr.cor}};"></i>
                                                             </button>
                                                       </td>
                                                 </tr>

@@ -6,26 +6,32 @@ import { ConditionalExpr } from '@angular/compiler';
 @Component({
   selector: 'app-root',
   template: `
-            <app-menu-lateral
-                    (enviarDados)="setDadosProcesso($event)"
-                    (enviarTipoExercicio)="setTipoExercicio($event)"
-                    (enviarTipoAlgoritmo)="setTipoAlgoritmo($event)"
-                    (enviarRespostaMemoriaLogica)="setRespostaMemoriaLogica($event)"></app-menu-lateral>
+        <div class="container-fluid">
+                <div class="row">
+                        <div class="col-3">
+                                <app-menu-lateral
+                                        (enviarDados)="setDadosProcesso($event)"
+                                        (enviarTipoExercicio)="setTipoExercicio($event)"
+                                        (enviarTipoAlgoritmo)="setTipoAlgoritmo($event)"
+                                        (enviarRespostaMemoriaLogica)="setRespostaMemoriaLogica($event)"></app-menu-lateral>
+                        </div>
+                        <div class="col-9">
+                                <app-area-exercicio  *ngIf="getTipoExercicio!=3"
+                                        [listaProcessos]="getDadosProcesso" 
+                                        [exercicioSelecionado]="getTipoExercicio" 
+                                        [respostaMemoriaLogica]="getRespostaMemoriaLogica" 
+                                        (enviarDadosMemoria)="setDadosMemoriaFisica($event)"></app-area-exercicio>
 
-            <app-area-exercicio  *ngIf="getTipoExercicio!=3"
-                    [listaProcessos]="getDadosProcesso" 
-                    [exercicioSelecionado]="getTipoExercicio" 
-                    [respostaMemoriaLogica]="getRespostaMemoriaLogica" 
-                    (enviarDadosMemoria)="setDadosMemoriaFisica($event)"></app-area-exercicio>
-
-            <app-pagina-vitima *ngIf="getTipoExercicio==3"
-                    [listaProcessos]="getDadosProcesso" 
-                    [algoritmoSelecionado]="getTipoAlgoritmo" ></app-pagina-vitima>
-            
-            <app-animacao-tempo-execucao *ngIf="getTipoExercicio==0"
-                    [listaProcessos]="getDadosProcesso"
-                    [filaFIFO]="getDadosPaginas"></app-animacao-tempo-execucao>
-
+                                <app-pagina-vitima *ngIf="getTipoExercicio==3"
+                                        [listaProcessos]="getDadosProcesso" 
+                                        [algoritmoSelecionado]="getTipoAlgoritmo" ></app-pagina-vitima>
+                                
+                                <app-animacao-tempo-execucao *ngIf="getTipoExercicio==0"
+                                        [listaProcessos]="getDadosProcesso"
+                                        [filaFIFO]="getDadosPaginas"></app-animacao-tempo-execucao>
+                        </div>
+                </div>
+        </div>
             `
           ,
 })

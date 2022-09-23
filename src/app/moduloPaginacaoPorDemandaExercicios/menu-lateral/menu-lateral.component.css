@@ -181,6 +181,9 @@
 
 /* Textos Menu --------------------------------------------------------------------------------- */
 
+.leveSombreado{
+  box-shadow: inset 10em 1em rgba(0, 0, 0, 0.25);
+}
 /* tags --------------------------------------------------------------------------------------*/
     
     body {
@@ -192,12 +195,6 @@
     }
   
 /* IDs --------------------------------------------------------------------------------------*/
-      #btnCad{
-        margin-right: 5px; 
-        padding-left: 25px;
-        padding-right: 25px;
-        border-color: rgb(92, 184, 92); 
-      }
       #processo{
             width: 70%;
             margin: auto;
@@ -216,6 +213,8 @@
         margin-top: 6px ; 
         margin-bottom: 6px;
         border-radius: 7px;
+        font-size: 14px;
+        color: #555;
       }
       
       #selectExemplo{
@@ -234,4 +233,14 @@
         margin: auto;
         margin-top: 9px;
         margin-bottom: 9px;
+      }
+      .leveSombreado{
+        box-shadow: inset 10em 1em rgba(0, 0, 0, 0.25);
+      }
+      #btnCad{
+        margin-right: 5px; 
+        padding-left: 25px;
+        padding-right: 25px;
+        border-color: rgb(92, 184, 92); 
+        font-size: 14px;
       }

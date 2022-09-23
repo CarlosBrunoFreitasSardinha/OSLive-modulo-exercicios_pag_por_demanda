@@ -1,152 +1,154 @@
-
-<!-- fim da barra de menu vertical class="nav-side-menu"-->
-<div class="col-sm-9 col-sm-offset-1" style="font-size: 10px; height: 50px" >
-      <h3 style="text-align: center"><b>{{title}}</b></h3>
-</div>
-<!-- Lista de páginas FIFO -->
-      <div class="col-sm-9 col-sm-offset-1">
+<div class="row align-items-start">
+            
+      <!-- fim da barra de menu vertical class="nav-side-menu"-->
+      <div class="col-12" style="font-size: 10px; height: 50px" >
+            <h3 style="text-align: center"><b>{{title}}</b></h3>
       </div>
+      <!-- Lista de páginas FIFO -->
+            <div class="fifo">
+            </div>
 
-<!-- TABELAS DA MEMÓRIA LÓGICA DOS PROCESSOS------------------------------------------------------------------------------------------------------------------------------------>
-<div class="col-sm-9 col-sm-offset-1" align="left">
-      <div class="table-responsive cbTesteBorder">
+      <!-- TABELAS DA MEMÓRIA LÓGICA DOS PROCESSOS------------------------------------------------------------------------------------------------------------------------------------>
+      <div class="col-12 col-sm-offset-1">
+            <div class="row">
                   
-            <h5>Memória Lógica</h5>
-            <div class="row align-items-start" >
+                  
                   <div class="col-6 col-sm-6"><!--*ngFor="let p of (exercicioSelecionado!=1)?listaProcessos:respostaMemoriaLogica; index as proc"-->
-                        <div class="row align-items-start">
-                              <!-- TABELA MEMÓRIA LÓGICA DO PROCESSO-------------------------------------------------------------------->
-                              <table  align="center" class="table cbTesteBorder" id="tabelaExec">
-                                    <caption>Mem. Lógica</caption>
-                                    <thead >
-                                          <td *ngIf="listaProcessos.length!=0" height="30.5">Pág</td>
-                                          <td *ngFor="let  bitAcess of 
-                                          algoritmoSelecionado ==1
-                                          ?algoritmoHistorico.historicoBit[0]
-                                          : algoritmoSelecionado==0
-                                                ? counter(1)
-                                                : counter(2);index as arre">
-
-                                                {{algoritmoSelecionado==0
-                                                            ? 'TimeStamp'
-                                                            :algoritmoSelecionado==1
-                                                                  ?'bit_'+(4-arre)
-                                                                  :arre==0
-                                                                        ?'TimeStamp'
-                                                                        :'bitRef'}}
-                                          </td>
-                                          <td *ngIf="listaProcessos.length!=0">Resp.</td>
-                                    </thead>
-                                    <tbody  class="tbody"><!--DADOS DA ARRAY SELECIONADA-->
-                                          <tr  *ngFor="let pag of  arrayOrdem;" height="33" align="center"style="font-size: 10px">
-
-                                                <td style="-webkit-transition-delay:{{1 * 500}}ms; background-color:{{
-                                                       algoritmoSelecionado ==1 
+                        
+                        <div class="row">
+                              <div class="col-6  align-self-center">      <!-- TABELA MEMÓRIA LÓGICA DO PROCESSO-------------------------------------------------------------------->
+                                    <table class="table cbTesteBorder" id="tabelaExec">
+                                          <caption>Mem. Lógica</caption>
+                                          <thead >
+                                                <td *ngIf="listaProcessos.length!=0" height="30.5">Pág</td>
+                                                <td *ngFor="let  bitAcess of 
+                                                algoritmoSelecionado ==1
+                                                ?algoritmoHistorico.historicoBit[0]
+                                                : algoritmoSelecionado==0
+                                                      ? counter(1)
+                                                      : counter(2);index as arre">
+      
+                                                      {{algoritmoSelecionado==0
+                                                                  ? 'TimeStamp'
+                                                                  :algoritmoSelecionado==1
+                                                                        ?'bit_'+(4-arre)
+                                                                        :arre==0
+                                                                              ?'TimeStamp'
+                                                                              :'bitRef'}}
+                                                </td>
+                                                <td *ngIf="listaProcessos.length!=0">Resp.</td>
+                                          </thead>
+                                          <tbody  class="tbody"><!--DADOS DA ARRAY SELECIONADA-->
+                                                <tr  *ngFor="let pag of  arrayOrdem;" height="33" align="center"style="font-size: 10px">
+      
+                                                      <td  class="leveSombreado" style="-webkit-transition-delay:{{1 * 500}}ms; background-color:{{
+                                                            algoritmoSelecionado ==1 
+                                                                  ? algoritmoHistorico.lista[pag].cor
+                                                                  : algoritmoSelecionado==0 
+                                                                        ? algoritmoFCFS.lista[pag].cor 
+                                                                        : algoritmoSegundaChance.lista[pag].cor
+                                                            }}; color: #fff; font-size: 12px">
+                                                            {{
+                                                                  algoritmoSelecionado ==1 
+                                                                  ? algoritmoHistorico.lista[pag].toString()
+                                                                  : algoritmoSelecionado==0 
+                                                                        ? algoritmoFCFS.lista[pag].toString() 
+                                                                        : algoritmoSegundaChance.lista[pag].toString()
+                                                            }}</td>
+                                                            
+                                                      <td  class="leveSombreado" *ngFor="let  bitAcess of 
+                                                            algoritmoSelecionado ==1 
+                                                                  ? algoritmoHistorico.historicoBit[pag]
+                                                                  : algoritmoSelecionado==0 
+                                                                        ? counter(1)
+                                                                        : counter(2);
+                                                            index as arre" style="-webkit-transition-delay:{{1 * 500}}ms; background-color:{{
+                                                                  algoritmoSelecionado ==1 
+                                                                  ? algoritmoHistorico.lista[pag].cor
+                                                                  : algoritmoSelecionado==0 
+                                                                        ? algoritmoFCFS.lista[pag].cor 
+                                                                        : algoritmoSegundaChance.lista[pag].cor
+                                                            }}; color: #fff; font-size: 10px">
+                                                            {{algoritmoSelecionado==0
+                                                                        ? memoriaF[pag].horaCarga
+                                                                        : algoritmoSelecionado==2
+                                                                              ? arre==0
+                                                                                    ? algoritmoSegundaChance.lista[pag].timeStamp
+                                                                                    : algoritmoSegundaChance.historicoBit[pag][0]
+                                                                              : bitAcess}}
+                                                      </td>
+                                                      <td  class="leveSombreado" style="-webkit-transition-delay:{{1 * 500}}ms; background-color:{{
+                                                            algoritmoSelecionado ==1 
                                                             ? algoritmoHistorico.lista[pag].cor
                                                             : algoritmoSelecionado==0 
                                                                   ? algoritmoFCFS.lista[pag].cor 
                                                                   : algoritmoSegundaChance.lista[pag].cor
                                                       }}; color: #fff; font-size: 12px">
-                                                      {{
-                                                            algoritmoSelecionado ==1 
-                                                                 ? algoritmoHistorico.lista[pag].toString()
-                                                                 : algoritmoSelecionado==0 
-                                                                       ? algoritmoFCFS.lista[pag].toString() 
-                                                                       : algoritmoSegundaChance.lista[pag].toString()
-                                                           }}</td>
-                                                      
-                                                <td  *ngFor="let  bitAcess of 
-                                                      algoritmoSelecionado ==1 
-                                                            ? algoritmoHistorico.historicoBit[pag]
-                                                            : algoritmoSelecionado==0 
-                                                                  ? counter(1)
-                                                                  : counter(2);
-                                                      index as arre" style="-webkit-transition-delay:{{1 * 500}}ms; background-color:{{
-                                                            algoritmoSelecionado ==1 
-                                                                 ? algoritmoHistorico.lista[pag].cor
-                                                                 : algoritmoSelecionado==0 
-                                                                       ? algoritmoFCFS.lista[pag].cor 
-                                                                       : algoritmoSegundaChance.lista[pag].cor
-                                                           }}; color: #fff; font-size: 10px">
-                                                      {{algoritmoSelecionado==0
-                                                                  ? memoriaF[pag].horaCarga
-                                                                  : algoritmoSelecionado==2
-                                                                        ? arre==0
-                                                                              ? algoritmoSegundaChance.lista[pag].timeStamp
-                                                                              : algoritmoSegundaChance.historicoBit[pag][0]
-                                                                        : bitAcess}}
-                                                </td>
-                                                <td style="-webkit-transition-delay:{{1 * 500}}ms; background-color:{{
-                                                      algoritmoSelecionado ==1 
-                                                           ? algoritmoHistorico.lista[pag].cor
-                                                           : algoritmoSelecionado==0 
-                                                                 ? algoritmoFCFS.lista[pag].cor 
-                                                                 : algoritmoSegundaChance.lista[pag].cor
-                                                     }}; color: #fff; font-size: 12px">
-                                                     <!-- [(ngModel)]="aleatorio" -->
-                                                      <input type="radio" id="resposta" name="resposta"
-                                                            style="margin-left: 10px;" [value]="pag">
-                                                            &nbsp;
-                                                            <i *ngIf="corrigir && paginavitima == pag" class="glyphicon glyphicon-ok" style="color: black;" ></i>
-                                                            <i *ngIf="corrigir && !(paginavitima == pag)" class="glyphicon glyphicon-remove" style="color: black;" ></i>
-                                                </td>
-
-                                          </tr>
-                                    </tbody>
-                              </table>
-                        </div>
-                  </div>
-                  
-            </div>
-      </div>
-
+                                                      <!-- [(ngModel)]="aleatorio" -->
+                                                            <input type="radio" id="resposta" name="resposta"
+                                                                  style="margin-left: 10px;" [value]="pag">
+                                                                  &nbsp;
+                                                                  <i *ngIf="corrigir && paginavitima == pag" class="glyphicon glyphicon-ok" style="color: black;" ></i>
+                                                                  <i *ngIf="corrigir && !(paginavitima == pag)" class="glyphicon glyphicon-remove" style="color: black;" ></i>
+                                                      </td>
       
-      <!-- TABELA DA MEMÓRIA FISICA ---------------------------------------------------------------------------------------------------------------->
-      <div align="center" class="table-responsive lar">
-            <h5 class="alerta">Memória Física</h5>
-            <table align="center" class="table" id="tabelaExec" border="2">
-                  <thead >
-                        <td>Página</td>
-                        <td>Conteúdo</td>
-                  </thead>
-                  <!--Exercicio Preencher Memoria Fisica-->
-                  <tr align="center" height="33" *ngFor="let m of memoriaF; index as k" style="-webkit-transition-delay:{{1 * 500}}ms; background-color:{{m.cor}}; color: #FFFFFF; font-size: 12px" >
-                        <td >{{m.endereco}}
-                        </td>
-                        <td >
-                              {{m.nome}}
-                              &nbsp;
-                              <i *ngIf="(m.horaCarga!=0)" class="glyphicon glyphicon-ok" style="color: black;" ></i>
-                        </td>
-                  </tr>
-            </table>
-            
-            <button class="btn btn-success" (click)="correcao()">
-                  <i class="fa-solid fa-circle-plus" aria-hidden="true"></i>
-                  Corrigir
-            </button>
-            <div><p class="alertamf"></p></div>
-      </div>
+                                                </tr>
+                                          </tbody>
+                                    </table>
+                                    <button class="btn btn-success" (click)="correcao()">
+                                          <i class="fa-solid fa-circle-plus" aria-hidden="true"></i>
+                                          Corrigir
+                                    </button>
+                              </div>
+                              <div class="col-6  align-self-center">
+                              </div>
+                        </div>
+                  </div>
 
-      <!--DISCO COM PÁGINAS DOS PROCESSOS------------------------------------------------------------------------------------------------------------->
-      <div class="table-responsive lar" style="background-color: rgb(230, 228, 228);" align="center" >
-            <h5>Disco</h5>
+                  
+                  <!-- TABELA DA MEMÓRIA FISICA ---------------------------------------------------------------------------------------------------------------->
+                  <div class="col-2">
+                        <h5 class="alerta">Memória Física</h5>
+                        <table align="center" class="table" id="tabelaExec" border="2">
+                              <thead >
+                                    <td>Página</td>
+                                    <td>Conteúdo</td>
+                              </thead>
+                              <!--Exercicio Preencher Memoria Fisica-->
+                              <tr align="center" height="33" *ngFor="let m of memoriaF; index as k" style="-webkit-transition-delay:{{1 * 500}}ms; background-color:{{m.cor}}; color: #FFFFFF; font-size: 12px" >
+                                    <td class="leveSombreado">{{m.endereco}}
+                                    </td>
+                                    <td class="leveSombreado">
+                                          {{m.nome}}
+                                          &nbsp;
+                                          <i *ngIf="(m.horaCarga!=0)" class="glyphicon glyphicon-ok" style="color: black;" ></i>
+                                    </td>
+                              </tr>
+                        </table>
+                        
+                        <div><p class="alertamf"></p></div>
+                  </div>
 
-            <div class="row align-items-start" >
-                  <div class="col-6 col-sm-6" *ngFor="let p of listaProcessos">
-                        <div class="row align-items-start">
-                              <table  align="center" class="table" id="tabelaExec">
-                                    <thead >
-                                          <td >Processo {{p.nome}}</td>
-                                    </thead>
-                                    <tr *ngFor='let  i of counter(p.pagina.length)' align="center" height="33"  style="font-size: 10px">
-                                          <td style="-webkit-transition-delay:{{1 * 100}}ms; background-color:{{p.cor}}; color: #FFFFFF; font-size: 12px">
-                                                {{p.nome}}</td>
-                                    </tr>
-                              </table>
+                  <!--DISCO COM PÁGINAS DOS PROCESSOS------------------------------------------------------------------------------------------------------------->
+                  <div class="col-2" style="background-color: rgb(230, 228, 228);">
+                        <h5>Disco</h5>
+
+                        <div class="row align-items-start" >
+                              <div class="col-6 col-sm-6" *ngFor="let p of listaProcessos">
+                                    <div class="row align-items-start">
+                                          <table  align="center" class="table" id="tabelaExec">
+                                                <thead >
+                                                      <td >Processo {{p.nome}}</td>
+                                                </thead>
+                                                <tr *ngFor='let  i of counter(p.pagina.length)' align="center" height="33"  style="font-size: 10px">
+                                                      <td class="leveSombreado" style="-webkit-transition-delay:{{1 * 100}}ms; background-color:{{p.cor}}; color: #FFFFFF; font-size: 12px">
+                                                            {{p.nome}}</td>
+                                                </tr>
+                                          </table>
+                                    </div>
+                              </div>
                         </div>
                   </div>
             </div>
       </div>
-
 </div>
