@@ -38,12 +38,11 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
   constructor() { }
 
   ngOnInit(): void {
-    console.log("ngOnInit")
-    for(var i:number =0; i<this.TAM; i++){
-      this.memoriaF.push(new MemoriaFisica(i, this.strMemoVazia, this.strMemoFisicaCor,  0));
-    }
+    this.preencherMemoriaFisica();
   }
+
   ngOnChanges(changes: SimpleChanges): void {
+    console.log("OnChanges - Pagina Vitima \n\t "+this.algoritmoSelecionado)
     this.preencherMemoriaFisica();
     
     if(this.algoritmoSelecionado == 0){
@@ -61,47 +60,20 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
 
   
   preencherMemoriaFisica(){
-     
+    this.arrayOrdem =[];
+    this.memoriaF = [];
+    this.algoritmoFCFS =  new FCFS();
+    this.algoritmoSegundaChance = new SegundaChance();
+    this.algoritmoHistorico = new HitoricoBitReferencia();
+
+    for(var i:number =0; i<this.TAM; i++){
+      this.memoriaF.push(new MemoriaFisica(i, this.strMemoVazia, this.strMemoFisicaCor,  0));
+    }
+
     for(var i = 0; i<this.listaProcessos.length;i++){
-      if(!this.listaProcessos[i].bit){
-        this.alocaPaginaEmMemoriaFisica(this.listaProcessos[i], 0);
-
-        if(this.listaProcessos[i].pagina.length > 1) {
-          this.alocaPaginaEmMemoriaFisica(this.listaProcessos[i], 1);
-        }
-        this.listaProcessos[i].bit = !this.listaProcessos[i].bit;
-      }
+      this.alocaPaginaEmMemoriaFisica(this.listaProcessos[i], 0);
+      if(this.listaProcessos[i].pagina.length > 1) this.alocaPaginaEmMemoriaFisica(this.listaProcessos[i], 1);
     }
-  }
-
-  embaralhamentoFisherYates(array:Array<number>) {
-    for (var i = array.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  }
-  correcao():void{
-    this.corrigir=!this.corrigir;
-    if(this.algoritmoSelecionado==0){
-      this.paginavitima = 0;
-    }
-    else if(this.algoritmoSelecionado==1){
-      this.paginavitima = this.algoritmoHistorico.verificaBitReferencia();
-    }
-    else{
-      this.paginavitima = this.algoritmoSegundaChance.segundaChance(this.timestamp);
-    }
-    console.log("pagina Vitima: "+this.paginavitima)
-  }
-
-  counter(i: number) {
-    return new Array(i);
-  }
-  counterComValor(i: number):Array<number>{
-    var lista = [];
-    for(var x = 0; x<i;x++)lista.push(x)
-    return lista;
   }
   
   alocaPaginaEmMemoriaFisica(proc: Processo, num:number):boolean{
@@ -116,6 +88,7 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
     else{
       this.algoritmoSegundaChance.addPaginaEmMemoriaFisica(this.memoriaF, proc, num, this.timestamp);
     }
+
     
     this.timestamp+=1;
     return true;
@@ -137,6 +110,37 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
     console.log("|> DESALOCA");
     if(i!=-1)return true;
     return false;
+  }
+
+  embaralhamentoFisherYates(array:Array<number>) {
+    for (var i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  correcao():void{
+    this.corrigir=!this.corrigir;
+    if(this.algoritmoSelecionado==0){
+      this.paginavitima = 0;
+    }
+    else if(this.algoritmoSelecionado==1){
+      this.paginavitima = this.algoritmoHistorico.verificaBitReferencia();
+    }
+    else{
+      this.paginavitima = this.algoritmoSegundaChance.segundaChance(this.timestamp);
+    }
+    console.log("pagina Vitima: "+this.paginavitima)
+  }
+
+  counter(i: number) {
+    return new Array(i);
+  }
+  counterComValor(i: number):Array<number>{
+    var lista = [];
+    for(var x = 0; x<i;x++)lista.push(x)
+    return lista;
   }
 
 }

@@ -53,14 +53,14 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
   escolheExercicio(event:any){
     const arr = event.target.value.split(',');    
     this.exercicioSelecionado={tipo:arr[0], exec: Number(arr[1])};
-    console.log("numExecEmitido: "+Number(arr[1]))
+    // console.log("numExecEmitido: "+Number(arr[1]))
     this.enviarTipoExercicio.emit(Number(arr[1]));
   }
 
   escolheEscalonador(event:any){
     const arr = event.target.value.split(',');    
     this.escalonador={tipo:arr[0], exec: Number(arr[1])};
-    console.log("numEscalonadorEmitido: "+Number(arr[1]))
+    // console.log("numEscalonadorEmitido: "+Number(arr[1]))
     this.enviarTipoAlgoritmo.emit(Number(arr[1]));
   }
   
@@ -78,7 +78,7 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
       }else{
         console.log('-- .:: xXx ::. --' );      
         }
-    this.aleatorio = false;
+    // this.aleatorio = false;
   }
 
   gera_cor(): string{		// gera cor aleatoria
