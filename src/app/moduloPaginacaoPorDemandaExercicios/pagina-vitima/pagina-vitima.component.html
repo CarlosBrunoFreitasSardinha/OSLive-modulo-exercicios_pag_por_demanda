@@ -17,11 +17,11 @@
                         
                         <div class="row">
                               <div class="col-6  align-self-center">      <!-- TABELA MEMÓRIA LÓGICA DO PROCESSO-------------------------------------------------------------------->
-                                    <table class="table cbTesteBorder" id="tabelaExec">
+                                    <table class="table cbTesteBorder" id="tabelaExec" *ngIf="listaProcessos.length!=0" >
                                           <caption>Mem. Lógica</caption>
                                           <thead >
-                                                <td *ngIf="listaProcessos.length!=0" height="30.5">Pág</td>
-                                                <td *ngFor="let  bitAcess of 
+                                                <td height="30.5">Pág</td>
+                                                <td  *ngFor="let  bitAcess of 
                                                 algoritmoSelecionado ==1
                                                 ?algoritmoHistorico.historicoBit[0]
                                                 : algoritmoSelecionado==0
@@ -36,7 +36,7 @@
                                                                               ?'TimeStamp'
                                                                               :'bitRef'}}
                                                 </td>
-                                                <td *ngIf="listaProcessos.length!=0">Resp.</td>
+                                                <td>Resp.</td>
                                           </thead>
                                           <tbody  class="tbody"><!--DADOS DA ARRAY SELECIONADA-->
                                                 <tr  *ngFor="let pag of  arrayOrdem;" height="33" align="center"style="font-size: 10px">
@@ -95,7 +95,7 @@
                                                 </tr>
                                           </tbody>
                                     </table>
-                                    <button class="btn btn-success" (click)="correcao()">
+                                    <button class="btn btn-success" (click)="correcao()" *ngIf="listaProcessos.length!=0" >
                                           <i class="fa-solid fa-circle-plus" aria-hidden="true"></i>
                                           Corrigir
                                     </button>
