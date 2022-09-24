@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Processo } from './Classes/Processo';
 import { FIFO } from './Classes/FIFO';
-import { ConditionalExpr } from '@angular/compiler';
 
 @Component({
   selector: 'app-root',
@@ -11,10 +10,12 @@ import { ConditionalExpr } from '@angular/compiler';
                         <div class="col-3">
                                 <app-menu-lateral
                                         (enviarDados)="setDadosProcesso($event)"
-                                        (enviarTipoExercicio)="setTipoExercicio($event)"
                                         (enviarTipoAlgoritmo)="setTipoAlgoritmo($event)"
-                                        (enviarRespostaMemoriaLogica)="setRespostaMemoriaLogica($event)"></app-menu-lateral>
+                                        (enviarTipoExercicio)="setTipoExercicio($event)"
+                                        (enviarRespostaMemoriaLogica)="setRespostaMemoriaLogica($event)"
+                                        (enviarGambiarra)="setGambiarra($event)"></app-menu-lateral>
                         </div>
+                        
                         <div class="col-9">
                                 <app-area-exercicio  *ngIf="getTipoExercicio!=3"
                                         [listaProcessos]="getDadosProcesso" 
@@ -23,8 +24,11 @@ import { ConditionalExpr } from '@angular/compiler';
                                         (enviarDadosMemoria)="setDadosMemoriaFisica($event)"></app-area-exercicio>
 
                                 <app-pagina-vitima *ngIf="getTipoExercicio==3"
+
+                                        [algoritmoSelecionado]="getTipoAlgoritmo" 
                                         [listaProcessos]="getDadosProcesso" 
-                                        [algoritmoSelecionado]="getTipoAlgoritmo" ></app-pagina-vitima>
+                                        [gambiarra]="getGambiarra"
+                                        ></app-pagina-vitima>
                                 
                                 <app-animacao-tempo-execucao *ngIf="getTipoExercicio==0"
                                         [listaProcessos]="getDadosProcesso"
@@ -40,6 +44,7 @@ export class AppComponent {
         public getDadosPaginas: FIFO = new FIFO();
         public getTipoExercicio: Number = new Number;
         public getTipoAlgoritmo: Number = new Number;
+        public getGambiarra: Number = new Number;
         public getRespostaMemoriaLogica: Array<Processo> = [];
       
         title = 'OSlive-Ex-paginacao-por-demanda';
@@ -47,19 +52,25 @@ export class AppComponent {
         public setTipoAlgoritmo(event:number){
                 this.getTipoAlgoritmo = event;
               } 
+        public setGambiarra(event:number){
+                this.getGambiarra = event;
+              } 
       
         public setTipoExercicio(event:number){
                 this.getTipoExercicio = event;
                 } 
+
         public setDadosProcesso(event:Array<Processo>){
               this.getDadosProcesso = event;
               } 
+
         public setDadosMemoriaFisica(event:FIFO){
               this.getDadosPaginas = event;
               } 
+
       public setRespostaMemoriaLogica(event:Array<Processo>){
                 this.getRespostaMemoriaLogica = [];
                 this.getRespostaMemoriaLogica = event;
-              console.log("HOME-Component - Fui ativado ")
               } 
+
 }

@@ -14,8 +14,9 @@ import { Pagina } from '../../Classes/Pagina';
 export class PaginaVitimaComponent implements OnInit, OnChanges{
 
   
-  @Input() public listaProcessos: Array<Processo> = [];
   @Input() public algoritmoSelecionado: Number = new Number;
+  @Input() public listaProcessos: Array<Processo> = [];
+  @Input() public gambiarra: Number = new Number;
 
   public title: string = "Determine a Pagina Vítima";
 
@@ -42,7 +43,7 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("OnChanges - Pagina Vitima \n\t "+this.algoritmoSelecionado)
+    // console.log("OnChanges - Pagina Vitima \n\t "+this.algoritmoSelecionado)
     this.preencherMemoriaFisica();
     
     if(this.algoritmoSelecionado == 0){
@@ -77,7 +78,7 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
   }
   
   alocaPaginaEmMemoriaFisica(proc: Processo, num:number):boolean{
-    console.log("|> ALOCA - "+proc.nome+" num="+num);
+    // console.log("|> ALOCA - "+proc.nome+" num="+num);
 
     if(this.algoritmoSelecionado==0){
       this.algoritmoFCFS.addPaginaEmMemoriaFisica(this.memoriaF, proc, num, this.timestamp);
@@ -107,7 +108,7 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
       i = this.algoritmoSegundaChance.removerProcesso(this.memoriaF, proc, num);
     }
 
-    console.log("|> DESALOCA");
+    // console.log("|> DESALOCA");
     if(i!=-1)return true;
     return false;
   }
@@ -131,7 +132,7 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
     else{
       this.paginavitima = this.algoritmoSegundaChance.segundaChance(this.timestamp);
     }
-    console.log("pagina Vitima: "+this.paginavitima)
+    // console.log("pagina Vitima: "+this.paginavitima)
   }
 
   counter(i: number) {

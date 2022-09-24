@@ -16,9 +16,12 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
   @Output() public enviarTipoExercicio:EventEmitter<any> = new EventEmitter();
   @Output() public enviarTipoAlgoritmo:EventEmitter<any> = new EventEmitter();
 
+  @Output() public enviarGambiarra:EventEmitter<any> = new EventEmitter();
+
   public aleatorio: boolean = false;
   public geraAleatorio: boolean = false;
   public nPaginas: number = 1;
+  public eGambiarra: number = 1;
   public p = new Processo('A',0,'#228B22',false);
   
   public selectedProcesso = new Processo('', 0, '#000', false);
@@ -45,6 +48,8 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
   
   ngOnInit(): void {
     this.enviarTipoExercicio.emit(this.exercicioSelecionado.exec);
+    this.enviarTipoAlgoritmo.emit(0);
+    this.enviarGambiarra.emit(0);
   }
   
   ngAfterContentChecked(): void {
@@ -53,15 +58,19 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
   escolheExercicio(event:any){
     const arr = event.target.value.split(',');    
     this.exercicioSelecionado={tipo:arr[0], exec: Number(arr[1])};
-    // console.log("numExecEmitido: "+Number(arr[1]))
+    // console.log("num Exec Emitido: "+Number(arr[1]))
     this.enviarTipoExercicio.emit(Number(arr[1]));
-  }
+
+    }
 
   escolheEscalonador(event:any){
     const arr = event.target.value.split(',');    
     this.escalonador={tipo:arr[0], exec: Number(arr[1])};
-    // console.log("numEscalonadorEmitido: "+Number(arr[1]))
+    // console.log("num Escalonador Emitido: "+Number(arr[1]))
     this.enviarTipoAlgoritmo.emit(Number(arr[1]));
+    
+    this.eGambiarra = this.eGambiarra ==1? 0 : 1;
+    this.enviarGambiarra.emit(this.eGambiarra);
   }
   
   geradorAleatorio():void{
@@ -106,13 +115,12 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
     var v:number = this.elementoExiste(proc.nome);
     if(v!=-1 && this.validaP(proc)){
       this.listaProcessos.splice(v,1);
-      console.log('Sucesso!!! '+v);
+      // console.log('Sucesso!!! '+v);
     }
   }
 
   cadastrar(proc: Processo):void{ 
-    console.log('CADASTRAR --> ' + proc.toString());
-    
+    // console.log('CADASTRAR --> ' + proc.toString());
     if(this.validaP(proc) && this.elementoExiste(proc.nome)==-1){
 
         if(proc.pagina.length!=0){
@@ -125,7 +133,10 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
         } 
         this.enviarDados.emit(this.listaProcessos);
         this.enviarRespostaMemoriaLogica.emit(this.respostaMemoriaLogica);
-        this.enviarRespostaMemoriaLogica = new EventEmitter();
+        // this.enviarRespostaMemoriaLogica = new EventEmitter();
+
+        this.eGambiarra = this.eGambiarra ==1? 2 : 1;
+        this.enviarGambiarra.emit(this.eGambiarra);
       }
     else {this.cancelar();}
     
