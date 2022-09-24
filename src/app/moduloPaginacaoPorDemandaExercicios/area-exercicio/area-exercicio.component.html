@@ -112,7 +112,7 @@
                                     [ngClass]="corrigir? (opcaoSelecionadaCorrecao[k])?'selectOptionAcerto':'selectOptionErro':''" 
                                     (change)="insereResposta($event)" [(ngModel)]="opcaoSelecionada[k]">
                                     
-                                                <option value='' disabled selected> - </option>
+                                                <option [value]='[k, -1]' selected> - </option>
                                                 <option *ngFor="let pr of filaDePaginas; index as l;" [value]="[k, l]">
                                                       {{pr.toString()}} 
                                                 </option>
@@ -124,7 +124,7 @@
                         </tr>
                   </table>
                   
-                  <button *ngIf="exercicioSelecionado==2 || exercicioSelecionado==1" class="btn btn-success" (click)="correcao()">
+                  <button *ngIf="exercicioSelecionado!=0" class="btn btn-success" (click)="correcao()">
                         <i class="fa-solid fa-circle-plus" aria-hidden="true"></i>
                         Corrigir
                   </button>

@@ -21,7 +21,8 @@ import { FIFO } from './Classes/FIFO';
                                         [listaProcessos]="getDadosProcesso" 
                                         [exercicioSelecionado]="getTipoExercicio" 
                                         [respostaMemoriaLogica]="getRespostaMemoriaLogica" 
-                                        (enviarDadosMemoria)="setDadosMemoriaFisica($event)"></app-area-exercicio>
+                                        (enviarDadosMemoria)="setDadosMemoriaFisica($event)"
+                                        [gambiarra]="getGambiarra"></app-area-exercicio>
 
                                 <app-pagina-vitima *ngIf="getTipoExercicio==3"
 

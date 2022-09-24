@@ -81,12 +81,15 @@ font-size: 11px ;
 
   .selectOption{
     text-align: center;
+    background-color: rgba(232, 255, 232, 0.623);
 }
 .selectOptionAcerto{
     border:green 1px solid;
+    background-color: rgba(232, 255, 232, 0.623);
 }
 .selectOptionErro{
     border:red 1px solid;
+    background-color: rgba(232, 255, 232, 0.623);
 }
 .tdAcerto{
     background-color: rgba(0, 128, 0, 0.507);
@@ -103,4 +106,7 @@ font-size: 11px ;
       width: auto;
         
         
+    }
+    #resposta{
+      font-size: 14px;
     }

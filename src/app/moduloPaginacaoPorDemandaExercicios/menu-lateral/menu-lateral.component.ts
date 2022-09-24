@@ -28,7 +28,13 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
 
   public listaProcessos: Array<Processo> = [];
   public respostaMemoriaLogica: Array<Processo> = [];
-  public listaNomes: Array<string> = ["A", "B", "C", "D"];
+  public listaNomes: Array<{nome:string, exec: number}> = [
+                                                            {nome:"A", exec: 1},
+                                                            {nome:"B", exec: 1},
+                                                            {nome:"C", exec: 1},
+                                                            {nome:"D", exec: 1},
+                                                          ];
+  public listaNomesTec: Array<string> = [];
   public listaDeExercicios: Array<{tipo:string, exec: Number}> =[
                             {tipo:"Sequência de Alocação da Memória Física", exec: 0},
                             {tipo:"Preencher Memória Lógica", exec: 1},
@@ -50,9 +56,17 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
     this.enviarTipoExercicio.emit(this.exercicioSelecionado.exec);
     this.enviarTipoAlgoritmo.emit(0);
     this.enviarGambiarra.emit(0);
+    this.listaNomesDisponiveis();
   }
-  
-  ngAfterContentChecked(): void {
+
+  listaNomesDisponiveis():void{
+    this.listaNomesTec =[];
+    for(let y of this.listaNomes){
+      if(y.exec==1)this.listaNomesTec.push(y.nome);
+    }
+    // console.log('listaNomesDisponiveis()')
+    // console.log( this.listaNomesTec)
+    // console.log( this.listaNomes)
   }
 
   escolheExercicio(event:any){
@@ -79,11 +93,17 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
       if(this.aleatorio){
         for (var i = 0; i < this.listaNomes.length; i++) {
           var x = (Number)(Math.round(Math.random() * 2) + 2);
-          this.cadastrar(new Processo(this.listaNomes[i], x, this.gera_cor()));
+          this.cadastrar(new Processo(this.listaNomes[i].nome, x, this.gera_cor()));
         }	
         // const input = document.querySelector('#check');
         // console.log("input->")
         // console.log(input.v);
+        
+      this.enviarDados.emit(this.listaProcessos);
+      this.enviarRespostaMemoriaLogica.emit(this.respostaMemoriaLogica);
+      
+      this.eGambiarra = this.eGambiarra ==1? 2 : 1;
+      this.enviarGambiarra.emit(this.eGambiarra);
       }else{
         console.log('-- .:: xXx ::. --' );      
         }
@@ -113,9 +133,23 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
   excluir(proc: Processo):void{ 
     // console.log('REMOVER ----------------> ' + proc.toString());
     var v:number = this.elementoExiste(proc.nome);
-    if(v!=-1 && this.validaP(proc)){
+    if(v!=-1){
+      // if(this.validaP(proc))
+      for(var i =0; i<this.listaNomes.length;i++){
+        if(this.listaNomes[i].nome==proc.nome)this.listaNomes[i].exec = 1;
+      }
+
+      this.listaNomesTec.push(proc.nome);
+
       this.listaProcessos.splice(v,1);
-      // console.log('Sucesso!!! '+v);
+      this.respostaMemoriaLogica.splice(v,1);
+      
+      
+      this.enviarDados.emit(this.listaProcessos);
+      this.enviarRespostaMemoriaLogica.emit(this.respostaMemoriaLogica);
+      
+      this.eGambiarra = this.eGambiarra ==1? 2 : 1;
+      this.enviarGambiarra.emit(this.eGambiarra);
     }
   }
 
@@ -131,6 +165,11 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
           this.listaProcessos.push(new Processo(proc.nome, this.nPaginas, this.gera_cor(), proc.bit));
           this.respostaMemoriaLogica.push(new Processo(proc.nome, this.nPaginas, this.gera_cor(), proc.bit));
         } 
+
+        var i = this.listaNomesTec.indexOf(proc.nome);
+        this.listaNomes[i].exec = 0;
+        this.listaNomesTec.splice(i, 1);
+
         this.enviarDados.emit(this.listaProcessos);
         this.enviarRespostaMemoriaLogica.emit(this.respostaMemoriaLogica);
         // this.enviarRespostaMemoriaLogica = new EventEmitter();
@@ -149,7 +188,6 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
         if(i.timeStamp!=0) return false;
       }
     }
-    
     return true;
   }
 
@@ -164,4 +202,8 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
     // this.selectedProcesso = proc;
   }
   constructor(){}
+  ngAfterContentChecked(): void {
+    // console.log('ngAfterContentChecked - menuLateral')
+    // this.listaNomesDisponiveis();
+  }
 }

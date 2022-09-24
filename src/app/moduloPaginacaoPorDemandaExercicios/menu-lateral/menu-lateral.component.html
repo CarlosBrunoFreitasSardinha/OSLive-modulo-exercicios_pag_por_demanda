@@ -86,8 +86,7 @@
                                           <p  align="center">Nome do Processo <p>
 
                                           <select [(ngModel)]="p.nome" class="form-control"  id="processo" name="processo">
-                                                <option value="" disabled selected>Nome do processo</option>
-                                                  <option *ngFor="let pr of listaNomes">{{pr}}</option>
+                                                  <option *ngFor="let pr of listaNomesTec">{{pr}}</option>
                                           </select>
                                     </div>
                                     <div>

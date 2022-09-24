@@ -66,6 +66,7 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
     this.algoritmoFCFS =  new FCFS();
     this.algoritmoSegundaChance = new SegundaChance();
     this.algoritmoHistorico = new HitoricoBitReferencia();
+    this.corrigir = false;
 
     for(var i:number =0; i<this.TAM; i++){
       this.memoriaF.push(new MemoriaFisica(i, this.strMemoVazia, this.strMemoFisicaCor,  0));
