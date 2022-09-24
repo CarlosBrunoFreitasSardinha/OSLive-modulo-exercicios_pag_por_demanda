@@ -8,7 +8,7 @@ import { Processo } from '../../Classes/Processo';
   styleUrls: ['./menu-lateral.component.css']
 })
 
-export class MenuLateralComponent implements OnInit, AfterContentChecked {
+export class MenuLateralComponent implements OnInit {
 
   @Output() public enviarRespostaMemoriaLogica:EventEmitter<any> = new EventEmitter();
   @Output() public enviarDados:EventEmitter<any> = new EventEmitter();
@@ -64,9 +64,6 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
     for(let y of this.listaNomes){
       if(y.exec==1)this.listaNomesTec.push(y.nome);
     }
-    // console.log('listaNomesDisponiveis()')
-    // console.log( this.listaNomesTec)
-    // console.log( this.listaNomes)
   }
 
   escolheExercicio(event:any){
@@ -87,26 +84,23 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
     this.enviarGambiarra.emit(this.eGambiarra);
   }
   
-  geradorAleatorio():void{
-    console.log('infoxXx --' + this.aleatorio);
-	
+  geradorAleatorio():void{	
       if(this.aleatorio){
-        for (var i = 0; i < this.listaNomes.length; i++) {
+        this.listaNomesDisponiveis();
+
+        for (var i = 0; i < this.listaNomesTec.length; i++) {
           var x = (Number)(Math.round(Math.random() * 2) + 2);
-          this.cadastrar(new Processo(this.listaNomes[i].nome, x, this.gera_cor()));
-        }	
-        // const input = document.querySelector('#check');
-        // console.log("input->")
-        // console.log(input.v);
-        
-      this.enviarDados.emit(this.listaProcessos);
-      this.enviarRespostaMemoriaLogica.emit(this.respostaMemoriaLogica);
-      
-      this.eGambiarra = this.eGambiarra ==1? 2 : 1;
-      this.enviarGambiarra.emit(this.eGambiarra);
-      }else{
-        console.log('-- .:: xXx ::. --' );      
+          this.cadastrar(new Processo(this.listaNomesTec[i], x, this.gera_cor()));
         }
+        
+      this.listaNomesTec = [];
+      
+        for (var i = 0; i < this.listaNomes.length; i++) {
+          this.listaNomes[i].exec = 0;
+        }
+        this.eGambiarra = this.eGambiarra ==1? 2 : 1;
+        this.enviarGambiarra.emit(this.eGambiarra);
+      }
     // this.aleatorio = false;
   }
 
@@ -130,11 +124,9 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
     return -1;
   }
 
-  excluir(proc: Processo):void{ 
-    // console.log('REMOVER ----------------> ' + proc.toString());
+  excluir(proc: Processo):void{// console.log('REMOVER ----------------> ' + proc.toString());
     var v:number = this.elementoExiste(proc.nome);
     if(v!=-1){
-      // if(this.validaP(proc))
       for(var i =0; i<this.listaNomes.length;i++){
         if(this.listaNomes[i].nome==proc.nome)this.listaNomes[i].exec = 1;
       }
@@ -143,7 +135,6 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
 
       this.listaProcessos.splice(v,1);
       this.respostaMemoriaLogica.splice(v,1);
-      
       
       this.enviarDados.emit(this.listaProcessos);
       this.enviarRespostaMemoriaLogica.emit(this.respostaMemoriaLogica);
@@ -166,9 +157,12 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
           this.respostaMemoriaLogica.push(new Processo(proc.nome, this.nPaginas, this.gera_cor(), proc.bit));
         } 
 
+        
+      if(!this.aleatorio){
         var i = this.listaNomesTec.indexOf(proc.nome);
         this.listaNomes[i].exec = 0;
         this.listaNomesTec.splice(i, 1);
+      }
 
         this.enviarDados.emit(this.listaProcessos);
         this.enviarRespostaMemoriaLogica.emit(this.respostaMemoriaLogica);
@@ -177,17 +171,12 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
         this.eGambiarra = this.eGambiarra ==1? 2 : 1;
         this.enviarGambiarra.emit(this.eGambiarra);
       }
-    else {this.cancelar();}
+    else this.cancelar();
     
   }
 
   validaP(proc: Processo):boolean{
-    if (proc.nome == '' || this.nPaginas == 0) return false;
-    else {
-      for(let i of proc.pagina){
-        if(i.timeStamp!=0) return false;
-      }
-    }
+    if (proc.nome == '' || this.nPaginas < 1 || this.nPaginas >4) return false;
     return true;
   }
 
@@ -198,12 +187,5 @@ export class MenuLateralComponent implements OnInit, AfterContentChecked {
     this.p.bit = false;
   }
 
-  onSelect(proc: Processo): void {
-    // this.selectedProcesso = proc;
-  }
   constructor(){}
-  ngAfterContentChecked(): void {
-    // console.log('ngAfterContentChecked - menuLateral')
-    // this.listaNomesDisponiveis();
-  }
 }

@@ -36,12 +36,12 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
   corrigir: boolean = false;
 
   ngOnInit(): void {
-    console.log("ngOnInit")
+    // console.log("ngOnInit")
     this.preencherMemoriaFisica();
   }
   
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("ngOnChanges\n\\t Area Exercico")
+    console.log("ngOnChanges\n\t Area Exercico")
     this.preencherMemoriaFisica();
 
       if(this.exercicioSelecionado==2){
@@ -52,12 +52,6 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
               this.filaDePaginas.push(i);
             }
         }
-        
-        this.respostaMemoriaFisica = [];
-  
-        for(var i:number =0; i<this.TAM; i++){
-           this.respostaMemoriaFisica.push(new MemoriaFisica(i, this.strMemoVazia, this.strMemoFisicaCor,  0));
-        }
       }
   }
 
@@ -66,7 +60,6 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
     this.respostaMemoriaFisica = [];
 
     this.filaAlgoritmoSelecionado = new FIFO();
-    this.filaDePaginas = [];
 
     this.opcaoSelecionada = [];
     this.opcaoSelecionadaCorrecao = [];
@@ -86,11 +79,12 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
         }
       }
     }
-    console.log(this.memoriaF)
-    console.log(this.listaProcessos)
+    
+    this.enviarDadosMemoria.emit(this.filaAlgoritmoSelecionado);
   }
+
   alocaPaginaEmMemoriaFisica(proc: Processo, num:number):boolean{
-    console.log("|> ALOCA");
+    // console.log("|> ALOCA");
     this.filaAlgoritmoSelecionado.addPaginaEmMemoriaFisica(this.memoriaF, proc, num, this.timestamp);
     
     this.timestamp+=1;
@@ -98,7 +92,7 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
     return true;
   }
   desalocaPaginaEmMemoriaFisica(proc: Processo, num:number):boolean{
-    console.log("|> DESALOCA");
+    // console.log("|> DESALOCA");
     var i = this.filaAlgoritmoSelecionado.removerProcesso(this.memoriaF, proc, num);
 
     this.enviarDadosMemoria.emit(this.filaAlgoritmoSelecionado);
@@ -108,7 +102,7 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
   }
 
   insereResposta(event: any):void{
-    console.log("\n\t InsereResposta")
+    // console.log("\n\t InsereResposta")
     const arr = event.target.value.split(',');
     var i = Number(arr[0]);
     var j = Number(arr[1]);

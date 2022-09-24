@@ -40,6 +40,11 @@ export class AnimacaoTempoExecucaoComponent implements OnInit, OnChanges{
         }
       }
     }
+    console.log("OnChanges - AnimacaoTempoExecucaoComponent ")
+    console.log("filaFIFO")
+    console.log(this.filaFIFO)
+    console.log("listaPaginas")
+    console.log(this.listaPaginas)
   }
   
   correcao():void{

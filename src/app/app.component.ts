@@ -25,11 +25,9 @@ import { FIFO } from './Classes/FIFO';
                                         [gambiarra]="getGambiarra"></app-area-exercicio>
 
                                 <app-pagina-vitima *ngIf="getTipoExercicio==3"
-
                                         [algoritmoSelecionado]="getTipoAlgoritmo" 
                                         [listaProcessos]="getDadosProcesso" 
-                                        [gambiarra]="getGambiarra"
-                                        ></app-pagina-vitima>
+                                        [gambiarra]="getGambiarra"></app-pagina-vitima>
                                 
                                 <app-animacao-tempo-execucao *ngIf="getTipoExercicio==0"
                                         [listaProcessos]="getDadosProcesso"
