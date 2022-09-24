@@ -15,7 +15,7 @@ import { FIFO } from './Classes/FIFO';
                                         (enviarRespostaMemoriaLogica)="setRespostaMemoriaLogica($event)"
                                         (enviarGambiarra)="setGambiarra($event)"></app-menu-lateral>
                         </div>
-                        
+
                         <div class="col-9">
                                 <app-area-exercicio  *ngIf="getTipoExercicio!=3"
                                         [listaProcessos]="getDadosProcesso" 
@@ -32,7 +32,8 @@ import { FIFO } from './Classes/FIFO';
                                 
                                 <app-animacao-tempo-execucao *ngIf="getTipoExercicio==0"
                                         [listaProcessos]="getDadosProcesso"
-                                        [filaFIFO]="getDadosPaginas"></app-animacao-tempo-execucao>
+                                        [filaFIFO]="getDadosPaginas"
+                                        [gambiarra]="getGambiarra"></app-animacao-tempo-execucao>
                         </div>
                 </div>
         </div>

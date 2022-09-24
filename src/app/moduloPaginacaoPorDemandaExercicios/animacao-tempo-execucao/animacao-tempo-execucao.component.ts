@@ -9,10 +9,11 @@ import { Processo } from '../../Classes/Processo';
   templateUrl: './animacao-tempo-execucao.component.html',
   styleUrls: ['./animacao-tempo-execucao.component.css']
 })
-export class AnimacaoTempoExecucaoComponent implements OnInit, AfterContentChecked, OnChanges{
+export class AnimacaoTempoExecucaoComponent implements OnInit, OnChanges{
   
   @Input() public filaFIFO: FIFO = new FIFO();
   @Input() public listaProcessos: Array<Processo> = [];
+  @Input() public gambiarra: Number = new Number;
 
   public listaPaginas: Array<Pagina> = [];
   public listaPaginasResposta: Array<Pagina> = [];
@@ -23,14 +24,14 @@ export class AnimacaoTempoExecucaoComponent implements OnInit, AfterContentCheck
 
 
   constructor() { }
+
   ngOnChanges(changes: SimpleChanges): void {
     for(var i = 0; i<this.filaFIFO.lista.length;i++){
       this.listaPaginasResposta[i] = new Pagina('-');
       this.opcaoSelecionada.push([]);
       this.opcaoSelecionadaCorrecao.push(false);
     }
-  }
-  ngAfterContentChecked(): void {
+    
     this.listaPaginas = [];
     for(let item of this.listaProcessos){
       for(let op of item.pagina){
@@ -39,12 +40,8 @@ export class AnimacaoTempoExecucaoComponent implements OnInit, AfterContentCheck
         }
       }
     }
-    
-    // console.log('SELECIONADA============')
-    // for(var i =0; i< this.opcaoSelecionada.length;i++ ){
-    //   console.log(i+'-'+this.opcaoSelecionada[i])
-    // }
   }
+  
   correcao():void{
     this.corrigir=!this.corrigir;
   }
@@ -52,6 +49,7 @@ export class AnimacaoTempoExecucaoComponent implements OnInit, AfterContentCheck
   counter(i: number) {
     return new Array(i);
   }
+
   insereResposta(event: any):void{
     const arr = event.target.value.split(',');
     var i = Number(arr[0]);
@@ -61,6 +59,7 @@ export class AnimacaoTempoExecucaoComponent implements OnInit, AfterContentCheck
     this.opcaoSelecionada[i] = [i,j];
     this.opcaoSelecionadaCorrecao[i] = (this.listaPaginasResposta[i] == this.filaFIFO.lista[i]);
   }
+
   ngOnInit(): void {}
 
 }
