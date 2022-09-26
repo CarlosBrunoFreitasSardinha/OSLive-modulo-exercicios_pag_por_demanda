@@ -18,6 +18,7 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
+    "@popperjs/core": "^2.11.6",
     "angular-font-awesome": "^3.1.2",
     "bootstrap": "^5.2.1",
     "glyphicons": "^0.2.0",

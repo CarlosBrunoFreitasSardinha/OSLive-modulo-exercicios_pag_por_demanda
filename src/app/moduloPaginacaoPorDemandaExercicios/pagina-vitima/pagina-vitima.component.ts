@@ -144,5 +144,8 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
     for(var x = 0; x<i;x++)lista.push(x)
     return lista;
   }
+  statusBitRef(_num: number):void{
+    this.algoritmoSegundaChance.historicoBit[_num][0] = this.algoritmoSegundaChance.historicoBit[_num][0] == 0?1:0;
+  }
 
 }

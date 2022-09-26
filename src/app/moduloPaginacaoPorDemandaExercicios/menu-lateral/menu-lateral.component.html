@@ -35,7 +35,7 @@
                         </ul>
 
                         <!-- Selecionar Algoritmo -->
-                        <li align="center"  class="collapsed active"
+                        <li *ngIf="exercicioSelecionado.exec == 3"  align="center"  class="collapsed active"
                         data-bs-toggle="collapse" 
                         data-bs-target="#algoritmo" 
                         aria-controls="algoritmo" 
@@ -44,7 +44,7 @@
                               <b style="font-size: 15px">A</b>lgoritmo de 
                               <b style="font-size: 15px">S</b>ubstituição
                         </li>
-                        <ul class="sub-menu collapse.show" id="algoritmo">
+                        <ul *ngIf="exercicioSelecionado.exec == 3" class="sub-menu" [ngClass]="{'collapse.show': (exercicioSelecionado.exec != 0),'collapse':exercicioSelecionado.exec == 0}" id="algoritmo">
                         
                               <select class="form-control" id="selectAlgoritmo"  (change)="escolheEscalonador($event)">
                                     <option value=info disabled selected>Algoritmo de substituição</option>
