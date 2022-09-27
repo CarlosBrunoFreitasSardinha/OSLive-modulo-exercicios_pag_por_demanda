@@ -1,11 +1,11 @@
 <!-- Animação---------------------------------------------------------------------------------------------------------------->
-<div class="fifo row align-items-end">
-      <div  align="center" class="linha">
+<div class="fifo row align-items-start text-center">
+      <div  class="col-12 text-center">
             <h5 style="text-align: center; font-weight: bold;">Ordem de Carga da Página na Memória Física</h5>
       </div>
       
-      <div align="center" class="linha">
-            <table class="table" id="tabelaExec" border="2">
+      <div class="col-12 text-center">
+            <table align="center"class="table" id="tabelaExec" border="2">
                   <tr height="33" style="text-align: center; width: 50px;" >
                         <td style="font-size: 12px ; background: #2e2d2c;color: #FFFFFF">TimeStamp</td>
 
@@ -23,8 +23,10 @@
                         class="leveSombreado"
                         style="text-align: center;animation-delay: 500ms; background-color:{{listaPaginasResposta[k].cor}}; color: #FFFFFF; font-size: 12px">
                               
-                        <select class="form-control selectOption"  id="resposta" name="resposta" 
-                              style="text-align: center; color: #000;background-color: #e0e0e0;"
+                        <select class="customselect selectOption"  id="resposta" name="resposta" 
+                              style="text-align: center; color: #000;background-color: #e0e0e0;
+                                    border-radius: 3px;
+                              "
                               
                               [ngClass]="corrigir? (opcaoSelecionadaCorrecao[k])?'selectOptionAcerto':'selectOptionErro':''" 
                               (change)="insereResposta($event)" [(ngModel)]="opcaoSelecionada[k]">
@@ -41,11 +43,10 @@
             </button>
             <div><p class="alertafifo"></p></div>
       </div>
-            
-      <div align="center" class="linha"></div>
+      
       <!--Correção tabela resultado-->
-      <div align="center" class="linha" *ngIf="corrigir">
-            <table class="table" id="tabelaExec" border="2">
+      <div *ngIf="corrigir" class="col-12 text-center">
+            <table align="center" class="table" id="tabelaExec" border="2">
                   <tr height="33" style="text-align: center; width: 50px;" >
                         <td style="font-size: 12px ; background: #2e2d2c;color: #FFFFFF">TimeStamp</td>
                         <!-- ng-repeat="r in listaFIFO"-->
@@ -62,9 +63,10 @@
                         </td>
                   </tr>
             </table>
-            <div><p class="alertafifo"></p></div>
+            
       </div>
 </div>
+
 <script type="text/javascript">
 $(function(){
       $("alertafifo").remove();

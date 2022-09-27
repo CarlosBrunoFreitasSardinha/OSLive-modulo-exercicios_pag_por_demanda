@@ -27,3 +27,25 @@
 .leveSombreado{
       box-shadow: inset 10em 1em rgba(0, 0, 0, 0.25);
     }
+
+    select{
+      border: 0 !important;  /*Removes border*/
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      text-overflow:'';
+      text-indent: 0.01px; /* Removes default arrow from firefox*/
+      text-overflow: "";  /*Removes default arrow from firefox*/
+  }
+  select::-ms-expand {
+      display: none;
+  }
+  .select-wrapper
+  {
+      padding-left:0px;
+      overflow:hidden;
+  }
+  select{
+      width: 30px;
+      height: 33px;
+  }
