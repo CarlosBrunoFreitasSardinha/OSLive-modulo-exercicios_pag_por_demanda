@@ -9,6 +9,7 @@
                   aria-controls="config" 
                   aria-expanded="false">
                         <a href="#">
+                              <i class="fa fa-cog" aria-hidden="true"></i>
                               <b style="font-size: 17px">Á</b>rea de 
                               <b style="font-size: 17px">C</b>onfiguração <span></span>
                         </a>
@@ -132,8 +133,8 @@
                                                       </td>
                                                       <td>{{pr.pagina.length}}</td>
                                                       <td>
-                                                            <button type="button" class="btn btn-outline-danger" (click)="excluir(pr)">
-                                                                  <i class="glyphicon glyphicon-remove leveSombreado" style="color:{{pr.cor}};"></i>
+                                                            <button type="button" class="btn btn-danger btn-sm" (click)="excluir(pr)">
+                                                                  <i class="fa fa-times" aria-hidden="true"></i>
                                                             </button>
                                                       </td>
                                                 </tr>

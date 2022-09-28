@@ -100,7 +100,6 @@ font-size: 11px ;
   #tabelaExec{
       align-items: center;
       padding: 10px 0px 10px 0px; 
-      width: 300px;
       font-size: 20px;
       column-span: 3px;
       width: auto;
@@ -110,3 +109,27 @@ font-size: 11px ;
     #resposta{
       font-size: 14px;
     }
+
+    
+
+select{
+  border: 0 !important;  /*Removes border*/
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  text-overflow:'';
+  text-indent: 0.01px; /* Removes default arrow from firefox*/
+  text-overflow: "";  /*Removes default arrow from firefox*/
+}
+select::-ms-expand {
+  display: none;
+}
+.select-wrapper
+{
+  padding-left:0px;
+  overflow:hidden;
+}
+select{
+  width: 40px;
+  height: 33px;
+}

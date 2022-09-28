@@ -55,29 +55,42 @@
                                                       <caption>Tabela de Páginas</caption>
                                                       <thead>
                                                             <td >End.ML</td>
-                                                            <td >End.MF</td>
+                                                            <td>End.MF</td>
                                                             <td >bit</td>
                                                       </thead>
                                                       <tbody>
                                                             <tr align="center" height="33"  *ngFor="let  paginaProcessoX of p.pagina; index as pag" style="font-size: 10px">
                                                                   <td class="leveSombreado"  style="-webkit-transition-delay:{{1 * 500}}ms; background-color: {{p.cor}}; color: #FFFFFF; font-size: 12px" >
-                                                                        {{paginaProcessoX.indiceMemoriaLogicaProc}}</td>
-                  
-                                                                  <td class="leveSombreado" style="-webkit-transition-delay:{{1 * 1000}}ms; background-color: {{paginaProcessoX.timeStamp!=0? p.cor: p.cor+'69'}}; color: #FFFFFF; font-size: 12px">
-                                                                        <!--Trabalhar aqui-->
-                                                                        {{(exercicioSelecionado!=1)? paginaProcessoX.indiceMemoriaFisica==-1? '-' :paginaProcessoX.indiceMemoriaFisica:''}}
-                  
-                                                                        <select *ngIf="exercicioSelecionado==1" class="form-control selectOption"  id="resposta" name="resposta" style="text-align: center;"
-                                                                        
-                                                                        [ngClass]="corrigir? (respostaMemoriaLogica[proc].pagina[pag].indiceMemoriaFisica == listaProcessos[proc].pagina[pag].indiceMemoriaFisica)?'selectOptionAcerto':'selectOptionErro':''" 
-                                                                        [(ngModel)]="respostaMemoriaLogica[proc].pagina[pag].indiceMemoriaFisica">
-                                                                                    <option [value]='-1'  selected> - </option>
-                                                                                    <option *ngFor="let pr of memoriaF; index as nMemoFisica;" [value]="[nMemoFisica]"><!--filaDePaginas-->
-                                                                                          {{pr.endereco}} 
-                                                                                    </option>
+                                                                        {{paginaProcessoX.indiceMemoriaLogicaProc}}
                                                                                     
-                                                                        </select>
-                                                                        
+                                                                        <i *ngIf="exercicioSelecionado==1 && corrigir && (respostaMemoriaLogica[proc].pagina[pag].indiceMemoriaFisica == listaProcessos[proc].pagina[pag].indiceMemoriaFisica)" 
+                                                                        class="fa fa-check" style="color: lightgreen;"></i>
+                                                                        <i *ngIf="exercicioSelecionado==1 && corrigir && !(respostaMemoriaLogica[proc].pagina[pag].indiceMemoriaFisica == listaProcessos[proc].pagina[pag].indiceMemoriaFisica)"  
+                                                                        class="fa fa-times" style="color: rgb(201, 8, 8); "></i>
+                                                                  </td>
+                  
+                                                                  <td class="leveSombreado"
+                                                                  style="-webkit-transition-delay:{{1 * 1000}}ms; 
+                                                                  background-color: {{paginaProcessoX.timeStamp!=0? p.cor: p.cor+'69'}}; 
+                                                                  color: #FFFFFF; font-size: 12px;">
+                                                                        <!--Trabalhar aqui-->
+                                                                                    {{(exercicioSelecionado!=1)? paginaProcessoX.indiceMemoriaFisica==-1? '-' :paginaProcessoX.indiceMemoriaFisica:''}}
+      
+                                                                                    <select *ngIf="exercicioSelecionado==1" 
+                                                                                    class="form-control selectOption"  
+                                                                                    id="resposta" name="resposta" 
+                                                                                    style="text-align: center;"
+                                                                                    
+                                                                                    [ngClass]="corrigir? 
+                                                                                    (respostaMemoriaLogica[proc].pagina[pag].indiceMemoriaFisica == listaProcessos[proc].pagina[pag].indiceMemoriaFisica)
+                                                                                    ?'selectOptionAcerto':'selectOptionErro':''" 
+                                                                                    [(ngModel)]="respostaMemoriaLogica[proc].pagina[pag].indiceMemoriaFisica">
+                                                                                                <option [value]='-1'  selected> - </option>
+                                                                                                <option *ngFor="let pr of memoriaF; index as nMemoFisica;" [value]="[nMemoFisica]"><!--filaDePaginas-->
+                                                                                                      {{pr.endereco}} 
+                                                                                                </option>
+                                                                                                
+                                                                                    </select>
                                                                   </td>
                                                                   <td class="leveSombreado" style="-webkit-transition-delay:{{1 * 1000}}ms; background-color: {{paginaProcessoX.timeStamp !=0 ? p.cor: p.cor+'69'}}; color: #fff; font-size: 12px" >
                                                                         
@@ -109,9 +122,8 @@
                               <tr align="center" height="33" *ngFor="let m of (exercicioSelecionado==2) ? respostaMemoriaFisica:memoriaF; index as k" 
                               style="-webkit-transition-delay:{{1 * 500}}ms; background-color:{{m.cor}}; color: #FFFFFF; font-size: 12px" >
                                     <td class="leveSombreado">{{m.endereco}}
-                                                &nbsp;
-                                                <i *ngIf="exercicioSelecionado==2 && corrigir && opcaoSelecionadaCorrecao[k]" class="glyphicon glyphicon-ok" style="color: black;" ></i>
-                                                <i *ngIf="exercicioSelecionado==2 && corrigir && !opcaoSelecionadaCorrecao[k]" class="glyphicon glyphicon-remove" style="color: black;" ></i>
+                                                <i *ngIf="exercicioSelecionado==2 && corrigir && opcaoSelecionadaCorrecao[k]" class="fa fa-check" aria-hidden="true" style="color: lightgreen; width: 27px; height: 27px;"></i>
+                                                <i *ngIf="exercicioSelecionado==2 && corrigir && !opcaoSelecionadaCorrecao[k]"  class="fa fa-times" aria-hidden="true" style="color: rgb(201, 8, 8); width: 27px; height: 27px;"></i>
                                     </td>
                                     <td class="leveSombreado">
                                           <select *ngIf="exercicioSelecionado==2" class="form-control selectOption"  id="resposta" name="resposta" style="text-align: center;"
@@ -126,7 +138,7 @@
                                                       
                                           </select>
                                           {{exercicioSelecionado!=2? m.nome:''}}
-                                          <i *ngIf="(exercicioSelecionado!=2) && (m.horaCarga!=0)" class="glyphicon glyphicon-ok" style="color: black;" ></i>
+                                          <i *ngIf="(exercicioSelecionado!=2) && (m.horaCarga!=0)" class="fa fa-check" aria-hidden="true" style="color: lightgreen; width: 27px; height: 27px;"></i>
                                     </td>
                               </tr>
                         </table>
