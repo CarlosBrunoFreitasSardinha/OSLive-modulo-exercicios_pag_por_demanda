@@ -27,7 +27,7 @@ export class SegundaChance {
 
       segundaChance(_time: number,): number{         
             while(true){
-                  for(var i =0; i< this.historicoBit.length; i++){
+                  for(var i = 0; i< this.historicoBit.length; i++){
                         if(this.historicoBit[i][0] == 0 ){
                               return i;
                         }
@@ -35,6 +35,15 @@ export class SegundaChance {
                               this.historicoBit[i][0]=0;
                               this.lista[i].timeStamp = _time;
                               _time+=1;
+
+                              var temp = this.lista[i];
+                              this.lista.splice(i,1);
+                              this.lista.push(temp);
+                  
+                              var temp2 = this.historicoBit[i];
+                              this.historicoBit.splice(i,1);
+                              this.historicoBit.push(temp2);
+                              i--;
                         }
                   }
             }

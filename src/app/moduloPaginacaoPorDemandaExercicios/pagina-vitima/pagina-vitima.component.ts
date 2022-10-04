@@ -35,6 +35,7 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
   public algoritmoFCFS = new FCFS();
   public algoritmoHistorico = new HitoricoBitReferencia();
   public algoritmoSegundaChance = new SegundaChance();
+  public algoritmoSegundaChanceOrdenado = new SegundaChance();
   
   constructor() { }
 
@@ -65,6 +66,7 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
     this.memoriaF = [];
     this.algoritmoFCFS =  new FCFS();
     this.algoritmoSegundaChance = new SegundaChance();
+    this.algoritmoSegundaChanceOrdenado = new SegundaChance();
     this.algoritmoHistorico = new HitoricoBitReferencia();
     this.corrigir = false;
 
@@ -75,6 +77,13 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
     for(var i = 0; i<this.listaProcessos.length;i++){
       this.alocaPaginaEmMemoriaFisica(this.listaProcessos[i], 0);
       if(this.listaProcessos[i].pagina.length > 1) this.alocaPaginaEmMemoriaFisica(this.listaProcessos[i], 1);
+    }
+    if(this.algoritmoSelecionado==2){
+      
+      for(var x =0; x< this.algoritmoSegundaChance.lista.length;x++){
+        this.algoritmoSegundaChanceOrdenado.lista.push(this.algoritmoSegundaChance.lista[x]);
+        this.algoritmoSegundaChanceOrdenado.historicoBit.push(this.algoritmoSegundaChance.historicoBit[x]);
+      }
     }
   }
   
@@ -131,10 +140,15 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
       this.paginavitima = this.algoritmoHistorico.verificaBitReferencia();
     }
     else{
-      this.paginavitima = this.algoritmoSegundaChance.segundaChance(this.timestamp);
+      var temp = this.algoritmoSegundaChance.segundaChance(this.timestamp);
+      for(var i=0; i<this.algoritmoSegundaChanceOrdenado.lista.length;i++){
+        if(this.algoritmoSegundaChance.lista[temp].toString().localeCompare( this.algoritmoSegundaChanceOrdenado.lista[i].toString())==0)
+        this.paginavitima = i;
+      }
     }
     // console.log("pagina Vitima: "+this.paginavitima)
   }
+
 
   counter(i: number) {
     return new Array(i);
@@ -145,6 +159,7 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
     return lista;
   }
   statusBitRef(_num: number):void{
+    this.corrigir=false;
     this.algoritmoSegundaChance.historicoBit[_num][0] = this.algoritmoSegundaChance.historicoBit[_num][0] == 0?1:0;
   }
 
