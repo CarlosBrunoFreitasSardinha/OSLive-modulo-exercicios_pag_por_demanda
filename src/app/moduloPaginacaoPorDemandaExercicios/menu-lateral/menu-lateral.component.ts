@@ -75,12 +75,13 @@ export class MenuLateralComponent implements OnInit {
   }
   
   geradorAleatorio():void{
+    console.log(this.nProcessos)
       if(this.aleatorio){
         var sequencia:Array<number> = Utils.embaralhamentoFisherYates(Utils.listaNum(this.nProcessos));
 
         for (var i = 0; i < this.nProcessos; i++) {
           if(this.listaNomes[i].exec==1){
-            var x = (Number)(Math.round(Math.random() * 2) + 2);
+            var x = (Number)(Math.round(Math.random() * 3) + 1);
             this.cadastrar(new Processo(this.listaNomes[sequencia[i]].nome, x, Utils.gera_cor()));
             this.listaNomes[i].exec = 0;
           }

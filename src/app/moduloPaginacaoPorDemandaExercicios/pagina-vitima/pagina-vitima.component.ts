@@ -62,20 +62,35 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
     this.memoriaF = [];
     this.algoritmoFCFS =  new FCFS();
     this.algoritmoSegundaChance = new SegundaChance();
-    this.algoritmoSegundaChanceOrdenado = new SegundaChance();
-    this.algoritmoHistorico = new HitoricoBitReferencia();
     this.corrigir = false;
+    this.filaDePaginas = [];
+    
+    // cria Lista de Paginas
+    for(let item of this.listaProcessos){
+      for(let i of item.pagina){
+        i.indiceMemoriaFisica = -1;
+        i.timeStamp=0;
+        this.filaDePaginas.push(i);
+      }
+    }
 
+    // cria os espaços na memória Fisica
     for(var i:number =0; i<this.TAM; i++){
       this.memoriaF.push(new MemoriaFisica(i, this.strMemoVazia, this.strMemoFisicaCor,  0));
     }
 
-    for(var i = 0; i<this.listaProcessos.length;i++){
-      this.alocaPaginaEmMemoriaFisica(this.listaProcessos[i].pagina[0]);
-      if(this.listaProcessos[i].pagina.length > 1) this.alocaPaginaEmMemoriaFisica(this.listaProcessos[i].pagina[1]);
+    if(this.filaDePaginas.length>this.TAM){
+        var ordemAleatoriaPaginas: Array<number> = Utils.embaralhamentoFisherYates(Utils.listaNum(this.filaDePaginas.length));
+        for(var i = 0; i<this.TAM;i++){
+            this.alocaPaginaEmMemoriaFisica(this.filaDePaginas[ordemAleatoriaPaginas[i]]);
+          }
     }
 
     if(this.algoritmoSelecionado==2){
+
+      this.algoritmoSegundaChanceOrdenado = new SegundaChance();
+      this.algoritmoHistorico = new HitoricoBitReferencia();
+
       for(var x =0; x< this.algoritmoSegundaChance.lista.length;x++){
         this.algoritmoSegundaChanceOrdenado.lista.push(this.algoritmoSegundaChance.lista[x]);
         this.algoritmoSegundaChanceOrdenado.historicoBit.push(this.algoritmoSegundaChance.historicoBit[x]);

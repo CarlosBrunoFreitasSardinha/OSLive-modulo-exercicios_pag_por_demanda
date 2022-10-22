@@ -72,7 +72,6 @@
                                     <div>
                                           <label style="margin-left: 15px" for="check">
                                                 <!--FORMULARIO PARA CADASTRO DO PROCESSO-->
-                                                <form class="form-group">
                                                       <div class="form-group">
                                                             <div class="input-group">
                                                                   <!-- id="execucao" name="execucao" -->
@@ -88,7 +87,6 @@
                                                                    </div>
                                                             </div>
                                                       </div>
-                                                </form>
                                           </label>
                                     </div>
                               </div>
@@ -113,7 +111,6 @@
                                                 <tr align="center">
                                                       <td>Processo</td>
                                                       <td>Páginas</td>
-                                                      <td>Remover</td>
                                                 </tr>
                                                 <tr style="text-align:center;" *ngFor="let pr of listaProcessos">
                                                       <td style="width: 5px;"> {{pr.nome}}
@@ -122,11 +119,6 @@
                                                                   &nbsp;</b>
                                                       </td>
                                                       <td>{{pr.pagina.length}}</td>
-                                                      <td>
-                                                            <!-- <button type="button" class="btn btn-danger btn-sm" (click)="excluir(pr)">
-                                                                  <i class="fa fa-times" aria-hidden="true"></i>
-                                                            </button> -->
-                                                      </td>
                                                 </tr>
                                           </table><!--style="text-align: center"-->
                                           <!-- <h6  *ngIf="listaProcessos.length < 1">Não há processo cadastrado.</h6>  -->
