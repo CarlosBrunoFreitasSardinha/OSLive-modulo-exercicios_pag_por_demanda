@@ -49,7 +49,7 @@ export class SegundaChance {
             }
       }
       
-      addPaginaEmMemoriaFisica(memoriaFisica: Array<MemoriaFisica>, proc: Processo, num: number, timestamp:number):number{
+      addPaginaEmMemoriaFisica(memoriaFisica: Array<MemoriaFisica>, paginaX: Pagina, timestamp:number):number{
             var posicaoParaInsercao:number = this.memoriaFisicaCheia(memoriaFisica);
             var posMemoFisica = 0;
             var TAM: number = 4;
@@ -68,35 +68,35 @@ export class SegundaChance {
                   posMemoFisica = posicaoParaInsercao;
             }
             
-            memoriaFisica[posMemoFisica].nome = proc.pagina[num].toString();
-            memoriaFisica[posMemoFisica].cor = proc.cor;
+            memoriaFisica[posMemoFisica].nome = paginaX.toString();
+            memoriaFisica[posMemoFisica].cor = paginaX.cor;
             memoriaFisica[posMemoFisica].horaCarga = timestamp;
 
-            proc.pagina[num].indiceMemoriaFisica = posMemoFisica;
-            proc.pagina[num].timeStamp = timestamp;
+            paginaX.indiceMemoriaFisica = posMemoFisica;
+            paginaX.timeStamp = timestamp;
 
-            this.lista.push(proc.pagina[num]);
+            this.lista.push(paginaX);
             this.historicoBit.push(this.bitAcesso(TAM));
 
             return posMemoFisica;
       }
 
-      removerProcesso(memoriaFisica: Array<MemoriaFisica>,proc: Processo, num:number):number{
+      removerProcesso(memoriaFisica: Array<MemoriaFisica>, paginaX: Pagina):number{
             var TAM: number = 8;
             var strMemoFisicaCor: string = '#7FB174';
             var strMemoVazia: string = '-';
-            var pos = this.lista.indexOf(proc.pagina[num]);
+            var pos = this.lista.indexOf(paginaX);
 
             for(var i=0; i< TAM;i++){
-                if(memoriaFisica[i].nome.localeCompare(proc.pagina[num].toString())==0){
+                if(memoriaFisica[i].nome.localeCompare(paginaX.toString())==0){
     
                   
                   memoriaFisica[i].nome = strMemoVazia;
                   memoriaFisica[i].cor = strMemoFisicaCor;
                   memoriaFisica[i].horaCarga = 0;
     
-                  proc.pagina[num].indiceMemoriaFisica = -1;;
-                  proc.pagina[num].timeStamp = 0;
+                  paginaX.indiceMemoriaFisica = -1;;
+                  paginaX.timeStamp = 0;
                   
                   this.lista.splice(pos, 1);
                   this.historicoBit.splice(pos, 1);

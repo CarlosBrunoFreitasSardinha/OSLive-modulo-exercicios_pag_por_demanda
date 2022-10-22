@@ -1,6 +1,5 @@
 import { Pagina } from './Pagina';
 import { MemoriaFisica } from './MemoriaFisica';
-import { Processo } from './Processo';
 
 export class FCFS {
       public lista: Array<Pagina> = [];
@@ -12,11 +11,12 @@ export class FCFS {
                   if(memoriaFisica[i].nome.localeCompare('-')==0)return i;
             }
             return -1;
-      }
+      }     
       listaVazia():boolean{
             return this.lista.length ==0;
       }
-      addPaginaEmMemoriaFisica(memoriaFisica: Array<MemoriaFisica>, proc: Processo, num: number, timestamp:number, RespostaAluno: boolean = false):number{
+
+      addPaginaEmMemoriaFisica(memoriaFisica: Array<MemoriaFisica>, paginaX: Pagina, timestamp:number, RespostaAluno: boolean = false):number{
             var posicaoParaInsercao:number = this.memoriaFisicaCheia(memoriaFisica);
             if(posicaoParaInsercao==-1){
                   posicaoParaInsercao = this.lista[0].indiceMemoriaFisica;
@@ -25,33 +25,33 @@ export class FCFS {
                   this.lista.shift();
             }
             
-            memoriaFisica[posicaoParaInsercao].nome = proc.pagina[num].toString();
-            memoriaFisica[posicaoParaInsercao].cor = proc.cor;
+            memoriaFisica[posicaoParaInsercao].nome = paginaX.toString();
+            memoriaFisica[posicaoParaInsercao].cor = paginaX.cor;
             memoriaFisica[posicaoParaInsercao].horaCarga = timestamp;
 
-            proc.pagina[num].indiceMemoriaFisica = posicaoParaInsercao;
-            proc.pagina[num].timeStamp = timestamp;
+            paginaX.indiceMemoriaFisica = posicaoParaInsercao;
+            paginaX.timeStamp = timestamp;
             
-            if(!RespostaAluno)this.lista.push(proc.pagina[num]);
+            if(!RespostaAluno)this.lista.push(paginaX);
 
             return posicaoParaInsercao;
       }
-      removerProcesso(memoriaFisica: Array<MemoriaFisica>,proc: Processo, num:number):number{
+      
+      removerProcesso(memoriaFisica: Array<MemoriaFisica>, paginaX: Pagina) : number{
             var TAM: number = 8;
             var strMemoFisicaCor: string = '#7FB174';
             var strMemoVazia: string = '-';
-            var pos = this.lista.indexOf(proc.pagina[num]);
+            var pos = this.lista.indexOf(paginaX);
 
             for(var i=0; i< TAM;i++){
-                if(memoriaFisica[i].nome.localeCompare(proc.pagina[num].toString())==0){
+                if(memoriaFisica[i].nome.localeCompare(paginaX.toString()) == 0){
     
-                  
                   memoriaFisica[i].nome = strMemoVazia;
                   memoriaFisica[i].cor = strMemoFisicaCor;
                   memoriaFisica[i].horaCarga = 0;
     
-                  proc.pagina[num].indiceMemoriaFisica = -1;;
-                  proc.pagina[num].timeStamp = 0;
+                  paginaX.indiceMemoriaFisica = -1;;
+                  paginaX.timeStamp = 0;
                   
                   this.lista.splice(pos, 1);
                   

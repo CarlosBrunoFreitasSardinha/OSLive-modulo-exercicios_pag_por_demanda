@@ -88,8 +88,6 @@
                                                                   style="margin-left: 10px;" [value]="pag">
                                                                   <i *ngIf="corrigir && paginavitima == pag" class="fa fa-check" aria-hidden="true" 
                                                                   style="color: lightgreen; width: 27px; height: 27px;"></i>
-                                                                  <i *ngIf="corrigir && !(paginavitima == pag)" class="fa fa-times" aria-hidden="true" 
-                                                                  style="color: rgb(201, 8, 8); width: 27px; height: 27px;" ></i>
                                                       </td>
       
                                                 </tr>
@@ -143,9 +141,9 @@
                                                 <thead >
                                                       <td >Processo {{p.nome}}</td>
                                                 </thead>
-                                                <tr *ngFor='let  i of counter(p.pagina.length)' align="center" height="33"  style="font-size: 10px">
+                                                <tr *ngFor="let  i of counter(p.pagina.length);index as f" align="center" height="33"  style="font-size: 10px">
                                                       <td class="leveSombreado" style="-webkit-transition-delay:{{1 * 100}}ms; background-color:{{p.cor}}; color: #FFFFFF; font-size: 12px">
-                                                            {{p.nome}}</td>
+                                                            {{p.nome+f}}</td>
                                                 </tr>
                                           </table>
                                     </div>

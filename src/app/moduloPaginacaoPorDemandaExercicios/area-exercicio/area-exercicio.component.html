@@ -13,13 +13,12 @@
       <!-- TABELAS DA MEMÓRIA LÓGICA DOS PROCESSOS------------------------------------------------------------------------------------------------------------------------------------>
       <div class="col-12 ">
             <div class="row" *ngIf="exercicioSelecionado!=-1">
-                  <div class="col-7">
-                        <h5>
-                              Processo/Páginas
+                  <div class="col-8">
+                        <h5> Processo/Páginas
                               <a href="" data-toggle="modal" data-target="#tb_memoria_logica"> <img src="assets/info_ico.png" width="13px" alt=""> </a>
                         </h5>
                         <div class="row">
-                              <div *ngFor="let p of (exercicioSelecionado!=1)?listaProcessos:respostaMemoriaLogica; index as proc"
+                              <div *ngFor="let p of listaProcessos; index as proc"
                                     class="col-6 col-sm-6">
                                     <div class="row">
                                           <!-- TABELA MEMÓRIA LÓGICA DO PROCESSO-------------------------------------------------------------------->
@@ -38,12 +37,11 @@
                                                                   <td class="leveSombreado" style="-webkit-transition-delay:500ms; background-color:{{p.cor}}; color: #fff; font-size: 10px">
                                                                         
                                                                         <button alt="Página fora da memóroria física" class="btn btn-light" 
-                                                                        [disabled]="exercicioSelecionado==2 || exercicioSelecionado==1"
-                                                                        (click)="mudaStatusPagina(p, paginaProcessoX.indiceMemoriaLogicaProc)">
+                                                                        [disabled]="exercicioSelecionado==2 || exercicioSelecionado==1">
                                                                               &nbsp;
                                                                               <i *ngIf="!(paginaProcessoX.timeStamp==0)" class="glyphicon glyphicon-ok" style="color: black;" ></i>
                                                                               <i *ngIf="paginaProcessoX.timeStamp==0" class="glyphicon glyphicon-remove" style="color: black;" ></i>
-                                                                              {{p.nome}} </button>
+                                                                              {{p.nome+pag}} </button>
                                                                   </td>
                                                             </tr>
                                                       </tbody>
@@ -93,13 +91,11 @@
                                                                                     </select>
                                                                   </td>
                                                                   <td class="leveSombreado" style="-webkit-transition-delay:{{1 * 1000}}ms; background-color: {{paginaProcessoX.timeStamp !=0 ? p.cor: p.cor+'69'}}; color: #fff; font-size: 12px" >
-                                                                        
-                                                                              
-                                                                              <button class="btn btn-light" disabled>
-                                                                                    <b style="color: #000;">
-                                                                                          {{paginaProcessoX.timeStamp !=0 ? 'V': 'I'}}</b></button>
-                                                                              </td>
-                                                            </tr>
+                                                                        <button class="btn btn-light" disabled>
+                                                                              <b style="color: #000;">
+                                                                                    {{paginaProcessoX.timeStamp !=0 ? 'V': 'I'}}</b></button>
+                                                                  </td>
+                                                             </tr>
                                                       </tbody>
                                                 </table>
                                           </div>
@@ -162,9 +158,9 @@
                                                 <thead >
                                                       <td >Processo {{p.nome}}</td>
                                                 </thead>
-                                                <tr *ngFor='let  i of counter(p.pagina.length)' align="center" height="33"  style="font-size: 10px">
+                                                <tr *ngFor="let  i of counter(p.pagina.length); index as f" align="center" height="33"  style="font-size: 10px">
                                                       <td class="leveSombreado" style="-webkit-transition-delay:{{1 * 100}}ms; background-color:{{p.cor}}; color: #FFFFFF; font-size: 12px">
-                                                            {{p.nome}}</td>
+                                                            {{p.nome + f}}</td>
                                                 </tr>
                                           </table>
                                     </div>

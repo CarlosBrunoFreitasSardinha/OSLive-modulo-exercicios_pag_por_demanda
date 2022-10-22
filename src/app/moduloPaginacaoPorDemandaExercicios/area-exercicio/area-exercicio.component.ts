@@ -4,6 +4,8 @@ import { Pagina } from 'src/app/Classes/Pagina';
 import { FIFO } from '../../Classes/FIFO';
 import { MemoriaFisica } from '../../Classes/MemoriaFisica';
 import { Processo } from '../../Classes/Processo';
+import { Utils } from 'src/app/Bibliotecas/Utils';
+import { FCFS } from 'src/app/Classes/FCFS';
 
 @Component({
   selector: 'app-area-exercicio',
@@ -26,7 +28,7 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
   strMemoVazia: string = '-';
 
   public memoriaF: Array<MemoriaFisica> = [];
-  public filaAlgoritmoSelecionado: FIFO = new FIFO();
+  public filaAlgoritmoSelecionado: FCFS = new FCFS();
 
   public respostaMemoriaFisica: Array<MemoriaFisica> = [];
   public filaDePaginas: Array<Pagina> = [];
@@ -36,64 +38,58 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
   corrigir: boolean = false;
 
   ngOnInit(): void {
-    // console.log("ngOnInit")
     this.preencherMemoriaFisica();
   }
   
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("ngOnChanges\n\t Area Exercico")
     this.preencherMemoriaFisica();
-
-      if(this.exercicioSelecionado==2){
-        this.filaDePaginas = [];
-
-        for(let item of this.listaProcessos){
-            for(let i of item.pagina){
-              this.filaDePaginas.push(i);
-            }
-        }
-      }
   }
 
   preencherMemoriaFisica(){
     this.memoriaF = [];
     this.respostaMemoriaFisica = [];
 
-    this.filaAlgoritmoSelecionado = new FIFO();
+    this.filaAlgoritmoSelecionado = new FCFS();
 
     this.opcaoSelecionada = [];
     this.opcaoSelecionadaCorrecao = [];
     this.corrigir = false;
-    
+    this.filaDePaginas = [];
+
+    // cria Lista de Paginas
+    for(let item of this.listaProcessos){
+        for(let i of item.pagina){
+          i.indiceMemoriaFisica = -1;
+          i.timeStamp=0;
+          this.filaDePaginas.push(i);
+        }
+    }
+    // cria os espaços na memória Fisica
     for(var i:number =0; i<this.TAM; i++){
       this.memoriaF.push(new MemoriaFisica(i, this.strMemoVazia, this.strMemoFisicaCor,  0));
       this.respostaMemoriaFisica.push(new MemoriaFisica(i, this.strMemoVazia, this.strMemoFisicaCor,  0));
     }
-     
-    for(var i = 0; i<this.listaProcessos.length;i++){
-      if(!this.listaProcessos[i].bit){
-        this.alocaPaginaEmMemoriaFisica(this.listaProcessos[i], 0);
-
-        if(this.listaProcessos[i].pagina.length > 1) {
-          this.alocaPaginaEmMemoriaFisica(this.listaProcessos[i], 1);
-        }
-      }
-    }
+    // embaralha a ordem das Paginas
+    if(this.filaDePaginas.length>0){
+      var ordemAleatoriaPaginas: Array<number> = Utils.embaralhamentoFisherYates(Utils.listaNum(this.filaDePaginas.length));
     
-    this.enviarDadosMemoria.emit(this.filaAlgoritmoSelecionado);
+      for(var i = 0; i<this.TAM;i++){
+          this.alocaPaginaEmMemoriaFisica(this.filaDePaginas[ordemAleatoriaPaginas[i]]);
+        }
+        this.enviarDadosMemoria.emit(this.filaAlgoritmoSelecionado);
+    }
   }
 
-  alocaPaginaEmMemoriaFisica(proc: Processo, num:number):boolean{
-    // console.log("|> ALOCA");
-    this.filaAlgoritmoSelecionado.addPaginaEmMemoriaFisica(this.memoriaF, proc, num, this.timestamp);
+  alocaPaginaEmMemoriaFisica(pagX: Pagina):boolean{
+    this.filaAlgoritmoSelecionado.addPaginaEmMemoriaFisica(this.memoriaF, pagX, this.timestamp);
     
     this.timestamp+=1;
     this.enviarDadosMemoria.emit(this.filaAlgoritmoSelecionado);
     return true;
   }
-  desalocaPaginaEmMemoriaFisica(proc: Processo, num:number):boolean{
-    // console.log("|> DESALOCA");
-    var i = this.filaAlgoritmoSelecionado.removerProcesso(this.memoriaF, proc, num);
+
+  desalocaPaginaEmMemoriaFisica(pagX: Pagina):boolean{
+    var i = this.filaAlgoritmoSelecionado.removerProcesso(this.memoriaF, pagX);
 
     this.enviarDadosMemoria.emit(this.filaAlgoritmoSelecionado);
 
@@ -117,11 +113,6 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
 
   correcao():void{
     this.corrigir=!this.corrigir;
-  }
-
-  mudaStatusPagina(proc: Processo, num:number):void{
-    if(proc.pagina[num].timeStamp!=0)this.desalocaPaginaEmMemoriaFisica(proc, num);
-    else this.alocaPaginaEmMemoriaFisica(proc, num);
   }
   counter(i: number) {
     return new Array(i);

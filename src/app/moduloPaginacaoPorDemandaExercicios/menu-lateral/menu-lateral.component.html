@@ -19,33 +19,37 @@
                   <ul class="sub-menu collapse.show" id="config">
 
                         <!-- Selecionar Tipo De Exercício -->
-                        <li align="center"  class="collapsed active"
-                        data-bs-toggle="collapse" 
-                        data-bs-target="#exercicio" 
-                        aria-controls="exercicio" 
-                        aria-expanded="false">
-                              <b style="font-size: 15px">T</b>ipo de 
-                              <b style="font-size: 15px">E</b>xercício
-                        </li>       
+                        <li align="center"  class="collapsed active" data-bs-toggle="collapse" 
+                              data-bs-target="#exercicio" 
+                              aria-controls="exercicio" 
+                              aria-expanded="false">
+                                    <b style="font-size: 15px">T</b>ipo de 
+                                    <b style="font-size: 15px">E</b>xercício
+                              </li>
+
                         <ul class="sub-menu collapse.show" id="exercicio">
-                        
                               <select  class="form-control" id="selectAlgoritmo" (change)="escolheExercicio($event)">
                                     <option value=info disabled selected>Exercícios Disponíveis</option>
-                                    <option *ngFor="let idx of listaDeExercicios" [value]="[idx.tipo, idx.exec]">{{idx.tipo}}</option>
+                                    <option *ngFor="let idx of listaDeExercicios" 
+                                          [value]="[idx.tipo, idx.exec]">{{idx.tipo}}</option>
                               </select>
                         </ul>
 
                         <!-- Selecionar Algoritmo -->
                         <li *ngIf="exercicioSelecionado.exec == 3"  align="center"  class="collapsed active"
-                        data-bs-toggle="collapse" 
-                        data-bs-target="#algoritmo" 
-                        aria-controls="algoritmo" 
-                        aria-expanded="false">
-                              <b style="font-size: 15px">S</b>elecionar 
-                              <b style="font-size: 15px">A</b>lgoritmo de 
-                              <b style="font-size: 15px">S</b>ubstituição
+                              data-bs-toggle="collapse" 
+                              data-bs-target="#algoritmo" 
+                              aria-controls="algoritmo" 
+                              aria-expanded="false">
+                                    <b style="font-size: 15px">S</b>elecionar 
+                                    <b style="font-size: 15px">A</b>lgoritmo de 
+                                    <b style="font-size: 15px">S</b>ubstituição
                         </li>
-                        <ul *ngIf="exercicioSelecionado.exec == 3" class="sub-menu" [ngClass]="{'collapse.show': (exercicioSelecionado.exec != 0),'collapse':exercicioSelecionado.exec == 0}" id="algoritmo">
+
+                        <ul *ngIf="exercicioSelecionado.exec == 3" class="sub-menu" 
+                              [ngClass]="{'collapse.show': (exercicioSelecionado.exec != 0),
+                                          'collapse':exercicioSelecionado.exec == 0}" 
+                              id="algoritmo">
                         
                               <select class="form-control" id="selectAlgoritmo"  (change)="escolheEscalonador($event)">
                                     <option value=info disabled selected>Algoritmo de substituição</option>
@@ -55,53 +59,39 @@
 
                         <!-- CRIAR Processos -->
                         <li  align="center"class="collapsed active"
-                        data-bs-toggle="collapse" 
-                        data-bs-target="#add" 
-                        aria-controls="add" 
-                        aria-expanded="false">
-
-                              <b style="font-size: 15px;">C</b>riar 
-                              <b style="font-size: 15px">P</b>rocessos
+                              data-bs-toggle="collapse" 
+                              data-bs-target="#add" 
+                              aria-controls="add" 
+                              aria-expanded="false">
+                                    <b style="font-size: 15px;">C</b>riar 
+                                    <b style="font-size: 15px">P</b>rocessos
                         </li>
 
                         <ul class="sub-menu collapse.show" id="add">
-                              <!--CHECKBOX *** CRIAR PROCESSOS ALEATORIOS-->
                               <div style="background: rgb(218, 218, 218)">
                                     <div>
                                           <label style="margin-left: 15px" for="check">
-                                                <input [(ngModel)]="aleatorio" type="checkbox" id="check" name="check" style="margin-left: 10px;" value="false">
-                                                Deseja gerar processos com valores aleatórios para sua simulação ?
-                                                
-                                                <button *ngIf="aleatorio" class="btn btn-outline-primary" 
-                                                      id="btnCad" (click)="geradorAleatorio()">
-                                                      <i class="fa fa-cogs" aria-hidden="true"></i>
-                                                      <b> Gerar Processos </b>
-                                                </button>
+                                                <!--FORMULARIO PARA CADASTRO DO PROCESSO-->
+                                                <form class="form-group">
+                                                      <div class="form-group">
+                                                            <div class="input-group">
+                                                                  <!-- id="execucao" name="execucao" -->
+                                                                  <input [(ngModel)]="nProcessos" type="number"  
+                                                                        min="1" max="4" class="form-control" 
+                                                                        placeholder="Qtd. Páginas" id="inputCad" >
+
+                                                                  <div class="input-group-btn">
+                                                                        <button class="btn btn-outline-primary" 
+                                                                              id="btnCad" (click)="geradorAleatorio()">
+                                                                              <i class="fa fa-cogs" aria-hidden="true"></i>
+                                                                                    <b>Gerar Processos</b></button>
+                                                                   </div>
+                                                            </div>
+                                                      </div>
+                                                </form>
                                           </label>
                                     </div>
                               </div>
-                               <!--FORMULARIO PARA CADASTRO DO PROCESSO-->
-                              <form *ngIf="!aleatorio" class="form-group">
-                                    
-                                    <div class="form-group">
-                                          <p  align="center">Nome do Processo <p>
-
-                                          <select [(ngModel)]="p.nome" class="form-control"  id="processo" name="processo">
-                                                  <option *ngFor="let pr of listaNomesTec">{{pr}}</option>
-                                          </select>
-                                    </div>
-                                    <div>
-                                          <input [(ngModel)]="nPaginas" type="number" id="execucao" name="execucao" min="1" max="4" class="form-control" 
-                                          placeholder="Qtd. Páginas" >
-                                    </div>
-                              
-                                    <div  id="botoes" align="center"><!--Detalhe aqui    V -->
-                                          <button class="btn btn-success" id="btnCad" ng-show="!p.bit" (click)="cadastrar(p)">
-                                                <i class="fa-solid fa-circle-plus" aria-hidden="true"></i> Criar</button>
-                                          <button class="btn btn-danger" id="btnCan" (click)="cancelar()">
-                                                <i class="fa-duotone fa-circle-minus" aria-hidden="true"></i> Cancelar</button>
-                                    </div>
-                              </form>
                         </ul>
 
 
@@ -133,9 +123,9 @@
                                                       </td>
                                                       <td>{{pr.pagina.length}}</td>
                                                       <td>
-                                                            <button type="button" class="btn btn-danger btn-sm" (click)="excluir(pr)">
+                                                            <!-- <button type="button" class="btn btn-danger btn-sm" (click)="excluir(pr)">
                                                                   <i class="fa fa-times" aria-hidden="true"></i>
-                                                            </button>
+                                                            </button> -->
                                                       </td>
                                                 </tr>
                                           </table><!--style="text-align: center"-->

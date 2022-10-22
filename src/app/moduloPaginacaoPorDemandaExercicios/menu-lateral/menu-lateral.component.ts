@@ -1,5 +1,5 @@
-import { Component, EventEmitter, OnInit, Output, AfterContentChecked } from '@angular/core';
-import { count } from 'rxjs';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Utils } from 'src/app/Bibliotecas/Utils';
 import { Processo } from '../../Classes/Processo';
 
 @Component({
@@ -18,11 +18,10 @@ export class MenuLateralComponent implements OnInit {
 
   @Output() public enviarGambiarra:EventEmitter<any> = new EventEmitter();
 
-  public aleatorio: boolean = false;
-  public geraAleatorio: boolean = false;
-  public nPaginas: number = 1;
+  public aleatorio: boolean = true;
+  public geraAleatorio: boolean = true;
+  public nProcessos: number = 4;
   public eGambiarra: number = 1;
-  public p = new Processo('A',0,'#228B22',false);
   
   public selectedProcesso = new Processo('', 0, '#000', false);
 
@@ -36,11 +35,10 @@ export class MenuLateralComponent implements OnInit {
                                                           ];
   public listaNomesTec: Array<string> = [];
   public listaDeExercicios: Array<{tipo:string, exec: Number}> =[
-                            {tipo:"Sequência de Alocação da Memória Física", exec: 0},
                             {tipo:"Preencher Memória Lógica", exec: 1},
                             {tipo:"Preencher Memória Fisica", exec: 2},
                             {tipo:"Determinar Página Vítima", exec: 3},
-                          ];
+                          ];//{tipo:"Sequência de Alocação da Memória Física", exec: 0},
   public algoritmoEscalonamento: Array<{tipo:string, exec: Number}> =[
                             {tipo:"FCFS (first-come-first-served)", exec: 0},
                             {tipo:"Histórico de bits de referência", exec: 1},
@@ -56,14 +54,6 @@ export class MenuLateralComponent implements OnInit {
     this.enviarTipoExercicio.emit(this.exercicioSelecionado.exec);
     this.enviarTipoAlgoritmo.emit(0);
     this.enviarGambiarra.emit(0);
-    this.listaNomesDisponiveis();
-  }
-
-  listaNomesDisponiveis():void{
-    this.listaNomesTec =[];
-    for(let y of this.listaNomes){
-      if(y.exec==1)this.listaNomesTec.push(y.nome);
-    }
   }
 
   escolheExercicio(event:any){
@@ -72,7 +62,7 @@ export class MenuLateralComponent implements OnInit {
     // console.log("num Exec Emitido: "+Number(arr[1]))
     this.enviarTipoExercicio.emit(Number(arr[1]));
 
-    }
+  }
 
   escolheEscalonador(event:any){
     const arr = event.target.value.split(',');    
@@ -84,35 +74,22 @@ export class MenuLateralComponent implements OnInit {
     this.enviarGambiarra.emit(this.eGambiarra);
   }
   
-  geradorAleatorio():void{	
+  geradorAleatorio():void{
       if(this.aleatorio){
-        this.listaNomesDisponiveis();
+        var sequencia:Array<number> = Utils.embaralhamentoFisherYates(Utils.listaNum(this.nProcessos));
 
-        for (var i = 0; i < this.listaNomesTec.length; i++) {
-          var x = (Number)(Math.round(Math.random() * 2) + 2);
-          this.cadastrar(new Processo(this.listaNomesTec[i], x, this.gera_cor()));
+        for (var i = 0; i < this.nProcessos; i++) {
+          if(this.listaNomes[i].exec==1){
+            var x = (Number)(Math.round(Math.random() * 2) + 2);
+            this.cadastrar(new Processo(this.listaNomes[sequencia[i]].nome, x, Utils.gera_cor()));
+            this.listaNomes[i].exec = 0;
+          }
         }
         
-      this.listaNomesTec = [];
-      
-        for (var i = 0; i < this.listaNomes.length; i++) {
-          this.listaNomes[i].exec = 0;
-        }
         this.eGambiarra = this.eGambiarra ==1? 2 : 1;
         this.enviarGambiarra.emit(this.eGambiarra);
       }
-    // this.aleatorio = false;
-  }
-
-  gera_cor(): string{		// gera cor aleatoria
-    var hexadecimais = '0123456789ABCDEF';
-    var cor = '#';
-    // Pega um número aleatório no array acima
-    for (var i = 0; i < 6; i++ ) {
-    //E concatena à variável cor
-        cor += hexadecimais[Math.floor(Math.random() * 16)];
-    }
-    return cor;
+    this.aleatorio = false;
   }
 
   elementoExiste(str:string):number{
@@ -149,12 +126,12 @@ export class MenuLateralComponent implements OnInit {
     if(this.validaP(proc) && this.elementoExiste(proc.nome)==-1){
 
         if(proc.pagina.length!=0){
-          this.listaProcessos.push(new Processo(proc.nome, proc.pagina.length, this.gera_cor(), proc.bit));
-          this.respostaMemoriaLogica.push(new Processo(proc.nome, proc.pagina.length, this.gera_cor(), proc.bit));
+          this.listaProcessos.push(new Processo(proc.nome, proc.pagina.length, Utils.gera_cor(), proc.bit));
+          this.respostaMemoriaLogica.push(new Processo(proc.nome, proc.pagina.length, Utils.gera_cor(), proc.bit));
         }
         else{
-          this.listaProcessos.push(new Processo(proc.nome, this.nPaginas, this.gera_cor(), proc.bit));
-          this.respostaMemoriaLogica.push(new Processo(proc.nome, this.nPaginas, this.gera_cor(), proc.bit));
+          this.listaProcessos.push(new Processo(proc.nome, this.nProcessos, Utils.gera_cor(), proc.bit));
+          this.respostaMemoriaLogica.push(new Processo(proc.nome, this.nProcessos, Utils.gera_cor(), proc.bit));
         } 
 
         
@@ -176,15 +153,12 @@ export class MenuLateralComponent implements OnInit {
   }
 
   validaP(proc: Processo):boolean{
-    if (proc.nome == '' || this.nPaginas < 1 || this.nPaginas >4) return false;
+    if (this.nProcessos < 1 || this.nProcessos > 4) return false;
     return true;
   }
 
   cancelar():void{
-    console.log('<---------------- OPERAÇÃO CANCELADA ----------------> ');
-    this.p.nome = '';
-    this.p.pagina = [];
-    this.p.bit = false;
+    this.nProcessos = 4;
   }
 
   constructor(){}
