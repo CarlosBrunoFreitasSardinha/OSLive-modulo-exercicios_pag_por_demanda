@@ -1,6 +1,6 @@
 
 export namespace Utils{
-      
+      const TAM = 8;
       export function embaralhamentoFisherYates(array:Array<number>):Array<number> {
             for (var i = array.length - 1; i > 0; i--) {
                   const j = Math.floor(Math.random() * (i + 1));
