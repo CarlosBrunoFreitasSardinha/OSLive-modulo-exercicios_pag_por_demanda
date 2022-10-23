@@ -1,21 +1,33 @@
 <div class="row align-items-start">
             
       <!-- fim da barra de menu vertical class="nav-side-menu"-->
-      <div class="col-12" style="font-size: 10px; height: 50px" >
+      <div class="col-12 cbTesteBorder" style="font-size: 10px; height: 50px" >
             <h3 style="text-align: center"><b>{{title}}</b></h3>
       </div>
-      <!-- Lista de páginas FIFO -->
-            <div class="fifo">
-            </div>
+      
 
       <!-- TABELAS DA MEMÓRIA LÓGICA DOS PROCESSOS------------------------------------------------------------------------------------------------------------------------------------>
-      <div class="col-12 col-sm-offset-1">
+      <div class="col-12" >
             <div class="row">
                   
-                  <div class="col-6 col-sm-6"><!--*ngFor="let p of (exercicioSelecionado!=1)?listaProcessos:respostaMemoriaLogica; index as proc"-->
+                  <div class="col-7 col-sm-7 cbTesteBorder">
                         
                         <div class="row">
-                              <div class="col-6  align-self-center">      <!-- TABELA MEMÓRIA LÓGICA DO PROCESSO-------------------------------------------------------------------->
+                              <div class="col-12  align-self-center cbTesteBorder">
+                                    <h4>{{algoritmoEscalonamento[secureNumberAlgo]}}
+                                          <a *ngIf="secureNumberAlgo==0" href="#" data-toggle="modal" data-target="#fcfs">
+                                                <img src="assets/info_ico.png" width="13px" alt=""> </a> 
+                                          <a *ngIf="secureNumberAlgo==1" href="#" data-toggle="modal" data-target="#historico_bit_referencia">
+                                                <img src="assets/info_ico.png" width="13px" alt=""> </a> 
+                                          <a *ngIf="secureNumberAlgo==2" href="#" data-toggle="modal" data-target="#segunda_chance">
+                                                <img src="assets/info_ico.png" width="13px" alt=""> </a> 
+                                    </h4>
+                              </div>
+                        </div>
+
+                        <div class="row cbTesteBorder">
+                              <div class="col-6  align-self-center linhaExercicio">
+                                    <!-- TABELA MEMÓRIA LÓGICA DO PROCESSO-------------------------------------------------------------------->
                                     <table class="table cbTesteBorder" id="tabelaExec" *ngIf="listaProcessos.length!=0" >
                                           <!-- <caption>Mem. Lógica</caption> -->
                                           <thead >
@@ -93,12 +105,14 @@
                                                 </tr>
                                           </tbody>
                                     </table>
-                                    <button class="btn btn-success" (click)="correcao()" *ngIf="listaProcessos.length!=0" >
+                              </div>
+                              
+                              <div class="col-6  align-self-start linhaExercicio">
+                                    <button class="btn btn-success" (click)="correcao()" *ngIf="listaProcessos.length!=0" 
+                                    data-toggle="modal" data-target="#historico_bit_referencia">
                                           Corrigir
                                           <i class="fa fa-check-square-o" aria-hidden="true"></i>
                                     </button>
-                              </div>
-                              <div class="col-6  align-self-center">
                               </div>
                         </div>
                   </div>
@@ -218,6 +232,54 @@
 
 	
 <!-- Início dos modal's -->
+
+<!-- INFO Sobre o Algoritmo de Histórico de Referência-->
+<div class="modal fade" id="fcfs" tabindex="-1" role="dialog" aria-labelledby="label_sc_modal" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+            <div class="modal-header">
+                  <h5 class="modal-title" id="label_sc_modal">Algoritmo FCFS ( First-Come-First-Serced)</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+            <div class="modal-body">
+                  <p style="line-height: 1.5; text-align: justify;" > 
+                        No algoritmo FCFS (First Come First Served), o processo que chega primeiro é enviado primeiro para execução pela CPU quando a CPU está livre.<br>
+                        Desta forma há uma fila ordenada por Timestamp, assim, quando um novo processo requer memória, aquele que tiver o Timestamp menor( ou seja está a mais tempo na Mémoria) é escolhida como vítima. <br>
+                        <br><img src="assets/second_chance_chart.jpg" width="98%" >
+                  </p>
+            </div>
+            <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+      </div>
+      </div>
+</div>
+<!-- INFO Sobre o Algoritmo de Histórico de Referência-->
+<div class="modal fade" id="historico_bit_referencia" tabindex="-1" role="dialog" aria-labelledby="label_sc_modal" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+            <div class="modal-header">
+                  <h5 class="modal-title" id="label_sc_modal">Algoritmo de Histórico de Referência</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+            <div class="modal-body">
+                  <p style="line-height: 1.5; text-align: justify;" > 
+                        No algoritmo de Histórico de Referência verifica-se se houve solicitação àquela página nos últimos momentos representados pelo histórico de bits de referência, assim, antes de realizar a substituição da página. <br>
+                        Toda a lista de páginas é percorridas de forma a se verificar se a página foi acessada no último momento, caso haja empate, usa-se o HISTÓRICO para retroceder no tempo de interações a fim de determinar qual página foi menos acessada.<br>
+                        Desta forma as páginas que tem o bit de referência 1 (indica que foram acessadas recentemente) já o bit de referência 0 (não foi acessada recentemente), dentre as páginas não foram acessadas caso haja mais de uma, verifica-se o acesso entre elas no tempo i-1, e assim persiste até que se encontre uma página menos acessada em relação a outra, em caso de empate, aquela que tiver o TimeStamp menor (aquela que está a mais tempo na memória) será a página vítima escolhida . <br>
+                        <br><img src="assets/historicoReferencia.png" width="98%" >
+                  </p>
+            </div>
+            <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+      </div>
+      </div>
+</div>
 <!-- INFO Sobre o Segunda Chance-->
 <div class="modal fade" id="segunda_chance" tabindex="-1" role="dialog" aria-labelledby="label_sc_modal" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
@@ -241,6 +303,8 @@
       </div>
       </div>
 </div>
+
+
 <!-- INFO Acessar pg-->
 <div class="modal fade" id="acessar_pg" tabindex="-1" role="dialog" aria-labelledby="lb_acessar_pg" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">

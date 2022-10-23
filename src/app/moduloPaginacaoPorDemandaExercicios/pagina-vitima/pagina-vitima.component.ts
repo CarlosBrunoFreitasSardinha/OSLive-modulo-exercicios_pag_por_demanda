@@ -6,6 +6,7 @@ import { SegundaChance } from '../../Classes/SegundaChance';
 import { MemoriaFisica } from '../../Classes/MemoriaFisica';
 import { Pagina } from '../../Classes/Pagina';
 import { Utils } from 'src/app/Bibliotecas/Utils';
+import { isNumber } from '@ng-bootstrap/ng-bootstrap/util/util';
 
 @Component({
   selector: 'app-pagina-vitima',
@@ -19,6 +20,11 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
   @Input() public gambiarra: Number = new Number;
 
   public title: string = "Determine a Pagina Vítima";
+  public algoritmoEscalonamento: Array<string> =[
+    "Exercício com FCFS (first-come-first-served)",
+    "Exercício com Histórico de bits de referência",
+    "Exercício com Segunda Chance",
+  ];
 
   TAM: number = 8;
   timestamp:number = 100;
@@ -30,6 +36,7 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
   public filaDePaginas: Array<Pagina> = [];
   corrigir: boolean = false;
   paginavitima: number = 0;
+  secureNumberAlgo: number = 0;
 
   public algoritmoFCFS = new FCFS();
   public algoritmoHistorico = new HitoricoBitReferencia();
@@ -44,6 +51,9 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
 
   ngOnChanges(changes: SimpleChanges): void {
     // console.log("OnChanges - Pagina Vitima \n\t "+this.algoritmoSelecionado)
+    if( this.algoritmoSelecionado == 0 || this.algoritmoSelecionado == 1 || this.algoritmoSelecionado == 2){
+      this.secureNumberAlgo = this.algoritmoSelecionado.valueOf();
+    }
     this.preencherMemoriaFisica();
     
     if(this.algoritmoSelecionado == 0){
