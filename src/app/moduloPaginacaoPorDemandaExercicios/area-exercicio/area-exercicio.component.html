@@ -13,7 +13,7 @@
       <!-- TABELAS DA MEMÓRIA LÓGICA DOS PROCESSOS------------------------------------------------------------------------------------------------------------------------------------>
       <div class="col-12 ">
             <div class="row" *ngIf="exercicioSelecionado!=-1">
-                  <div class="col-8">
+                  <div class="col-7">
                         <h5> Processo/Páginas
                               <a href="" data-toggle="modal" data-target="#tb_memoria_logica"> <img src="assets/info_ico.png" width="13px" alt=""> </a>
                         </h5>
@@ -139,7 +139,7 @@
                               </tr>
                         </table>
                         
-                        <button *ngIf="exercicioSelecionado!=0" class="btn btn-success" (click)="correcao()">
+                        <button *ngIf="listaProcessos.length" class="btn btn-success" (click)="correcao()">
                               Corrigir
                               <i class="fa fa-check-square-o" aria-hidden="true"></i>
                         </button>

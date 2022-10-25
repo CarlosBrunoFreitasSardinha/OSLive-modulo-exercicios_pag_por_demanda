@@ -33,20 +33,19 @@
                                                 <thead >
                                                       <td height="30.5">Pág</td>
                                                       <td  *ngFor="let  bitAcess of 
-                                                      algoritmoSelecionado ==1
-                                                      ?algoritmoHistorico.historicoBit[0]
-                                                      : algoritmoSelecionado==0
-                                                            ? counter(1)
-                                                            : counter(2);index as arre">
-            
-                                                            {{algoritmoSelecionado==0
-                                                                        ? 'TimeStamp'
-                                                                        :algoritmoSelecionado==1
-                                                                              ?'bit_'+(4-arre)
-                                                                              :arre==0
-                                                                                    ?'TimeStamp'
-                                                                                    :'bitRef'}}
-                                                      </td>
+                                                            algoritmoSelecionado == 1
+                                                            ? algoritmoHistorico.historicoBit[0]
+                                                            : algoritmoSelecionado== 0
+                                                                  ? counter(1)
+                                                                  : counter(2);index as arre">
+                  
+                                                 {{algoritmoSelecionado == 0
+                                                                              ? 'TimeStamp'
+                                                                              :algoritmoSelecionado == 1
+                                                                                    ?'bit_'+(4-arre)
+                                                                                    :arre == 0
+                                                                                          ? 'TimeStamp'
+                                                                                          : 'bitRef'}} </td>
                                                       <td>Resp.</td>
                                                 </thead>
                                                 <tbody  class="tbody"><!--DADOS DA ARRAY SELECIONADA-->
@@ -59,8 +58,7 @@
                                                                               ? algoritmoFCFS.lista[pag].cor 
                                                                               : algoritmoSegundaChanceOrdenado.lista[pag].cor
                                                                   }}; color: #fff; font-size: 12px">
-                                                                  {{
-                                                                        algoritmoSelecionado ==1 
+                                                                  {{ algoritmoSelecionado ==1 
                                                                         ? algoritmoHistorico.lista[pag].toString()
                                                                         : algoritmoSelecionado==0 
                                                                               ? algoritmoFCFS.lista[pag].toString() 
@@ -88,28 +86,47 @@
                                                                                           : algoritmoSegundaChanceOrdenado.historicoBit[pag][0]
                                                                                     : bitAcess}}
                                                             </td>
-                                                            <td  class="leveSombreado" 
-                                                            style="-webkit-transition-delay:{{1 * 500}}ms; background-color:{{
-                                                                  algoritmoSelecionado ==1 
-                                                                  ? algoritmoHistorico.lista[pag].cor
-                                                                  : algoritmoSelecionado==0 
-                                                                        ? algoritmoFCFS.lista[pag].cor 
-                                                                        : algoritmoSegundaChanceOrdenado.lista[pag].cor
-                                                            }}; color: #fff; font-size: 12px;">
-                                                                  <input type="radio" id="resposta" name="resposta"
+
+                                                            <td  class="leveSombreado" style="-webkit-transition-delay:{{1 * 500}}ms; 
+                                                                  background-color:{{
+                                                                        algoritmoSelecionado ==1 
+                                                                        ? algoritmoHistorico.lista[pag].cor
+                                                                        : algoritmoSelecionado==0 
+                                                                              ? algoritmoFCFS.lista[pag].cor 
+                                                                              : algoritmoSegundaChanceOrdenado.lista[pag].cor
+                                                                        }}; color: #fff; font-size: 12px;">
+
+                                                                  <input [(ngModel)]="resposta" type="radio" id="resposta" name="resposta"
                                                                         style="margin-left: 10px;" [value]="pag">
                                                                         <i *ngIf="corrigir && paginavitima == pag" class="fa fa-check" aria-hidden="true" 
                                                                         style="color: lightgreen; width: 27px; height: 27px;"></i>
                                                             </td>
-            
                                                       </tr>
                                                 </tbody>
                                           </table>
                               </div>
                               
                               <div class="col-3  align-self-end linhaExercicio">
-                                          <button class="btn btn-success" (click)="correcao()" *ngIf="listaProcessos.length!=0" 
+                                    <button class="btn btn-success" (click)="correcao()" 
+                                          *ngIf="listaProcessos.length!=0 && secureNumberAlgo==0 && segundaChance && (resposta!=paginavitima)"
+                                          data-toggle="modal" data-target="#fcfs">
+                                                Corrigir
+                                                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                          </button> 
+                                    <button class="btn btn-success" (click)="correcao()" 
+                                          *ngIf="listaProcessos.length!=0 && secureNumberAlgo==1 && segundaChance && (resposta!=paginavitima)"
                                           data-toggle="modal" data-target="#historico_bit_referencia">
+                                                Corrigir
+                                                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                          </button> 
+                                    <button class="btn btn-success" (click)="correcao()" 
+                                          *ngIf="listaProcessos.length!=0 && secureNumberAlgo==2 && segundaChance && (resposta!=paginavitima)"
+                                          data-toggle="modal" data-target="#segunda_chance">
+                                                Corrigir
+                                                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                          </button>
+                                    <button class="btn btn-success" (click)="correcao()" 
+                                          *ngIf="listaProcessos.length!=0 && (resposta==paginavitima) || !segundaChance">
                                                 Corrigir
                                                 <i class="fa fa-check-square-o" aria-hidden="true"></i>
                                           </button>
@@ -121,7 +138,8 @@
                   <!-- TABELA DA MEMÓRIA FISICA ---------------------------------------------------------------------------------------------------------------->
                   <div class="col-2">
                         <h5 class="alerta">Memória Física
-                              <a href="" data-toggle="modal" data-target="#tb_memoria_fisica"> <img src="assets/info_ico.png" width="13px" alt=""> </a> 
+                              <a href="" data-toggle="modal" data-target="#tb_memoria_fisica">
+                                    <img src="assets/info_ico.png" width="13px" alt=""></a> 
                         </h5>
                         <table align="center" class="table" id="tabelaExec" border="2">
                               <thead >
@@ -129,7 +147,8 @@
                                     <td>Conteúdo</td>
                               </thead>
                               <!--Exercicio Preencher Memoria Fisica-->
-                              <tr align="center" height="33" *ngFor="let m of memoriaF; index as k" style="-webkit-transition-delay:{{1 * 500}}ms; background-color:{{m.cor}}; color: #FFFFFF; font-size: 12px" >
+                              <tr align="center" height="33" *ngFor="let m of memoriaF; index as k" 
+                              style="-webkit-transition-delay:{{1 * 500}}ms; background-color:{{m.cor}}; color: #FFFFFF; font-size: 12px" >
                                     <td class="leveSombreado">{{m.endereco}}
                                     </td>
                                     <td class="leveSombreado">
@@ -139,8 +158,6 @@
                                     </td>
                               </tr>
                         </table>
-                        
-                        <div><p class="alertamf"></p></div>
                   </div>
 
                   <!--DISCO COM PÁGINAS DOS PROCESSOS------------------------------------------------------------------------------------------------------------->
@@ -233,7 +250,7 @@
 	
 <!-- Início dos modal's -->
 
-<!-- INFO Sobre o Algoritmo de Histórico de Referência-->
+<!-- INFO Sobre o Algoritmo FCFS-->
 <div class="modal fade" id="fcfs" tabindex="-1" role="dialog" aria-labelledby="label_sc_modal" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
@@ -247,7 +264,7 @@
                   <p style="line-height: 1.5; text-align: justify;" > 
                         No algoritmo FCFS (First Come First Served), o processo que chega primeiro é enviado primeiro para execução pela CPU quando a CPU está livre.<br>
                         Desta forma há uma fila ordenada por Timestamp, assim, quando um novo processo requer memória, aquele que tiver o Timestamp menor( ou seja está a mais tempo na Mémoria) é escolhida como vítima. <br>
-                        <br><img src="assets/second_chance_chart.jpg" width="98%" >
+                        <br><img src="assets/FCFS.png" width="98%" >
                   </p>
             </div>
             <div class="modal-footer">
