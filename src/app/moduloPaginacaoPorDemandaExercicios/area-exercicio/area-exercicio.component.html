@@ -68,21 +68,27 @@
                                                                   </td>
                   
                                                                   <td class="leveSombreado"
-                                                                  style="-webkit-transition-delay:{{1 * 1000}}ms; 
-                                                                  background-color: {{paginaProcessoX.timeStamp!=0? p.cor: p.cor+'69'}}; 
-                                                                  color: #FFFFFF; font-size: 12px;">
+                                                                        style=" 
+                                                                        background-color: {{(exercicioSelecionado==1 && !corrigir)?p.cor+'69':paginaProcessoX.timeStamp!=0? p.cor: p.cor+'69'}}; 
+                                                                        color: #FFFFFF; font-size: 12px;">
                                                                         <!--Trabalhar aqui-->
                                                                                     {{(exercicioSelecionado!=1)? paginaProcessoX.indiceMemoriaFisica==-1? '-' :paginaProcessoX.indiceMemoriaFisica:''}}
       
                                                                                     <select *ngIf="exercicioSelecionado==1" 
-                                                                                    class="form-control selectOption"  
-                                                                                    id="resposta" name="resposta" 
-                                                                                    style="text-align: center;"
+                                                                                                      class="form-control selectOption"  
+                                                                                                      id="resposta" name="resposta" 
+                                                                                                      style="text-align: center;"
                                                                                     
                                                                                     [ngClass]="corrigir? 
-                                                                                    (respostaMemoriaLogica[proc].pagina[pag].indiceMemoriaFisica == listaProcessos[proc].pagina[pag].indiceMemoriaFisica)
-                                                                                    ?'selectOptionAcerto':'selectOptionErro':''" 
-                                                                                    [(ngModel)]="respostaMemoriaLogica[proc].pagina[pag].indiceMemoriaFisica">
+                                                                                                      (respostaMemoriaLogica[proc].pagina[pag].indiceMemoriaFisica == 
+                                                                                                      listaProcessos[proc].pagina[pag].indiceMemoriaFisica)
+                                                                                                      ?'selectOptionAcerto':'selectOptionErro'
+                                                                                                      :''
+                                                                                                " 
+
+                                                                                    [(ngModel)]="respostaMemoriaLogica[proc].pagina[pag].indiceMemoriaFisica"
+                                                                                    
+                                                                                    disabled="{{corrigir}}">
                                                                                                 <option [value]='-1'  selected> - </option>
                                                                                                 <option *ngFor="let pr of memoriaF; index as nMemoFisica;" [value]="[nMemoFisica]"><!--filaDePaginas-->
                                                                                                       {{pr.endereco}} 
@@ -90,10 +96,17 @@
                                                                                                 
                                                                                     </select>
                                                                   </td>
-                                                                  <td class="leveSombreado" style="-webkit-transition-delay:{{1 * 1000}}ms; background-color: {{paginaProcessoX.timeStamp !=0 ? p.cor: p.cor+'69'}}; color: #fff; font-size: 12px" >
+                                                                  <td class="leveSombreado" 
+                                                                  style="background-color: {{(exercicioSelecionado==1 && !corrigir)?p.cor+'69':paginaProcessoX.timeStamp!=0? p.cor: p.cor+'69'}}; 
+                                                                  color: #fff; font-size: 12px" >
                                                                         <button class="btn btn-light" disabled>
                                                                               <b style="color: #000;">
-                                                                                    {{paginaProcessoX.timeStamp !=0 ? 'V': 'I'}}</b></button>
+                                                                                    {{exercicioSelecionado==1
+                                                                                                ?'-'
+                                                                                                :paginaProcessoX.timeStamp !=0 
+                                                                                                      ? 'V'
+                                                                                                      : 'I'
+                                                                                    }}</b></button>
                                                                   </td>
                                                              </tr>
                                                       </tbody>
@@ -125,7 +138,7 @@
                                           <select *ngIf="exercicioSelecionado==2" class="form-control selectOption"  id="resposta" name="resposta" style="text-align: center;"
                                           
                                           [ngClass]="corrigir? (opcaoSelecionadaCorrecao[k])?'selectOptionAcerto':'selectOptionErro':''" 
-                                          (change)="insereResposta($event)" [(ngModel)]="opcaoSelecionada[k]">
+                                          (change)="insereResposta($event)" [(ngModel)]="opcaoSelecionada[k]" disabled="{{corrigir}}">
                                           
                                                       <option [value]='[k, -1]' selected> - </option>
                                                       <option *ngFor="let pr of filaDePaginas; index as l;" [value]="[k, l]">
@@ -174,29 +187,6 @@
 
 	
 <!-- Início dos modal's -->
-<!-- INFO Sobre o Segunda Chance-->
-<div class="modal fade" id="segunda_chance" tabindex="-1" role="dialog" aria-labelledby="label_sc_modal" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="label_sc_modal">Algoritmo de Segunda Chance</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <div class="modal-body">
-            <p style="line-height: 1.5; text-align: justify;" > 
-                  No algoritmo de Segunda Chance verifica-se o bit de referência antes de realizar a substituição da página. <br>
-                  Todas as páginas são percorridas de forma circular em uma fila ordenada por Timestamp, de forma que as páginas que tem o bit de referência 1 (indica que foram acessadas recentemente) recebem uma segunda chance e vão para o final da fila (timestamp atualizado e bit de referência alterado para 0). A primeira página que tem o bit de referência 0 (não foi acessada recentemente) é escolhida como vítima. <br>
-                  <br><img src="assets/second_chance_chart.jpg" width="98%" >
-            </p>
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-            </div>
-      </div>
-      </div>
-</div>
 <!-- INFO Sobre tabela de memória lógica-->
 <div class="modal fade" id="tb_memoria_logica" tabindex="-1" role="dialog" aria-labelledby="label_tb_memoria_logica" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">

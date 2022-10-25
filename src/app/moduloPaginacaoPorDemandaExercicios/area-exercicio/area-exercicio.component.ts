@@ -102,6 +102,9 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
     const arr = event.target.value.split(',');
     var i = Number(arr[0]);
     var j = Number(arr[1]);
+    
+    this.respostaMemoriaFisica[i].nome = this.strMemoVazia;
+    this.respostaMemoriaFisica[i].cor = this.strMemoFisicaCor;
 
     if(j!=-1){
       this.respostaMemoriaFisica[i].nome = this.filaDePaginas[j].toString();
