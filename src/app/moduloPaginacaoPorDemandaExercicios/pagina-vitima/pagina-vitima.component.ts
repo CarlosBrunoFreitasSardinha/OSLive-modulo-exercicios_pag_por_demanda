@@ -38,7 +38,7 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
   paginavitima: number = 0;
   secureNumberAlgo: number = 0;
   segundaChance = true;
-  public resposta: number = 0;
+  public resposta: number = 1;
 
   public algoritmoFCFS = new FCFS();
   public algoritmoHistorico = new HitoricoBitReferencia();

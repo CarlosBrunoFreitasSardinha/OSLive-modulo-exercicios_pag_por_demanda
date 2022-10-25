@@ -60,7 +60,11 @@ export class MenuLateralComponent implements OnInit {
     const arr = event.target.value.split(',');    
     this.exercicioSelecionado={tipo:arr[0], exec: Number(arr[1])};
     // console.log("num Exec Emitido: "+Number(arr[1]))
-    this.enviarTipoExercicio.emit(Number(arr[1]));
+    if(this.listaProcessos.length>7 && Number(arr[1])!=3){
+      alert("Quantidade de Processo Insuficiente para o Exercício Selecionado!")
+    }else{
+          this.enviarTipoExercicio.emit(Number(arr[1]));
+      }
 
   }
 
@@ -75,12 +79,33 @@ export class MenuLateralComponent implements OnInit {
   }
   
   geradorAleatorio():void{
-    console.log(this.nProcessos)
       if(this.aleatorio){
         var sequencia:Array<number> = Utils.embaralhamentoFisherYates(Utils.listaNum(this.nProcessos));
 
+        var totalPages =0;
         for (var i = 0; i < this.nProcessos; i++) {
-          if(this.listaNomes[i].exec==1){
+              var x=0;
+              // conversar com mádia sobre este aleatório
+          if(this.listaNomes[sequencia[i]].exec==1){
+            
+            if(this.listaProcessos.length>=2){
+
+              if(this.listaProcessos.length==2 && totalPages < 3){
+                x = (Number)(Math.round(Math.random() * 2) + 2);
+              }
+              else if(this.listaProcessos.length==3 && totalPages < 8){
+                x = 4;
+              }
+            }
+            else {
+              x = (Number)(Math.round(Math.random() * 3) + 1);
+            }
+
+            this.cadastrar(new Processo(this.listaNomes[sequencia[i]].nome, x, Utils.gera_cor()));
+            this.listaNomes[i].exec = 0;
+            totalPages += this.listaProcessos[i].pagina.length;
+          }
+          else{
             var x = (Number)(Math.round(Math.random() * 3) + 1);
             this.cadastrar(new Processo(this.listaNomes[sequencia[i]].nome, x, Utils.gera_cor()));
             this.listaNomes[i].exec = 0;
