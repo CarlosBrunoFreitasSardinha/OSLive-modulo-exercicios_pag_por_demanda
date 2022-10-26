@@ -13,20 +13,22 @@
                   <div class="col-7 col-sm-7 ">
                         
                         <div class="row">
-                              <div class="col-12  align-self-center ">
-                                    <h4>{{algoritmoEscalonamento[secureNumberAlgo]}}
-                                          <a *ngIf="secureNumberAlgo==0" href="#" data-toggle="modal" data-target="#fcfs">
-                                                <img src="assets/info_ico.png" width="13px" alt=""> </a> 
-                                          <a *ngIf="secureNumberAlgo==1" href="#" data-toggle="modal" data-target="#historico_bit_referencia">
-                                                <img src="assets/info_ico.png" width="13px" alt=""> </a> 
-                                          <a *ngIf="secureNumberAlgo==2" href="#" data-toggle="modal" data-target="#segunda_chance">
-                                                <img src="assets/info_ico.png" width="13px" alt=""> </a> 
+                              <div class="col-9 align-self-center ">
+                                    <h4>
+                                          {{algoritmoEscalonamento[secureNumberAlgo]}}
+
+                                                <a *ngIf="secureNumberAlgo==0" href="#" data-toggle="modal" data-target="#fcfs">
+                                                      <img src="assets/info_ico.png" width="13px" alt=""> </a> 
+                                                <a *ngIf="secureNumberAlgo==1" href="#" data-toggle="modal" data-target="#historico_bit_referencia">
+                                                      <img src="assets/info_ico.png" width="13px" alt=""> </a> 
+                                                <a *ngIf="secureNumberAlgo==2" href="#" data-toggle="modal" data-target="#segunda_chance">
+                                                      <img src="assets/info_ico.png" width="13px" alt=""> </a> 
                                     </h4>
                               </div>
                         </div>
 
                         <div class="row ">
-                              <div class="col-9  align-self-center linhaExercicio">
+                              <div class="col-9 align-self-center linhaExercicio">
                                     <!-- TABELA MEMÓRIA LÓGICA DO PROCESSO-------------------------------------------------------------------->
                                           <table class="table posicionadoNoCentroDaDiv" id="tabelaExec" *ngIf="listaProcessos.length!=0" >
                                                 <!-- <caption>Mem. Lógica</caption> -->
@@ -266,6 +268,7 @@
                         Desta forma há uma fila ordenada por Timestamp, assim, quando um novo processo requer memória, aquele que tiver o Timestamp menor( ou seja está a mais tempo na Mémoria) é escolhida como vítima. <br>
                         <br><img src="assets/FCFS.png" width="98%" >
                   </p>
+                  <h4 *ngIf="!segundaChance" style="color: red;"> Tente Novamente!!!</h4>
             </div>
             <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -290,6 +293,7 @@
                         Desta forma as páginas que tem o bit de referência 1 (indica que foram acessadas recentemente) já o bit de referência 0 (não foi acessada recentemente), dentre as páginas não foram acessadas caso haja mais de uma, verifica-se o acesso entre elas no tempo i-1, e assim persiste até que se encontre uma página menos acessada em relação a outra, em caso de empate, aquela que tiver o TimeStamp menor (aquela que está a mais tempo na memória) será a página vítima escolhida . <br>
                         <br><img src="assets/historicoReferencia.png" width="98%" >
                   </p>
+                  <h4 *ngIf="!segundaChance" style="color: red;"> Tente Novamente!!!</h4>
             </div>
             <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -302,20 +306,21 @@
       <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="label_sc_modal">Algoritmo de Segunda Chance</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-            </button>
+                  <h5 class="modal-title" id="label_sc_modal">Algoritmo de Segunda Chance</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                  </button>
             </div>
             <div class="modal-body">
-            <p style="line-height: 1.5; text-align: justify;" > 
-                  No algoritmo de Segunda Chance verifica-se o bit de referência antes de realizar a substituição da página. <br>
-                  Todas as páginas são percorridas de forma circular em uma fila ordenada por Timestamp, de forma que as páginas que tem o bit de referência 1 (indica que foram acessadas recentemente) recebem uma segunda chance e vão para o final da fila (timestamp atualizado e bit de referência alterado para 0). A primeira página que tem o bit de referência 0 (não foi acessada recentemente) é escolhida como vítima. <br>
-                  <br><img src="assets/second_chance_chart.jpg" width="98%" >
-            </p>
+                  <p style="line-height: 1.5; text-align: justify;" > 
+                        No algoritmo de Segunda Chance verifica-se o bit de referência antes de realizar a substituição da página. <br>
+                        Todas as páginas são percorridas de forma circular em uma fila ordenada por Timestamp, de forma que as páginas que tem o bit de referência 1 (indica que foram acessadas recentemente) recebem uma segunda chance e vão para o final da fila (timestamp atualizado e bit de referência alterado para 0). A primeira página que tem o bit de referência 0 (não foi acessada recentemente) é escolhida como vítima. <br>
+                        <br><img src="assets/second_chance_chart.jpg" width="98%" >
+                  </p>
+                  <h4 *ngIf="!segundaChance" style="color: red;"> Tente Novamente!!!</h4>
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
             </div>
       </div>
       </div>

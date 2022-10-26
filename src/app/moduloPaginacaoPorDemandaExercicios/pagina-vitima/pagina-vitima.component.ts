@@ -51,7 +51,7 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
     this.preencherMemoriaFisica();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if( this.algoritmoSelecionado == 0 || this.algoritmoSelecionado == 1 || this.algoritmoSelecionado == 2){
       this.secureNumberAlgo = this.algoritmoSelecionado.valueOf();
     }
@@ -61,7 +61,7 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
       this.arrayOrdem = Utils.embaralhamentoFisherYates(Utils.listaNum(this.algoritmoFCFS.lista.length));
       this.paginavitima = 0;
     }
-    else if(this.algoritmoSelecionado == 2){
+    else if(this.algoritmoSelecionado == 2 && this.algoritmoSegundaChance.lista.length > 0){
       this.arrayOrdem = Utils.embaralhamentoFisherYates(Utils.listaNum(this.algoritmoSegundaChance.lista.length));
       
       var temp = this.algoritmoSegundaChance.segundaChance(this.timestamp);
@@ -80,10 +80,14 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
   preencherMemoriaFisica(){
     this.arrayOrdem =[];
     this.memoriaF = [];
+    this.filaDePaginas = [];
+
     this.algoritmoFCFS =  new FCFS();
     this.algoritmoSegundaChance = new SegundaChance();
+    this.algoritmoSegundaChanceOrdenado = new SegundaChance();
+    this.algoritmoHistorico = new HitoricoBitReferencia();
+
     this.corrigir = false;
-    this.filaDePaginas = [];
     this.segundaChance = true;
     
     // cria Lista de Paginas
@@ -108,9 +112,6 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
     }
 
     if(this.algoritmoSelecionado==2){
-
-      this.algoritmoSegundaChanceOrdenado = new SegundaChance();
-      this.algoritmoHistorico = new HitoricoBitReferencia();
 
       for(var x =0; x< this.algoritmoSegundaChance.lista.length;x++){
         this.algoritmoSegundaChanceOrdenado.lista.push(this.algoritmoSegundaChance.lista[x]);
