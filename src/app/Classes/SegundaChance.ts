@@ -1,7 +1,5 @@
 import { Pagina } from './Pagina';
 import { MemoriaFisica } from './MemoriaFisica';
-import { Processo } from './Processo';
-import { Timestamp } from 'rxjs';
 
 export class SegundaChance {
       public lista: Array<Pagina> = [];
@@ -32,9 +30,9 @@ export class SegundaChance {
                               return i;
                         }
                         else {
-                              this.historicoBit[i][0]=0;
+                              this.historicoBit[i][0] = 0;
                               this.lista[i].timeStamp = _time;
-                              _time+=1;
+                              _time += 1;
 
                               var temp = this.lista[i];
                               this.lista.splice(i,1);
@@ -49,6 +47,15 @@ export class SegundaChance {
             }
       }
       
+      paginaVitimaEscolhida(): number{
+            
+            for(var i = 0; i< this.historicoBit.length; i++){
+                  if(this.historicoBit[i][0] == 0 ){
+                        return i;
+                  }
+            }
+            return 0;
+      }
       addPaginaEmMemoriaFisica(memoriaFisica: Array<MemoriaFisica>, paginaX: Pagina, timestamp:number):number{
             var posicaoParaInsercao:number = this.memoriaFisicaCheia(memoriaFisica);
             var posMemoFisica = 0;

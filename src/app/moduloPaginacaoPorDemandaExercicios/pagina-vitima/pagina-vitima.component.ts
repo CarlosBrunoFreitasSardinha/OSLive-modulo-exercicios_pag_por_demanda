@@ -153,6 +153,7 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
     }
 
   correcao():void{
+    
 
       if(this.resposta != this.paginavitima && this.segundaChance) {
         this.segundaChance = false;
@@ -160,6 +161,16 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
       else{
         this.corrigir=!this.corrigir;
         this.segundaChance = true;
+
+        if(this.algoritmoSelecionado == 2){
+        
+          var temp = this.algoritmoSegundaChance.segundaChance(this.timestamp);
+      
+          for(var i=0; i<this.algoritmoSegundaChanceOrdenado.lista.length;i++){
+            if(this.algoritmoSegundaChance.lista[temp].toString().localeCompare( this.algoritmoSegundaChanceOrdenado.lista[i].toString())==0)
+            this.paginavitima = i;
+          }
+        }
       }
   }
 
@@ -170,5 +181,13 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
   statusBitRef(_num: number):void{
     this.corrigir=false;
     this.algoritmoSegundaChance.historicoBit[_num][0] = this.algoritmoSegundaChance.historicoBit[_num][0] == 0 ? 1 : 0;
+    
+    this.paginavitima = this.algoritmoSegundaChance.paginaVitimaEscolhida();
+  }
+
+  verificaGabarito():void{
+    if(this.resposta == this.paginavitima && this.segundaChance) {
+      this.segundaChance = false;
+    }
   }
 }
