@@ -1,3 +1,4 @@
+import { Processo } from "../Classes/Processo";
 
 export namespace Utils{
       const TAM = 8;
@@ -22,6 +23,11 @@ export namespace Utils{
       export function listaNum(num:number):Array<number>{
             var listNum = [];
             for(var i=0; i<num;i++)listNum.push(i);
+            return listNum;
+      }
+      export function quantPaginas(listProc:Array<Processo>):number{
+            var listNum = 0;
+            for(let i of listProc)listNum+=i.pagina.length;
             return listNum;
       }
 

@@ -32,9 +32,9 @@
                                                       <tbody  class="tbody">
                                                             <tr  *ngFor="let  paginaProcessoX of p.pagina;index as pag"  
                                                                         height="33" align="center"style="font-size: 10px">
-                                                                  <td class="leveSombreado" style="-webkit-transition-delay:500ms; background-color:{{p.cor}}; color: #fff; font-size: 12px">
+                                                                  <td class="leveSombreado" style="background-color:{{p.cor}}; color: #fff; font-size: 12px">
                                                                         {{paginaProcessoX.indiceMemoriaLogicaProc}}</td>
-                                                                  <td class="leveSombreado" style="-webkit-transition-delay:500ms; background-color:{{p.cor}}; color: #fff; font-size: 10px">
+                                                                  <td class="leveSombreado" style="background-color:{{p.cor}}; color: #fff; font-size: 10px">
                                                                         
                                                                         <button alt="Página fora da memóroria física" class="btn btn-light" 
                                                                         [disabled]="exercicioSelecionado==2 || exercicioSelecionado==1">
@@ -58,7 +58,7 @@
                                                       </thead>
                                                       <tbody>
                                                             <tr align="center" height="33"  *ngFor="let  paginaProcessoX of p.pagina; index as pag" style="font-size: 10px">
-                                                                  <td class="leveSombreado"  style="-webkit-transition-delay:{{1 * 500}}ms; background-color: {{p.cor}}; color: #FFFFFF; font-size: 12px" >
+                                                                  <td class="leveSombreado"  style="background-color: {{p.cor}}; color: #FFFFFF; font-size: 12px" >
                                                                         {{paginaProcessoX.indiceMemoriaLogicaProc}}
                                                                                     
                                                                         <i *ngIf="exercicioSelecionado==1 && corrigir && (respostaMemoriaLogica[proc].pagina[pag].indiceMemoriaFisica == listaProcessos[proc].pagina[pag].indiceMemoriaFisica)" 
@@ -68,8 +68,7 @@
                                                                   </td>
                   
                                                                   <td class="leveSombreado"
-                                                                        style=" 
-                                                                        background-color: {{(exercicioSelecionado==1 && !corrigir)?p.cor+'69':paginaProcessoX.timeStamp!=0? p.cor: p.cor+'69'}}; 
+                                                                        style="background-color: {{(exercicioSelecionado==1 && !corrigir)?p.cor+'69':paginaProcessoX.timeStamp!=0? p.cor: p.cor+'69'}}; 
                                                                         color: #FFFFFF; font-size: 12px;">
                                                                         <!--Trabalhar aqui-->
                                                                                     {{(exercicioSelecionado!=1)? paginaProcessoX.indiceMemoriaFisica==-1? '-' :paginaProcessoX.indiceMemoriaFisica:''}}

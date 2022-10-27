@@ -17,10 +17,12 @@
                               (enviarDadosMemoria)="setDadosMemoriaFisica($event)"
                               [gambiarra]="getGambiarra"></app-area-exercicio>
 
-                      <app-pagina-vitima *ngIf="getTipoExercicio==3"
+                      <app-pagina-vitima *ngIf="getTipoExercicio==3 && qtdPaginas > 7"
                               [algoritmoSelecionado]="getTipoAlgoritmo" 
                               [listaProcessos]="getDadosProcesso" 
                               [gambiarra]="getGambiarra"></app-pagina-vitima>
+
+                        <app-infortivo *ngIf="getTipoExercicio==3 && qtdPaginas < 8"></app-infortivo>
               </div>
       </div>
 </div>

@@ -14,6 +14,7 @@ export class HomePaginacaoPorDemandaExerciciosComponent implements OnInit {
   public getTipoAlgoritmo: Number = new Number;
   public getGambiarra: Number = new Number;
   public getRespostaMemoriaLogica: Array<Processo> = [];
+  public qtdPaginas = 0;
 
   title = 'OSlive-Ex-paginacao-por-demanda';
 
@@ -32,6 +33,10 @@ export class HomePaginacaoPorDemandaExerciciosComponent implements OnInit {
 
   public setDadosProcesso(event:Array<Processo>){
         this.getDadosProcesso = event;
+        this.qtdPaginas = 0;
+          for(let i of this.getDadosProcesso){
+            this.qtdPaginas+=i.pagina.length;
+          }
         } 
 
   public setDadosMemoriaFisica(event:FIFO){

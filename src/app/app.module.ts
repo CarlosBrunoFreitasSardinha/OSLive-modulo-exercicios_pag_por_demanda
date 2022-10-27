@@ -9,6 +9,7 @@ import { AreaExercicioComponent } from './Modulos/moduloPaginacaoPorDemandaExerc
 import { HomePaginacaoPorDemandaExerciciosComponent } from './Modulos/moduloPaginacaoPorDemandaExercicios/home-paginacao-por-demanda-exercicios/home-paginacao-por-demanda-exercicios.component';
 import { PaginaVitimaComponent } from './Modulos/moduloPaginacaoPorDemandaExercicios/pagina-vitima/pagina-vitima.component';
 import { HomeProjectComponent } from './pages/home-project/home-project.component';
+import { InfortivoComponent } from './Modulos/moduloPaginacaoPorDemandaExercicios/infortivo/infortivo.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { HomeProjectComponent } from './pages/home-project/home-project.componen
     HomePaginacaoPorDemandaExerciciosComponent,
     PaginaVitimaComponent,
     HomeProjectComponent,
+    InfortivoComponent,
   ],
   imports: [
     BrowserModule,

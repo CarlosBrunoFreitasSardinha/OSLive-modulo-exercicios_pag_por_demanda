@@ -33,7 +33,6 @@ export class MenuLateralComponent implements OnInit {
                                                             {nome:"C", exec: 1},
                                                             {nome:"D", exec: 1},
                                                           ];
-  public listaNomesTec: Array<string> = [];
   public listaDeExercicios: Array<{tipo:string, exec: Number}> =[
                             {tipo:"Preencher Memória Lógica", exec: 1},
                             {tipo:"Preencher Memória Fisica", exec: 2},
@@ -60,11 +59,10 @@ export class MenuLateralComponent implements OnInit {
     const arr = event.target.value.split(',');    
     this.exercicioSelecionado={tipo:arr[0], exec: Number(arr[1])};
     // console.log("num Exec Emitido: "+Number(arr[1]))
-    if(this.listaProcessos.length>7 && Number(arr[1])!=3){
-      alert("Quantidade de Processo Insuficiente para o Exercício Selecionado!")
-    }else{
-          this.enviarTipoExercicio.emit(Number(arr[1]));
-      }
+    
+    this.enviarTipoExercicio.emit(Number(arr[1]));
+    this.eGambiarra = this.eGambiarra ==1? 0 : 1;
+    this.enviarGambiarra.emit(this.eGambiarra);
 
   }
 
@@ -79,37 +77,40 @@ export class MenuLateralComponent implements OnInit {
   }
   
   geradorAleatorio():void{
-      if(this.aleatorio){
+    var isPaginaVitimaInCondicion = this.exercicioSelecionado.exec == 3 && Utils.quantPaginas(this.listaProcessos) < 8;
+    
+    if(isPaginaVitimaInCondicion){
+      for(let i of this.listaNomes){
+        i.exec=1;
+      }
+      this.nProcessos = 4;
+      this.listaProcessos = [];
+    }
+      if(this.aleatorio || isPaginaVitimaInCondicion){
         var sequencia:Array<number> = Utils.embaralhamentoFisherYates(Utils.listaNum(this.nProcessos));
-
-        var totalPages =0;
+        
         for (var i = 0; i < this.nProcessos; i++) {
-              var x=0;
-              // conversar com mádia sobre este aleatório
+          var x = 0;
           if(this.listaNomes[sequencia[i]].exec==1){
-            
-            if(this.listaProcessos.length>=2){
+                if(this.exercicioSelecionado.exec == 3){
 
-              if(this.listaProcessos.length==2 && totalPages < 3){
-                x = (Number)(Math.round(Math.random() * 2) + 2);
-              }
-              else if(this.listaProcessos.length==3 && totalPages < 8){
-                x = 4;
-              }
-            }
-            else {
-              x = (Number)(Math.round(Math.random() * 3) + 1);
-            }
+                  if(this.listaProcessos.length>=2){
+                        if(this.listaProcessos.length==2 && Utils.quantPaginas(this.listaProcessos) < 3){ 
+                            x = (Number)(Math.round(Math.random() * 2) + 2);}
 
-            this.cadastrar(new Processo(this.listaNomes[sequencia[i]].nome, x, Utils.gera_cor()));
-            this.listaNomes[i].exec = 0;
-            totalPages += this.listaProcessos[i].pagina.length;
+                        else if(this.listaProcessos.length==3 && Utils.quantPaginas(this.listaProcessos) < 8){ x = 4; }
+
+                    } else x = (Number)(Math.round(Math.random() * 3) + 1);
+                } else x = (Number)(Math.round(Math.random() * 3) + 1);
+
+                this.cadastrar(new Processo(this.listaNomes[sequencia[i]].nome, x, Utils.gera_cor()));
+                this.listaNomes[i].exec = 0;
           }
           else{
-            var x = (Number)(Math.round(Math.random() * 3) + 1);
-            this.cadastrar(new Processo(this.listaNomes[sequencia[i]].nome, x, Utils.gera_cor()));
-            this.listaNomes[i].exec = 0;
-          }
+                var x = (Number)(Math.round(Math.random() * 3) + 1);
+                this.cadastrar(new Processo(this.listaNomes[sequencia[i]].nome, x, Utils.gera_cor()));
+                this.listaNomes[i].exec = 0;
+              }
         }
         
         this.eGambiarra = this.eGambiarra ==1? 2 : 1;
@@ -134,7 +135,7 @@ export class MenuLateralComponent implements OnInit {
         if(this.listaNomes[i].nome==proc.nome)this.listaNomes[i].exec = 1;
       }
 
-      this.listaNomesTec.push(proc.nome);
+      // this.listaNomesTec.push(proc.nome);
 
       this.listaProcessos.splice(v,1);
       this.respostaMemoriaLogica.splice(v,1);
@@ -160,11 +161,10 @@ export class MenuLateralComponent implements OnInit {
           this.respostaMemoriaLogica.push(new Processo(proc.nome, this.nProcessos, Utils.gera_cor(), proc.bit));
         } 
 
-        
       if(!this.aleatorio){
-        var i = this.listaNomesTec.indexOf(proc.nome);
-        this.listaNomes[i].exec = 0;
-        this.listaNomesTec.splice(i, 1);
+        // var i = this.listaNomesTec.indexOf(proc.nome);
+        // this.listaNomes[i].exec = 0;
+        // this.listaNomesTec.splice(i, 1);
       }
 
         this.enviarDados.emit(this.listaProcessos);

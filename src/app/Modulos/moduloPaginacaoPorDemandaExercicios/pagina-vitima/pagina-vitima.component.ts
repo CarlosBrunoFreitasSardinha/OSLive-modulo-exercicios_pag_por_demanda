@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Processo } from '../../../Classes/Processo';
 import { FCFS } from '../../../Classes/FCFS';
 import { HitoricoBitReferencia } from '../../../Classes/HitoricoBitReferencia';

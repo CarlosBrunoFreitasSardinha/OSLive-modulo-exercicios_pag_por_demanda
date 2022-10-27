@@ -71,8 +71,9 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
     // embaralha a ordem das Paginas
     if(this.filaDePaginas.length>0){
       var ordemAleatoriaPaginas: Array<number> = Utils.embaralhamentoFisherYates(Utils.listaNum(this.filaDePaginas.length));
-    
-      for(var i = 0; i<this.TAM;i++){
+      var quantAlocados = this.filaDePaginas.length;
+      if(this.filaDePaginas.length>7)quantAlocados = this.TAM;
+      for(var i = 0; i<quantAlocados;i++){
           this.alocaPaginaEmMemoriaFisica(this.filaDePaginas[ordemAleatoriaPaginas[i]]);
         }
         this.enviarDadosMemoria.emit(this.filaAlgoritmoSelecionado);
