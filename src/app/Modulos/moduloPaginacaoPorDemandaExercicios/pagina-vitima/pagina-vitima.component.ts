@@ -1,12 +1,11 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { Processo } from '../../Classes/Processo';
-import { FCFS } from '../../Classes/FCFS';
-import { HitoricoBitReferencia } from '../../Classes/HitoricoBitReferencia';
-import { SegundaChance } from '../../Classes/SegundaChance';
-import { MemoriaFisica } from '../../Classes/MemoriaFisica';
-import { Pagina } from '../../Classes/Pagina';
+import { Processo } from '../../../Classes/Processo';
+import { FCFS } from '../../../Classes/FCFS';
+import { HitoricoBitReferencia } from '../../../Classes/HitoricoBitReferencia';
+import { SegundaChance } from '../../../Classes/SegundaChance';
+import { MemoriaFisica } from '../../../Classes/MemoriaFisica';
+import { Pagina } from '../../../Classes/Pagina';
 import { Utils } from 'src/app/Bibliotecas/Utils';
-import { isNumber } from '@ng-bootstrap/ng-bootstrap/util/util';
 
 @Component({
   selector: 'app-pagina-vitima',

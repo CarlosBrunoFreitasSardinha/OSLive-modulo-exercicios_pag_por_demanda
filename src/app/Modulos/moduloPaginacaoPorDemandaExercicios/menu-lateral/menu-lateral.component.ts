@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Utils } from 'src/app/Bibliotecas/Utils';
-import { Processo } from '../../Classes/Processo';
+import { Processo } from '../../../Classes/Processo';
 
 @Component({
   selector: 'app-menu-lateral',

@@ -1,9 +1,8 @@
 
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Pagina } from 'src/app/Classes/Pagina';
-import { FIFO } from '../../Classes/FIFO';
-import { MemoriaFisica } from '../../Classes/MemoriaFisica';
-import { Processo } from '../../Classes/Processo';
+import { MemoriaFisica } from '../../../Classes/MemoriaFisica';
+import { Processo } from '../../../Classes/Processo';
 import { Utils } from 'src/app/Bibliotecas/Utils';
 import { FCFS } from 'src/app/Classes/FCFS';
 

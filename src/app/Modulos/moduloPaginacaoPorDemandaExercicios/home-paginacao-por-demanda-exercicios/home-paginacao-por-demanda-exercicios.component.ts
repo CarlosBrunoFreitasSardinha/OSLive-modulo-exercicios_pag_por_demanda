@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Processo } from '../../Classes/Processo';
-import { FIFO } from '../../Classes/FIFO';
+import { Processo } from '../../../Classes/Processo';
+import { FIFO } from '../../../Classes/FIFO';
 
 @Component({
   selector: 'app-home-paginacao-por-demanda-exercicios',
