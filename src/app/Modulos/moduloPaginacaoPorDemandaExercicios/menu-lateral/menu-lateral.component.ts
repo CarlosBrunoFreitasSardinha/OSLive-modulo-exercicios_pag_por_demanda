@@ -84,7 +84,8 @@ export class MenuLateralComponent implements OnInit {
         i.exec=1;
       }
       this.nProcessos = 4;
-      this.listaProcessos = [];
+      this.limparLista(this.listaProcessos);
+      this.limparLista(this.respostaMemoriaLogica);
     }
       if(this.aleatorio || isPaginaVitimaInCondicion){
         var sequencia:Array<number> = Utils.embaralhamentoFisherYates(Utils.listaNum(this.nProcessos));
@@ -128,6 +129,11 @@ export class MenuLateralComponent implements OnInit {
     return -1;
   }
 
+  limparLista(listaMemoLogica: Array<Processo>):void{
+    for (let i of listaMemoLogica){
+      this.excluir(i);
+    }
+  }
   excluir(proc: Processo):void{// console.log('REMOVER ----------------> ' + proc.toString());
     var v:number = this.elementoExiste(proc.nome);
     if(v!=-1){

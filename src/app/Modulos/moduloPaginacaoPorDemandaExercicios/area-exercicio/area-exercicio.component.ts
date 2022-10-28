@@ -42,6 +42,9 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
   
   ngOnChanges(changes: SimpleChanges): void {
     this.preencherMemoriaFisica();
+    console.log("CHANGEI"+this.exercicioSelecionado)
+    console.log(this.respostaMemoriaLogica)
+    console.log(this.listaProcessos)
   }
 
   preencherMemoriaFisica(){
