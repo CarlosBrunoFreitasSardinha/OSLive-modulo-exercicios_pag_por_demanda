@@ -22,6 +22,7 @@ export class MenuLateralComponent implements OnInit {
   public geraAleatorio: boolean = true;
   public nProcessos: number = 4;
   public eGambiarra: number = 1;
+  public PaginaVitimaCondicaoMinima = false;
   
   public selectedProcesso = new Processo('', 0, '#000', false);
 
@@ -64,6 +65,7 @@ export class MenuLateralComponent implements OnInit {
     this.eGambiarra = this.eGambiarra ==1? 0 : 1;
     this.enviarGambiarra.emit(this.eGambiarra);
 
+    this.PaginaVitimaCondicaoMinima = this.exercicioSelecionado.exec == 3 && Utils.quantPaginas(this.listaProcessos) < 8;
   }
 
   escolheEscalonador(event:any){
@@ -77,9 +79,8 @@ export class MenuLateralComponent implements OnInit {
   }
   
   geradorAleatorio():void{
-    var isPaginaVitimaInCondicion = this.exercicioSelecionado.exec == 3 && Utils.quantPaginas(this.listaProcessos) < 8;
-    
-    if(isPaginaVitimaInCondicion){
+    this.PaginaVitimaCondicaoMinima = this.exercicioSelecionado.exec == 3 && Utils.quantPaginas(this.listaProcessos) < 8;
+    if(this.PaginaVitimaCondicaoMinima){
       for(let i of this.listaNomes){
         i.exec=1;
       }
@@ -87,7 +88,7 @@ export class MenuLateralComponent implements OnInit {
       this.limparLista(this.listaProcessos);
       this.limparLista(this.respostaMemoriaLogica);
     }
-      if(this.aleatorio || isPaginaVitimaInCondicion){
+      if(this.aleatorio || this.PaginaVitimaCondicaoMinima){
         var sequencia:Array<number> = Utils.embaralhamentoFisherYates(Utils.listaNum(this.nProcessos));
         
         for (var i = 0; i < this.nProcessos; i++) {
@@ -97,19 +98,22 @@ export class MenuLateralComponent implements OnInit {
 
                   if(this.listaProcessos.length>=2){
                         if(this.listaProcessos.length==2 && Utils.quantPaginas(this.listaProcessos) < 3){ 
-                            x = (Number)(Math.round(Math.random() * 2) + 2);}
+                            x = (Number)(Math.round(Math.random() * 2) + 2);
+                          }
 
-                        else if(this.listaProcessos.length==3 && Utils.quantPaginas(this.listaProcessos) < 8){ x = 4; }
+                        else if(this.listaProcessos.length==3 && Utils.quantPaginas(this.listaProcessos) < 8){ 
+                          x = 4; 
+                        }
 
                     } else x = (Number)(Math.round(Math.random() * 3) + 1);
                 } else x = (Number)(Math.round(Math.random() * 3) + 1);
 
-                this.cadastrar(new Processo(this.listaNomes[sequencia[i]].nome, x, Utils.gera_cor()));
+                this.cadastrar(new Processo(this.listaNomes[sequencia[i]].nome, x, Utils.gera_cor(this.listaProcessos)));
                 this.listaNomes[i].exec = 0;
           }
           else{
                 var x = (Number)(Math.round(Math.random() * 3) + 1);
-                this.cadastrar(new Processo(this.listaNomes[sequencia[i]].nome, x, Utils.gera_cor()));
+                this.cadastrar(new Processo(this.listaNomes[sequencia[i]].nome, x, Utils.gera_cor(this.listaProcessos)));
                 this.listaNomes[i].exec = 0;
               }
         }
@@ -134,6 +138,19 @@ export class MenuLateralComponent implements OnInit {
       this.excluir(i);
     }
   }
+
+  processosOrdenados(listaDeProcessos: Array<Processo>):Array<Processo>{
+    var temp: Array<Processo> = [];
+
+    for (let i of listaDeProcessos){
+      if(i.nome == "A")temp[0] = i;
+      else if(i.nome == "B")temp[1] = i;
+      else if(i.nome == "C")temp[2] = i;
+      else if(i.nome == "D")temp[3] = i;
+    }
+    return temp;
+  }
+
   excluir(proc: Processo):void{// console.log('REMOVER ----------------> ' + proc.toString());
     var v:number = this.elementoExiste(proc.nome);
     if(v!=-1){
@@ -155,27 +172,13 @@ export class MenuLateralComponent implements OnInit {
   }
 
   cadastrar(proc: Processo):void{ 
-    // console.log('CADASTRAR --> ' + proc.toString());
     if(this.validaP(proc) && this.elementoExiste(proc.nome)==-1){
 
-        if(proc.pagina.length!=0){
-          this.listaProcessos.push(new Processo(proc.nome, proc.pagina.length, Utils.gera_cor(), proc.bit));
-          this.respostaMemoriaLogica.push(new Processo(proc.nome, proc.pagina.length, Utils.gera_cor(), proc.bit));
-        }
-        else{
-          this.listaProcessos.push(new Processo(proc.nome, this.nProcessos, Utils.gera_cor(), proc.bit));
-          this.respostaMemoriaLogica.push(new Processo(proc.nome, this.nProcessos, Utils.gera_cor(), proc.bit));
-        } 
-
-      if(!this.aleatorio){
-        // var i = this.listaNomesTec.indexOf(proc.nome);
-        // this.listaNomes[i].exec = 0;
-        // this.listaNomesTec.splice(i, 1);
-      }
+        this.listaProcessos.push(new Processo(proc.nome, proc.pagina.length, proc.cor, proc.bit));
+        this.respostaMemoriaLogica.push(new Processo(proc.nome, proc.pagina.length, proc.cor, proc.bit));
 
         this.enviarDados.emit(this.listaProcessos);
         this.enviarRespostaMemoriaLogica.emit(this.respostaMemoriaLogica);
-        // this.enviarRespostaMemoriaLogica = new EventEmitter();
 
         this.eGambiarra = this.eGambiarra ==1? 2 : 1;
         this.enviarGambiarra.emit(this.eGambiarra);

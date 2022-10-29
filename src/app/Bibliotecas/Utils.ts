@@ -10,21 +10,32 @@ export namespace Utils{
             return array;
           }
 
-      export function gera_cor(): string{		// gera cor aleatoria
-            var hexadecimais = '0123456789ABCDEF';
-            var cor = '#';
-            // Pega um número aleatório no array acima
-            for (var i = 0; i < 6; i++ ) {
-            //E concatena à variável cor
-                  cor += hexadecimais[Math.floor(Math.random() * 16)];
-            }
-            return cor;
+      export function gera_cor(coresJaUtilizadas:Array<Processo> = []): string{
+                  var coresDisponiveis:Array<string> = [
+                        "#0780A7",
+                        "#785964",
+                        "#bf565c",
+                        "#4B706A",
+                        "#6A5ACD",
+                        "#a5e3fc",
+                        "#D2691E",
+                        "#FF69B4",
+                        "#FFD700",
+                        "#696969"
+                  ]
+                  for (var i = 0; i < coresJaUtilizadas.length; i++ ) {
+                        var pos = coresDisponiveis.indexOf(coresJaUtilizadas[i].cor);
+                        if(pos!=-1)coresDisponiveis.splice(pos, 1);
+                  }
+            return coresDisponiveis[Math.floor(Math.random() * coresDisponiveis.length)];
       }
+
       export function listaNum(num:number):Array<number>{
             var listNum = [];
             for(var i=0; i<num;i++)listNum.push(i);
             return listNum;
       }
+      
       export function quantPaginas(listProc:Array<Processo>):number{
             var listNum = 0;
             for(let i of listProc)listNum+=i.pagina.length;
