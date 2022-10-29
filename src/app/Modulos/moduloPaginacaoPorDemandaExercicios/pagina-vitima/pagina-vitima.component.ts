@@ -6,6 +6,7 @@ import { SegundaChance } from '../../../Classes/SegundaChance';
 import { MemoriaFisica } from '../../../Classes/MemoriaFisica';
 import { Pagina } from '../../../Classes/Pagina';
 import { Utils } from 'src/app/Bibliotecas/Utils';
+import { TAM, STR_MEMORIA_VAZIA, MEMORIA_FISICA_COR, TIMESTAMP_INICIAL, STR_BIT_ESTADO } from 'src/app/Bibliotecas/Constantes';
 
 @Component({
   selector: 'app-pagina-vitima',
@@ -16,7 +17,7 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
 
   @Input() public algoritmoSelecionado: Number = new Number;
   @Input() public listaProcessos: Array<Processo> = [];
-  @Input() public gambiarra: Number = new Number;
+  @Input() public recursoTecnico: Number = new Number;
 
   public title: string = "Determine a Página Vítima";
   public algoritmoEscalonamento: Array<string> =[
@@ -25,19 +26,20 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
     "Exercício com Segunda Chance",
     ];
 
-  TAM: number = 8;
-  timestamp:number = 100;
-  strMemoFisicaCor: string = '#7FB174';
-  strMemoVazia: string = '-';
+  TAM: number = TAM;
+  timestamp:number = TIMESTAMP_INICIAL;
+  strMemoFisicaCor: string = MEMORIA_FISICA_COR;
+  strMemoVazia: string = STR_MEMORIA_VAZIA;
   arrayOrdem:Array<number> = [];
 
-  public memoriaF: Array<MemoriaFisica> = [];
-  public filaDePaginas: Array<Pagina> = [];
   corrigir: boolean = false;
   paginavitima: number = 0;
   secureNumberAlgo: number = 0;
   segundaChance = true;
-  public resposta: number = 1;
+  resposta: number = 1;
+
+  public memoriaF: Array<MemoriaFisica> = [];
+  public filaDePaginas: Array<Pagina> = [];
 
   public algoritmoFCFS = new FCFS();
   public algoritmoHistorico = new HitoricoBitReferencia();
@@ -48,6 +50,7 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
 
   ngOnInit(): void {
     this.preencherMemoriaFisica();
+    console.log()
   }
 
   ngOnChanges(): void {

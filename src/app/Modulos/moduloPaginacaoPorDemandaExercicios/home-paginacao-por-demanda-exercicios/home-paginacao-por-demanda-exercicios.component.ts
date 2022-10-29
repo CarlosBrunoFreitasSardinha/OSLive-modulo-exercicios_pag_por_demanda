@@ -12,8 +12,9 @@ export class HomePaginacaoPorDemandaExerciciosComponent implements OnInit {
   public getDadosPaginas: FIFO = new FIFO();
   public getTipoExercicio: Number = new Number;
   public getTipoAlgoritmo: Number = new Number;
-  public getGambiarra: Number = new Number;
+  public getRecursoTecnico: Number = new Number;
   public getRespostaMemoriaLogica: Array<Processo> = [];
+  public getBack: Number = new Number;
   public qtdPaginas = 0;
 
   title = 'OSlive-Ex-paginacao-por-demanda';
@@ -23,9 +24,13 @@ export class HomePaginacaoPorDemandaExerciciosComponent implements OnInit {
   public setTipoAlgoritmo(event:number){
           this.getTipoAlgoritmo = event;
         } 
-  public setGambiarra(event:number){
-          this.getGambiarra = event;
+  public setRecursoTecnico(event:number){
+          this.getRecursoTecnico = event;
         } 
+
+  public setBack(event:number){
+    this.getBack = event;
+  } 
 
   public setTipoExercicio(event:number){
           this.getTipoExercicio = event;

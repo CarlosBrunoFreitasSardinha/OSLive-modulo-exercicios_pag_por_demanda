@@ -1,6 +1,6 @@
 import { Pagina } from './Pagina';
 import { MemoriaFisica } from './MemoriaFisica';
-import { Processo } from './Processo';
+import { TAM, STR_MEMORIA_VAZIA, MEMORIA_FISICA_COR} from 'src/app/Bibliotecas/Constantes';
 
 export class HitoricoBitReferencia {
       public lista: Array<Pagina> = [];
@@ -10,7 +10,7 @@ export class HitoricoBitReferencia {
       }
       memoriaFisicaCheia(memoriaFisica: Array<MemoriaFisica>): number{
             for(var i =0; i< memoriaFisica.length;i++){
-                  if(memoriaFisica[i].nome.localeCompare('-')==0)return i;
+                  if(memoriaFisica[i].nome.localeCompare(STR_MEMORIA_VAZIA)==0)return i;
             }
             return -1;
       }
@@ -67,7 +67,7 @@ export class HitoricoBitReferencia {
       }
       
       addPaginaEmMemoriaFisica(memoriaFisica: Array<MemoriaFisica>, paginaX: Pagina, timestamp:number):number{
-            var posicaoParaInsercao:number = this.memoriaFisicaCheia(memoriaFisica);
+            var posicaoParaInsercao: number = this.memoriaFisicaCheia(memoriaFisica);
             var posMemoFisica = 0;
             var TAM: number = 4;
 
@@ -99,17 +99,14 @@ export class HitoricoBitReferencia {
       }
 
       removerProcesso(memoriaFisica: Array<MemoriaFisica>, paginaX: Pagina,):number{
-            var TAM: number = 8;
-            var strMemoFisicaCor: string = '#7FB174';
-            var strMemoVazia: string = '-';
             var pos = this.lista.indexOf(paginaX);
 
             for(var i=0; i< TAM;i++){
                 if(memoriaFisica[i].nome.localeCompare(paginaX.toString())==0){
     
                   
-                  memoriaFisica[i].nome = strMemoVazia;
-                  memoriaFisica[i].cor = strMemoFisicaCor;
+                  memoriaFisica[i].nome = STR_MEMORIA_VAZIA;
+                  memoriaFisica[i].cor = MEMORIA_FISICA_COR;
                   memoriaFisica[i].horaCarga = 0;
     
                   paginaX.indiceMemoriaFisica = -1;;

@@ -5,6 +5,7 @@ import { MemoriaFisica } from '../../../Classes/MemoriaFisica';
 import { Processo } from '../../../Classes/Processo';
 import { Utils } from 'src/app/Bibliotecas/Utils';
 import { FCFS } from 'src/app/Classes/FCFS';
+import { TAM, STR_MEMORIA_VAZIA, MEMORIA_FISICA_COR, TIMESTAMP_INICIAL, STR_BIT_ESTADO } from 'src/app/Bibliotecas/Constantes';
 
 @Component({
   selector: 'app-area-exercicio',
@@ -20,11 +21,13 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
   @Input() public gambiarra: Number = new Number;
   
   @Output() public enviarDadosMemoria = new EventEmitter();
+  @Output() public enviarBack:EventEmitter<any> = new EventEmitter();
 
-  TAM: number = 8;
-  timestamp:number = 100;
-  strMemoFisicaCor: string = '#7FB174';
-  strMemoVazia: string = '-';
+  TAM: number = TAM;
+  timestamp:number = TIMESTAMP_INICIAL;
+  strMemoFisicaCor: string = MEMORIA_FISICA_COR;
+  strMemoVazia: string = STR_MEMORIA_VAZIA;
+  arrBitEstado: Array<string> = STR_BIT_ESTADO;
 
   public memoriaF: Array<MemoriaFisica> = [];
   public filaAlgoritmoSelecionado: FCFS = new FCFS();
@@ -35,6 +38,9 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
   opcaoSelecionada:Array<any> = [];
   opcaoSelecionadaCorrecao:Array<boolean> = [];
   corrigir: boolean = false;
+  visualizarResposta:boolean = false;
+  back: Number =0;
+  nivelAcerto: number = 100;
 
   ngOnInit(): void {
     this.preencherMemoriaFisica();
@@ -53,6 +59,7 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
     this.opcaoSelecionada = [];
     this.opcaoSelecionadaCorrecao = [];
     this.corrigir = false;
+    this.visualizarResposta = false;
     this.filaDePaginas = [];
 
     // cria Lista de Paginas
@@ -115,7 +122,39 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
   }
 
   correcao():void{
-    this.corrigir=!this.corrigir;
+    var acertos = 0;
+    var total = 0;
+    if(this.exercicioSelecionado == 1){
+      for(var i=0; i<this.respostaMemoriaLogica.length;i++){
+        for(var j=0; j<this.respostaMemoriaLogica[i].pagina.length;j++){
+          if(this.respostaMemoriaLogica[i].pagina[j].indiceMemoriaFisica != this.listaProcessos[i].pagina[j].indiceMemoriaFisica){
+            acertos+=1;
+          }
+          total+=1;
+        }
+      }
+      console.log("quant Erros 1 == "+acertos)
+      console.log("quant Erros 1 == "+(acertos/total)*100+"%")
+    }
+    else{
+      for(var i=0; i<this.memoriaF.length;i++){
+          if(this.memoriaF[i].nome != this.respostaMemoriaFisica[i].nome){
+            acertos+=1;
+          }
+          total+=1;
+      }
+      console.log("quant Erros 2 == "+acertos)
+      console.log("quant Erros 2 == "+(acertos/total)*100+"%")
+    }
+    if(!this.visualizarResposta)this.corrigir=!this.corrigir;
+    
+  }
+  visualizarRespostaExercicio():void{
+    this.visualizarResposta=!this.visualizarResposta;
+  }
+  reiniciar():void{
+    this.back = this.back == 1 ? 2 : 1;
+    this.enviarBack.emit(this.back);
   }
   counter(i: number) {
     return new Array(i);

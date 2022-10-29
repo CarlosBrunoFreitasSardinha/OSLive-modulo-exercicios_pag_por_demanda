@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Utils } from 'src/app/Bibliotecas/Utils';
 import { Processo } from '../../../Classes/Processo';
 
@@ -8,7 +8,9 @@ import { Processo } from '../../../Classes/Processo';
   styleUrls: ['./menu-lateral.component.css']
 })
 
-export class MenuLateralComponent implements OnInit {
+export class MenuLateralComponent implements OnInit, OnChanges {
+
+  @Input() public back: Number = new Number;
 
   @Output() public enviarRespostaMemoriaLogica:EventEmitter<any> = new EventEmitter();
   @Output() public enviarDados:EventEmitter<any> = new EventEmitter();
@@ -16,12 +18,13 @@ export class MenuLateralComponent implements OnInit {
   @Output() public enviarTipoExercicio:EventEmitter<any> = new EventEmitter();
   @Output() public enviarTipoAlgoritmo:EventEmitter<any> = new EventEmitter();
 
-  @Output() public enviarGambiarra:EventEmitter<any> = new EventEmitter();
+  @Output() public enviarRecursoTecnico:EventEmitter<any> = new EventEmitter();
 
   public aleatorio: boolean = true;
   public geraAleatorio: boolean = true;
   public nProcessos: number = 4;
-  public eGambiarra: number = 1;
+  public eRecursoTecnico: number = 1;
+  public eBack:Number=0;
   public PaginaVitimaCondicaoMinima = false;
   
   public selectedProcesso = new Processo('', 0, '#000', false);
@@ -45,7 +48,7 @@ export class MenuLateralComponent implements OnInit {
                             {tipo:"Segunda Chance", exec: 2},
                           ];
 
-  public exercicioSelecionado:{tipo:string, exec: Number} = {tipo:"", exec: -1};
+  public exercicioSelecionado:{tipo:string, exec: Number} = {tipo:"", exec: 1};
   public escalonador: {tipo:string, exec: Number} = {tipo:"", exec: 0};
 
   
@@ -53,17 +56,28 @@ export class MenuLateralComponent implements OnInit {
   ngOnInit(): void {
     this.enviarTipoExercicio.emit(this.exercicioSelecionado.exec);
     this.enviarTipoAlgoritmo.emit(0);
-    this.enviarGambiarra.emit(0);
+    this.enviarRecursoTecnico.emit(0);
+  }
+
+  ngOnChanges(): void {
+    if(this.eBack != this.back.valueOf()){
+      this.eBack = this.back.valueOf();
+      this.listaProcessos = [];
+      this.respostaMemoriaLogica = [];
+      this.enviarTipoExercicio.emit(1);
+      this.enviarRespostaMemoriaLogica.emit(this.respostaMemoriaLogica);
+      this.enviarDados.emit(this.listaProcessos);
+      this.aleatorio = true;
+    }
   }
 
   escolheExercicio(event:any){
     const arr = event.target.value.split(',');    
-    this.exercicioSelecionado={tipo:arr[0], exec: Number(arr[1])};
-    // console.log("num Exec Emitido: "+Number(arr[1]))
+    this.exercicioSelecionado={tipo:arr[0], exec: Number(arr[1])};// console.log("num Exec Emitido: "+Number(arr[1]))
     
     this.enviarTipoExercicio.emit(Number(arr[1]));
-    this.eGambiarra = this.eGambiarra ==1? 0 : 1;
-    this.enviarGambiarra.emit(this.eGambiarra);
+    this.eRecursoTecnico = this.eRecursoTecnico ==1? 0 : 1;
+    this.enviarRecursoTecnico.emit(this.eRecursoTecnico);
 
     this.PaginaVitimaCondicaoMinima = this.exercicioSelecionado.exec == 3 && Utils.quantPaginas(this.listaProcessos) < 8;
   }
@@ -74,8 +88,8 @@ export class MenuLateralComponent implements OnInit {
     // console.log("num Escalonador Emitido: "+Number(arr[1]))
     this.enviarTipoAlgoritmo.emit(Number(arr[1]));
     
-    this.eGambiarra = this.eGambiarra ==1? 0 : 1;
-    this.enviarGambiarra.emit(this.eGambiarra);
+    this.eRecursoTecnico = this.eRecursoTecnico ==1? 0 : 1;
+    this.enviarRecursoTecnico.emit(this.eRecursoTecnico);
   }
   
   geradorAleatorio():void{
@@ -118,8 +132,8 @@ export class MenuLateralComponent implements OnInit {
               }
         }
         
-        this.eGambiarra = this.eGambiarra ==1? 2 : 1;
-        this.enviarGambiarra.emit(this.eGambiarra);
+        this.eRecursoTecnico = this.eRecursoTecnico ==1? 2 : 1;
+        this.enviarRecursoTecnico.emit(this.eRecursoTecnico);
       }
     this.aleatorio = false;
   }
@@ -166,8 +180,8 @@ export class MenuLateralComponent implements OnInit {
       this.enviarDados.emit(this.listaProcessos);
       this.enviarRespostaMemoriaLogica.emit(this.respostaMemoriaLogica);
       
-      this.eGambiarra = this.eGambiarra ==1? 2 : 1;
-      this.enviarGambiarra.emit(this.eGambiarra);
+      this.eRecursoTecnico = this.eRecursoTecnico ==1? 2 : 1;
+      this.enviarRecursoTecnico.emit(this.eRecursoTecnico);
     }
   }
 
@@ -180,8 +194,8 @@ export class MenuLateralComponent implements OnInit {
         this.enviarDados.emit(this.listaProcessos);
         this.enviarRespostaMemoriaLogica.emit(this.respostaMemoriaLogica);
 
-        this.eGambiarra = this.eGambiarra ==1? 2 : 1;
-        this.enviarGambiarra.emit(this.eGambiarra);
+        this.eRecursoTecnico = this.eRecursoTecnico ==1? 2 : 1;
+        this.enviarRecursoTecnico.emit(this.eRecursoTecnico);
       }
     else this.cancelar();
     

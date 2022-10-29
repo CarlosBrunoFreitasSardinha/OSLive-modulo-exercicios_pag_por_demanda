@@ -143,30 +143,34 @@
       </div>
 </div>
 
-
-<!-- INFO Acessar pg-->
-<div class="modal fade" id="acessar_pg" tabindex="-1" role="dialog" aria-labelledby="lb_acessar_pg" aria-hidden="true">
+<!-- INFO Sobre tabela de memória lógica-->
+<div class="modal fade" id="tb_memoria_logica" tabindex="-1" role="dialog" aria-labelledby="label_tb_memoria_logica" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="lb_acessar_pg">Simular acesso a página</h5>
+            <h5 class="modal-title" id="label_tb_memoria_logica">Memória lógica</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
             </button>
             </div>
             <div class="modal-body">
-            <p style="line-height: 1.8; text-align: justify;" > 
-                  A opção “Acessar PG” permite alterar o bit de referência da página – bit de referência 1 indica que a página foi acessada recentemente.
-                  <br>
-                  <img src="assets/status_bit.jpg" width="90%" height="90%" style="padding-left: 5.5%;">				
-            </p>
+                  <p style="line-height: 1.5; text-align: justify;" > 
+                        Quando um programa é executado, um processo é criado e seu espaço de endereçamento é alocado na memória lógica. 
+                        Cada processo possui uma memória lógica contígua, dividida em páginas lógicas de mesmo tamanho. 
+                        <br>
+                        <br>
+                        O conteúdo referente às páginas lógicas são carregados em páginas físicas (ou quadros), não necessariamente contíguos.
+                        <br>
+                        <br>
+                        Uma tabela de páginas associa as páginas lógicas com as páginas físicas.
+                  </p>
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
             </div>
       </div>
       </div>
-</div>	
+</div>
 <!-- INFO Sobre Memória Física-->
 <div class="modal fade" id="tb_memoria_fisica" tabindex="-1" role="dialog" aria-labelledby="label_tb_memoria_fisica" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
@@ -179,16 +183,18 @@
             </div>
             <div class="modal-body">
             <p style="line-height: 1.8; text-align: justify;" > 
-                  A memória RAM (Random Access Memory) é um componente físico aclopado a placa mãe, ela é o único
-                  espaçamento de memória que recebe acesso através de endereço direto pelo processador.
+                  A memória RAM (Random Access Memory) é um componente físico acoplado à placa mãe. 
+                  Nela, são armazenados os dados dos processos.
                   <br>
                   <br>
-                  Considerando que espaço físico da memória é limitado, o gerenciamento de memória é necessário para 
-                  que a maior quantidade de informação possível possa ser carregada e disponibilizada na memória.
+                  Na paginação pode demanda,  a memória RAM é dividida em páginas físicas,  
+                  representada aqui por uma tabela contendo 8 linhas, em que cada linha representa uma página física. 
+                  O conteúdo referente às páginas lógicas são carregados nas páginas físicas.
                   <br>
                   <br>
-                  Para simular esse gerenciamento, a memória RAM é representada por uma tabela contendo dois quadros de quatro
-                  páginas cada, resultando em oito espaços para carregamento de páginas dos processos criados.
+                  Considerando que espaço físico da memória é limitado, apenas páginas lógicas utilizadas são carregadas 
+                  para a memória física, assim, o disco (HD) é utilizado como um mecanismo de memória virtual para armazenar
+                   todo o conteúdo do processo.
                   <br>
                   <br>
                   <img src="assets/memory_ram.png" width="75%" style="padding-left: 25%;" >				
