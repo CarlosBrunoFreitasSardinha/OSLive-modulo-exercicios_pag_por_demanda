@@ -22,7 +22,8 @@
                         <app-pagina-vitima *ngIf="getTipoExercicio==3 && qtdPaginas > 7"
                                 [algoritmoSelecionado]="getTipoAlgoritmo" 
                                 [listaProcessos]="getDadosProcesso" 
-                                [recursoTecnico]="getRecursoTecnico"></app-pagina-vitima>
+                                [recursoTecnico]="getRecursoTecnico"
+                                (enviarBack)="setBack($event)"></app-pagina-vitima>
 
                         <app-infortivo *ngIf="getTipoExercicio==3 && qtdPaginas < 8"></app-infortivo>
               </div>

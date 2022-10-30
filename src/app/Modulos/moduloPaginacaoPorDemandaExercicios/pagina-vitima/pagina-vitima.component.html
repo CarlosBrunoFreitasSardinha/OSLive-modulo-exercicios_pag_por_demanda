@@ -58,13 +58,13 @@
                                                                         ? algoritmoHistorico.lista[pag].cor
                                                                         : algoritmoSelecionado==0 
                                                                               ? algoritmoFCFS.lista[pag].cor 
-                                                                              : algoritmoSegundaChanceOrdenado.lista[pag].cor
+                                                                              : algoritmoSegundaChance.lista[pag].cor
                                                                   }}; color: #fff; font-size: 12px">
                                                                   {{ algoritmoSelecionado ==1 
                                                                         ? algoritmoHistorico.lista[pag].toString()
                                                                         : algoritmoSelecionado==0 
                                                                               ? algoritmoFCFS.lista[pag].toString() 
-                                                                              : algoritmoSegundaChanceOrdenado.lista[pag].toString()
+                                                                              : algoritmoSegundaChance.lista[pag].toString()
                                                                   }}</td>
                                                                   
                                                             <td  class="leveSombreado" *ngFor="let  bitAcess of 
@@ -78,14 +78,14 @@
                                                                         ? algoritmoHistorico.lista[pag].cor
                                                                         : algoritmoSelecionado==0 
                                                                               ? algoritmoFCFS.lista[pag].cor 
-                                                                              : algoritmoSegundaChanceOrdenado.lista[pag].cor
+                                                                              : algoritmoSegundaChance.lista[pag].cor
                                                                   }}; color: #fff; font-size: 10px">
                                                                   {{algoritmoSelecionado==0
                                                                               ? memoriaF[pag].horaCarga
                                                                               : algoritmoSelecionado==2
                                                                                     ? arre==0
-                                                                                          ? algoritmoSegundaChanceOrdenado.lista[pag].timeStamp
-                                                                                          : algoritmoSegundaChanceOrdenado.historicoBit[pag][0]
+                                                                                          ? algoritmoSegundaChance.lista[pag].timeStamp
+                                                                                          : algoritmoSegundaChance.bitReferencia[pag]
                                                                                     : bitAcess}}
                                                             </td>
 
@@ -95,7 +95,7 @@
                                                                         ? algoritmoHistorico.lista[pag].cor
                                                                         : algoritmoSelecionado==0 
                                                                               ? algoritmoFCFS.lista[pag].cor 
-                                                                              : algoritmoSegundaChanceOrdenado.lista[pag].cor
+                                                                              : algoritmoSegundaChance.lista[pag].cor
                                                                         }}; color: #fff; font-size: 12px;">
 
                                                                   <input [(ngModel)]="resposta" type="radio" id="resposta" name="resposta"
@@ -106,32 +106,6 @@
                                                       </tr>
                                                 </tbody>
                                           </table>
-                              </div>
-                              <!-- BOTÃO CORRIGIR -->
-                              <div class="col-3  align-self-end linhaExercicio">
-                                    <button class="btn btn-success" (click)="correcao()" 
-                                          *ngIf="listaProcessos.length!=0 && secureNumberAlgo==0 && segundaChance && (resposta!=paginavitima)"
-                                          data-toggle="modal" data-target="#fcfs">
-                                                Corrigir
-                                                <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                                          </button> 
-                                    <button class="btn btn-success" (click)="correcao()" 
-                                          *ngIf="listaProcessos.length!=0 && secureNumberAlgo==1 && segundaChance && (resposta!=paginavitima)"
-                                          data-toggle="modal" data-target="#historico_bit_referencia">
-                                                Corrigir
-                                                <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                                          </button> 
-                                    <button class="btn btn-success" (click)="correcao()" 
-                                          *ngIf="listaProcessos.length!=0 && secureNumberAlgo==2 && segundaChance && (resposta!=paginavitima)"
-                                          data-toggle="modal" data-target="#segunda_chance">
-                                                Corrigir
-                                                <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                                          </button>
-                                    <button class="btn btn-success" (click)="correcao()" 
-                                          *ngIf="listaProcessos.length!=0 && (resposta==paginavitima) || !segundaChance">
-                                                Corrigir
-                                                <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                                          </button>
                               </div>
                         </div>
                   </div>
@@ -185,6 +159,59 @@
                   </div>
             </div>
       </div>
+      
+      <div class="col-12">
+            <p>&nbsp;</p>
+      </div>
+      <div class="col-12"  *ngIf="listaProcessos.length">
+            <div class="row align-items-center">
+                  <div class="col-2">&nbsp;</div>
+                  <div class="col-5 ">
+                        <button *ngIf="listaProcessos.length!=0 && secureNumberAlgo==0 && segundaChance && (resposta!=paginavitima)"
+                                    class="btn btn-success btn-lg btnSolicitacaoResposta" (click)="correcao()"
+                                    data-toggle="modal" data-target="#fcfs">
+                                          <i class="fa fa-play" aria-hidden="true"></i>
+                                          Corrigir Resposta </button> 
+
+                        <button *ngIf="listaProcessos.length!=0 && secureNumberAlgo==1 && segundaChance && (resposta!=paginavitima)"
+                                          class="btn btn-success btn-lg btnSolicitacaoResposta" (click)="correcao()"
+                                          data-toggle="modal" data-target="#historico_bit_referencia">
+                                                <i class="fa fa-play" aria-hidden="true"></i>
+                                                Corrigir Resposta </button> 
+
+                        <button *ngIf="listaProcessos.length!=0 && secureNumberAlgo==2 && segundaChance && (resposta!=paginavitima)"
+                                          class="btn btn-success btn-lg btnSolicitacaoResposta" (click)="correcao()"
+                                          data-toggle="modal" data-target="#segunda_chance">
+                                                <i class="fa fa-play" aria-hidden="true"></i>
+                                                Corrigir Resposta </button>
+
+                        <button *ngIf="listaProcessos.length!=0 && (resposta==paginavitima) || !segundaChance" 
+                                    class="btn btn-success btn-lg btnSolicitacaoResposta" (click)="correcao()">
+                                          <i class="fa fa-play" aria-hidden="true"></i>
+                                          Corrigir Resposta </button>
+
+                        <!-- outros buttons -->
+                        <button class="btn btn-primary btn-lg btnSolicitacaoResposta" (click)="visualizarRespostaExercicio()">
+                              <i class="fa fa-play" aria-hidden="true"></i>
+                              Visualizar Resposta </button>
+
+                        <button class="btn btn-danger btn-lg btnSolicitacaoResposta" (click)="reiniciar()">
+                              <i class="fa fa-stop" aria-hidden="true"></i>
+                              Limpar </button>
+
+                  </div>
+                  <div *ngIf="resposta==paginavitima && corrigir" class="col-3 alert alert-success" role="alert">
+                        <h4 class="alert-heading">
+                              <i class="fa fa-star" aria-hidden="true"> Muito bem! Você Acertou.</i></h4>
+                        <hr>
+                  </div>
+                  <div *ngIf="resposta!=paginavitima && corrigir" class="col-3 alert alert-danger" role="alert">
+                        <h4 class="alert-heading">
+                              <i class="fa fa-exclamation-triangle" aria-hidden="true"> Que pena! Você Errou.</i></h4>
+                        <hr>
+                  </div>
+            </div>
+      </div>
 </div>
 
 <!-- Animação---------------------------------------------------------------------------------------------------------------->
@@ -220,10 +247,10 @@
                                     <img src="assets/info_ico.png" width="13px" alt=""></a>
                               </td>
                         
-                        <td *ngFor="let i of algoritmoSegundaChance.historicoBit; index as k;" width="40" 
+                        <td *ngFor="let i of algoritmoSegundaChance.bitReferencia; index as k;" width="40" 
                         class="leveSombreado"
                         style="text-align: center;animation-delay: 500ms; background-color:{{algoritmoSegundaChance.lista[k].cor}}; color: #FFFFFF; font-size: 12px">
-                        {{i[0]}}
+                        {{i}}
                         </td>
                   </tr>
             </table>

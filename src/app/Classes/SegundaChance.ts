@@ -4,7 +4,7 @@ import { TAM, STR_MEMORIA_VAZIA, MEMORIA_FISICA_COR} from 'src/app/Bibliotecas/C
 
 export class SegundaChance {
       public lista: Array<Pagina> = [];
-      public historicoBit: Array<Array<number>> = [];
+      public bitReferencia: Array<number> = [];
 
       constructor (){
       }
@@ -15,23 +15,14 @@ export class SegundaChance {
             return -1;
       }
 
-      bitAcesso(num: number):Array<number>{
-            var x: Array<number> = [];
-            for(var i = 0; i< num;i++){
-                  x[i] = Math.floor(Math.random() * 2);
-                  // x[i]=1;
-            }
-            return x;
-      }
-
       segundaChance(_time: number,): number{         
             while(true){
-                  for(var i = 0; i< this.historicoBit.length; i++){
-                        if(this.historicoBit[i][0] == 0 ){
+                  for(var i = 0; i< this.bitReferencia.length; i++){
+                        if(this.bitReferencia[i] == 0 ){
                               return i;
                         }
                         else {
-                              this.historicoBit[i][0] = 0;
+                              this.bitReferencia[i] = 0;
                               this.lista[i].timeStamp = _time;
                               _time += 1;
 
@@ -39,9 +30,9 @@ export class SegundaChance {
                               this.lista.splice(i,1);
                               this.lista.push(temp);
                   
-                              var temp2 = this.historicoBit[i];
-                              this.historicoBit.splice(i,1);
-                              this.historicoBit.push(temp2);
+                              var temp2 = this.bitReferencia[i];
+                              this.bitReferencia.splice(i,1);
+                              this.bitReferencia.push(temp2);
                               i--;
                         }
                   }
@@ -50,8 +41,8 @@ export class SegundaChance {
       
       paginaVitimaEscolhida(): number{
             
-            for(var i = 0; i< this.historicoBit.length; i++){
-                  if(this.historicoBit[i][0] == 0 ){
+            for(var i = 0; i< this.bitReferencia.length; i++){
+                  if(this.bitReferencia[i] == 0 ){
                         return i;
                   }
             }
@@ -70,7 +61,7 @@ export class SegundaChance {
                   this.lista[posicaoParaInsercao].indiceMemoriaFisica = -1;
 
                   this.lista.splice(posicaoParaInsercao, 1);
-                  this.historicoBit.splice(posicaoParaInsercao, 1);
+                  this.bitReferencia.splice(posicaoParaInsercao, 1);
             }
             else{
                   posMemoFisica = posicaoParaInsercao;
@@ -84,7 +75,7 @@ export class SegundaChance {
             paginaX.timeStamp = timestamp;
 
             this.lista.push(paginaX);
-            this.historicoBit.push(this.bitAcesso(TAM));
+            this.bitReferencia.push((Math.floor(Math.random() * 15))%2);
 
             return posMemoFisica;
       }
@@ -104,7 +95,7 @@ export class SegundaChance {
                   paginaX.timeStamp = 0;
                   
                   this.lista.splice(pos, 1);
-                  this.historicoBit.splice(pos, 1);
+                  this.bitReferencia.splice(pos, 1);
                   
                   return i;
                 }

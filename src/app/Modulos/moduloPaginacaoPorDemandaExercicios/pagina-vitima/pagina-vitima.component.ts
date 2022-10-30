@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { Processo } from '../../../Classes/Processo';
 import { FCFS } from '../../../Classes/FCFS';
 import { HitoricoBitReferencia } from '../../../Classes/HitoricoBitReferencia';
@@ -19,6 +19,8 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
   @Input() public listaProcessos: Array<Processo> = [];
   @Input() public recursoTecnico: Number = new Number;
 
+  @Output() public enviarBack:EventEmitter<any> = new EventEmitter();
+  
   public title: string = "Determine a Página Vítima";
   public algoritmoEscalonamento: Array<string> =[
     "Exercício com FCFS (first-come-first-served)",
@@ -31,6 +33,9 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
   strMemoFisicaCor: string = MEMORIA_FISICA_COR;
   strMemoVazia: string = STR_MEMORIA_VAZIA;
   arrayOrdem:Array<number> = [];
+  
+  back: Number =0;
+  visualizarResposta:boolean = false;
 
   corrigir: boolean = false;
   paginavitima: number = 0;
@@ -44,7 +49,6 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
   public algoritmoFCFS = new FCFS();
   public algoritmoHistorico = new HitoricoBitReferencia();
   public algoritmoSegundaChance = new SegundaChance();
-  public algoritmoSegundaChanceOrdenado = new SegundaChance();
   
   constructor() { }
 
@@ -63,19 +67,15 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
       this.arrayOrdem = Utils.embaralhamentoFisherYates(Utils.listaNum(this.algoritmoFCFS.lista.length));
       this.paginavitima = 0;
     }
-    else if(this.algoritmoSelecionado == 2 && this.algoritmoSegundaChance.lista.length > 0){
-      this.arrayOrdem = Utils.embaralhamentoFisherYates(Utils.listaNum(this.algoritmoSegundaChance.lista.length));
-      
-      var temp = this.algoritmoSegundaChance.segundaChance(this.timestamp);
 
-      for(var i=0; i<this.algoritmoSegundaChanceOrdenado.lista.length;i++){
-        if(this.algoritmoSegundaChance.lista[temp].toString().localeCompare( this.algoritmoSegundaChanceOrdenado.lista[i].toString())==0)
-        this.paginavitima = i;
-      }
-    }
-    else{
+    else if(this.algoritmoSelecionado == 1){
       this.arrayOrdem = Utils.listaNum(this.algoritmoHistorico.lista.length);
       this.paginavitima = this.algoritmoHistorico.verificaBitReferencia();
+    }
+
+    else if(this.algoritmoSelecionado == 2 && this.algoritmoSegundaChance.lista.length > 0){
+      this.arrayOrdem = Utils.embaralhamentoFisherYates(Utils.listaNum(this.algoritmoSegundaChance.lista.length));
+      this.paginavitima = this.algoritmoSegundaChance.paginaVitimaEscolhida();
     }
   }
 
@@ -86,7 +86,6 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
 
     this.algoritmoFCFS =  new FCFS();
     this.algoritmoSegundaChance = new SegundaChance();
-    this.algoritmoSegundaChanceOrdenado = new SegundaChance();
     this.algoritmoHistorico = new HitoricoBitReferencia();
 
     this.corrigir = false;
@@ -106,19 +105,13 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
       this.memoriaF.push(new MemoriaFisica(i, this.strMemoVazia, this.strMemoFisicaCor,  0));
     }
 
+    // Embaralha a lista de processos a serem alocados ->em seguida os aloca
     if(this.filaDePaginas.length>this.TAM){
         var ordemAleatoriaPaginas: Array<number> = Utils.embaralhamentoFisherYates(Utils.listaNum(this.filaDePaginas.length));
         for(var i = 0; i<this.TAM;i++){
             this.alocaPaginaEmMemoriaFisica(this.filaDePaginas[ordemAleatoriaPaginas[i]]);
-          }
-    }
-
-    if(this.algoritmoSelecionado==2){
-
-      for(var x =0; x< this.algoritmoSegundaChance.lista.length;x++){
-        this.algoritmoSegundaChanceOrdenado.lista.push(this.algoritmoSegundaChance.lista[x]);
-        this.algoritmoSegundaChanceOrdenado.historicoBit.push(this.algoritmoSegundaChance.historicoBit[x]);
-      }
+            if(this.algoritmoSelecionado==2)this.algoritmoSegundaChance.bitReferencia[i] = this.algoritmoSegundaChance.bitReferencia[i]==0 ?1 :0;
+        }
     }
   }
   
@@ -133,7 +126,6 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
     else{
       this.algoritmoSegundaChance.addPaginaEmMemoriaFisica(this.memoriaF, pagX,  this.timestamp);
     }
-
     this.timestamp+=1;
     return true;
   }
@@ -164,17 +156,16 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
       else{
         this.corrigir=!this.corrigir;
         this.segundaChance = true;
-
-        if(this.algoritmoSelecionado == 2){
-        
-          var temp = this.algoritmoSegundaChance.segundaChance(this.timestamp);
-      
-          for(var i=0; i<this.algoritmoSegundaChanceOrdenado.lista.length;i++){
-            if(this.algoritmoSegundaChance.lista[temp].toString().localeCompare( this.algoritmoSegundaChanceOrdenado.lista[i].toString())==0)
-            this.paginavitima = i;
-          }
-        }
       }
+  }
+
+  visualizarRespostaExercicio():void{
+    this.visualizarResposta=!this.visualizarResposta;
+    this.corrigir=false;
+  }
+  reiniciar():void{
+    this.back = this.back == 1 ? 2 : 1;
+    this.enviarBack.emit(this.back);
   }
 
   counter(i: number) {
@@ -183,7 +174,7 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
 
   statusBitRef(_num: number):void{
     this.corrigir=false;
-    this.algoritmoSegundaChance.historicoBit[_num][0] = this.algoritmoSegundaChance.historicoBit[_num][0] == 0 ? 1 : 0;
+    this.algoritmoSegundaChance.bitReferencia[_num] = this.algoritmoSegundaChance.bitReferencia[_num] == 0 ? 1 : 0;
     
     this.paginavitima = this.algoritmoSegundaChance.paginaVitimaEscolhida();
   }
