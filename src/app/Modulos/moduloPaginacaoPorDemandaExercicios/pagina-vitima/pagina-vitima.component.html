@@ -226,23 +226,6 @@
                         {{i[0]}}
                         </td>
                   </tr>
-                  <tr  height="33"  style="text-align: center;width: 50px;">
-                        <td style="font-size: 12px ;background: rgb(63, 61, 61);color: #FFFFFF" >Acesso
-                              <a href="" data-toggle="modal" data-target="#acessar_pg"> 
-                                    <img src="assets/info_ico.png" width="13px" alt="">
-                              </a>
-                        </td>
-                        
-                        <td *ngFor="let i of algoritmoSegundaChance.lista; index as k;" width="25px" height="25px"
-                        class="leveSombreado"
-                        style="text-align: center;animation-delay: 500ms; background-color:{{i.cor}}; color: #FFFFFF; 
-                        font-size: 12px">
-                        <button class="btn btn-default" (click)="statusBitRef(k)"> 
-                              <i class="fa fa-refresh" aria-hidden="true" style="color: #99d43e;"></i>
-                                    </button>
-                                    
-                        </td>
-                  </tr>
             </table>
             <div><p class="alertafifo"></p></div>
       </div>
@@ -262,12 +245,12 @@
                   </button>
             </div>
             <div class="modal-body">
-                  <p style="line-height: 1.5; text-align: justify;" > 
-                        No algoritmo FCFS (First Come First Served), o processo que chega primeiro é enviado primeiro para execução pela CPU quando a CPU está livre.<br>
-                        Desta forma há uma fila ordenada por Timestamp, assim, quando um novo processo requer memória, aquele que tiver o Timestamp menor( ou seja está a mais tempo na Mémoria) é escolhida como vítima. <br>
-                        <br><img src="assets/FCFS.png" width="98%" >
-                  </p>
                   <h4 *ngIf="!segundaChance" style="color: red;"> Tente Novamente!!!</h4>
+                  <p style="line-height: 1.5; text-align: justify;" > 
+                        No algoritmo FCFS (First Come First Served) escolhe-se a página que está há mais tempo na memória como vítima. <br>
+                        As páginas são ordenadas em ordem crescente de Timestamp, ou seja,  a página que está há mais tempo na memória fica na frente da fila. Assim, a página vítima será a primeira da fila.<br>
+                        <img src="assets/FCFS.png" width="98%" >
+                  </p>
             </div>
             <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -286,13 +269,14 @@
                   </button>
             </div>
             <div class="modal-body">
+                  <h4 *ngIf="!segundaChance" style="color: red;"> Tente Novamente!!!</h4>
                   <p style="line-height: 1.5; text-align: justify;" > 
-                        No algoritmo de Histórico de Referência verifica-se se houve solicitação àquela página nos últimos momentos representados pelo histórico de bits de referência, assim, antes de realizar a substituição da página. <br>
-                        Toda a lista de páginas é percorridas de forma a se verificar se a página foi acessada no último momento, caso haja empate, usa-se o HISTÓRICO para retroceder no tempo de interações a fim de determinar qual página foi menos acessada.<br>
-                        Desta forma as páginas que tem o bit de referência 1 (indica que foram acessadas recentemente) já o bit de referência 0 (não foi acessada recentemente), dentre as páginas não foram acessadas caso haja mais de uma, verifica-se o acesso entre elas no tempo i-1, e assim persiste até que se encontre uma página menos acessada em relação a outra, em caso de empate, aquela que tiver o TimeStamp menor (aquela que está a mais tempo na memória) será a página vítima escolhida . <br>
+                        No algoritmo de Histórico de Referência, guarda-se um histórico dos bits de referência que possibilitará a identificação do processo que está a mais tempo sem ser acessado e que liberará a memória RAM.  
+                        Quando o bit de referência está igual a 1 indica que a página foi acessada entre os tempos Ti-1 e Ti  - por exemplo, na imagem P0 está com bit 1 em T4 porque foi acessado entre T3 (i-1) e T4 (i).<br>
+                        Para escolha da página vítima, verifica-se o último Tempo/Momento (T4 na imagem), a página com bit de referência 0 (não foi acessada depois do tempo i-1, no caso T3) e é escolhida como vítima. No caso de empate, repete-se o processo no Tempo i-1 (no caso T3) e persiste até que se encontre apenas uma página com bit 0. Se todo o histórico for percorrido e ainda houver empate, a página que tiver o TimeStamp menor (aquela que está a mais tempo na memória) será a página vítima escolhida .
+
                         <br><img src="assets/historicoReferencia.png" width="98%" >
                   </p>
-                  <h4 *ngIf="!segundaChance" style="color: red;"> Tente Novamente!!!</h4>
             </div>
             <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -311,12 +295,14 @@
                   </button>
             </div>
             <div class="modal-body">
+                  <h4 *ngIf="!segundaChance" style="color: red;"> Tente Novamente!!!</h4>
                   <p style="line-height: 1.5; text-align: justify;" > 
-                        No algoritmo de Segunda Chance verifica-se o bit de referência antes de realizar a substituição da página. <br>
-                        Todas as páginas são percorridas de forma circular em uma fila ordenada por Timestamp, de forma que as páginas que tem o bit de referência 1 (indica que foram acessadas recentemente) recebem uma segunda chance e vão para o final da fila (timestamp atualizado e bit de referência alterado para 0). A primeira página que tem o bit de referência 0 (não foi acessada recentemente) é escolhida como vítima. <br>
+                        No algoritmo de Segunda Chance, as páginas são percorridas de forma circular em uma fila ordenada por Timestamp (ordem crescente, com mais antigo na frente). São associados bits de referência a cada uma das páginas, o bit de referência 1 indica que foram acessadas recentemente.<br>
+                        No processo de escolha da página vítima, percorre-se a fila e verifica-se o bit de referência associado à página, de forma que as páginas que tem o bit de referência igual a 1 recebem uma segunda chance. A primeira página que tiver o bit de referência 0 (não foi acessada recentemente) é escolhida como vítima.<br>
+                        As páginas que receberam segunda chance têm seu bit de referência alterado para 1, sua marca de tempo (Timepstamp) é ajustada para o momento atual e vão o final da fila (simulando uma nova página na memória). 
+                        <br>
                         <br><img src="assets/second_chance_chart.jpg" width="98%" >
                   </p>
-                  <h4 *ngIf="!segundaChance" style="color: red;"> Tente Novamente!!!</h4>
             </div>
             <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
