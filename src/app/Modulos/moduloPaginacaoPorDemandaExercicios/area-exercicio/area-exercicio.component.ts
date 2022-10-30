@@ -40,7 +40,7 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
   corrigir: boolean = false;
   visualizarResposta:boolean = false;
   back: Number =0;
-  nivelAcerto: number = 100;
+  nivelAcerto: number =0;
 
   ngOnInit(): void {
     this.preencherMemoriaFisica();
@@ -119,38 +119,15 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
     }
     this.opcaoSelecionada[i] = [i,j];
     this.opcaoSelecionadaCorrecao[i] = (this.respostaMemoriaFisica[i].nome == this.memoriaF[i].nome);
+    this.verificaGabarito(event);
   }
 
   correcao():void{
-    var acertos = 0;
-    var total = 0;
-    if(this.exercicioSelecionado == 1){
-      for(var i=0; i<this.respostaMemoriaLogica.length;i++){
-        for(var j=0; j<this.respostaMemoriaLogica[i].pagina.length;j++){
-          if(this.respostaMemoriaLogica[i].pagina[j].indiceMemoriaFisica != this.listaProcessos[i].pagina[j].indiceMemoriaFisica){
-            acertos+=1;
-          }
-          total+=1;
-        }
-      }
-      console.log("quant Erros 1 == "+acertos)
-      console.log("quant Erros 1 == "+(acertos/total)*100+"%")
-    }
-    else{
-      for(var i=0; i<this.memoriaF.length;i++){
-          if(this.memoriaF[i].nome != this.respostaMemoriaFisica[i].nome){
-            acertos+=1;
-          }
-          total+=1;
-      }
-      console.log("quant Erros 2 == "+acertos)
-      console.log("quant Erros 2 == "+(acertos/total)*100+"%")
-    }
     if(!this.visualizarResposta)this.corrigir=!this.corrigir;
-    
   }
   visualizarRespostaExercicio():void{
     this.visualizarResposta=!this.visualizarResposta;
+    this.corrigir=false;
   }
   reiniciar():void{
     this.back = this.back == 1 ? 2 : 1;
@@ -158,6 +135,40 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
   }
   counter(i: number) {
     return new Array(i);
+  }
+
+  verificaGabarito(event: any):void{
+    var acertos = 0;
+    var total = Utils.quantPaginas(this.listaProcessos);
+    if(this.exercicioSelecionado == 1){
+      total *= 2;
+
+      for(var i=0; i<this.respostaMemoriaLogica.length;i++){
+        for(var j=0; j<this.respostaMemoriaLogica[i].pagina.length;j++){
+          if(this.respostaMemoriaLogica[i].pagina[j].indiceMemoriaFisica == this.listaProcessos[i].pagina[j].indiceMemoriaFisica){
+            acertos++;
+          }
+          if(!(this.respostaMemoriaLogica[i].pagina[j].timeStamp == 0 ||
+              !(
+                (this.respostaMemoriaLogica[i].pagina[j].timeStamp !=1) == (this.listaProcessos[i].pagina[j].timeStamp !=0)
+                )
+              )
+            ){ acertos++;
+          }
+        }
+      }
+      this.nivelAcerto = (acertos/total)*100;
+    }
+    else{
+      total = total>8?8:total;
+      for(var i=0; i<this.memoriaF.length;i++){
+          if(this.memoriaF[i].nome == this.respostaMemoriaFisica[i].nome
+                && this.memoriaF[i].nome!=this.strMemoVazia){
+            acertos+=1;
+          }
+      }
+      this.nivelAcerto = (acertos/total)*100;
+    }
   }
   constructor() { }
 }
