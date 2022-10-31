@@ -27,7 +27,6 @@ export class MenuLateralComponent implements OnInit, OnChanges {
   public eBack:Number=0;
   public PaginaVitimaCondicaoMinima = false;
   
-  public selectedProcesso = new Processo('', 0, '#000', false);
 
   public listaProcessos: Array<Processo> = [];
   public respostaMemoriaLogica: Array<Processo> = [];
@@ -64,6 +63,7 @@ export class MenuLateralComponent implements OnInit, OnChanges {
       this.eBack = this.back.valueOf();
       this.listaProcessos = [];
       this.respostaMemoriaLogica = [];
+      this.exercicioSelecionado = {tipo:"Preencher Memória Lógica", exec: 1};
       this.enviarTipoExercicio.emit(1);
       this.enviarRespostaMemoriaLogica.emit(this.respostaMemoriaLogica);
       this.enviarDados.emit(this.listaProcessos);
@@ -72,10 +72,10 @@ export class MenuLateralComponent implements OnInit, OnChanges {
   }
 
   escolheExercicio(event:any){
-    const arr = event.target.value.split(',');    
-    this.exercicioSelecionado={tipo:arr[0], exec: Number(arr[1])};// console.log("num Exec Emitido: "+Number(arr[1]))
-    
-    this.enviarTipoExercicio.emit(Number(arr[1]));
+    this.exercicioSelecionado.tipo = this.listaDeExercicios[this.exercicioSelecionado.exec.valueOf()-1].tipo;
+    this.exercicioSelecionado.exec = this.listaDeExercicios[this.exercicioSelecionado.exec.valueOf()-1].exec;
+        
+    this.enviarTipoExercicio.emit(this.exercicioSelecionado.exec);
     this.eRecursoTecnico = this.eRecursoTecnico ==1? 0 : 1;
     this.enviarRecursoTecnico.emit(this.eRecursoTecnico);
 
@@ -85,7 +85,6 @@ export class MenuLateralComponent implements OnInit, OnChanges {
   escolheEscalonador(event:any){
     const arr = event.target.value.split(',');    
     this.escalonador={tipo:arr[0], exec: Number(arr[1])};
-    // console.log("num Escalonador Emitido: "+Number(arr[1]))
     this.enviarTipoAlgoritmo.emit(Number(arr[1]));
     
     this.eRecursoTecnico = this.eRecursoTecnico ==1? 0 : 1;
@@ -118,7 +117,7 @@ export class MenuLateralComponent implements OnInit, OnChanges {
                         else if(this.listaProcessos.length==3 && Utils.quantPaginas(this.listaProcessos) < 8){ 
                           x = 4; 
                         }
-
+                        else x = (Number)(Math.round(Math.random() * 3) + 1);
                     } else x = (Number)(Math.round(Math.random() * 3) + 1);
                 } else x = (Number)(Math.round(Math.random() * 3) + 1);
 
@@ -131,9 +130,11 @@ export class MenuLateralComponent implements OnInit, OnChanges {
                 this.listaNomes[i].exec = 0;
               }
         }
+        this.PaginaVitimaCondicaoMinima = this.exercicioSelecionado.exec == 3 && Utils.quantPaginas(this.listaProcessos) < 8;
         
         this.eRecursoTecnico = this.eRecursoTecnico ==1? 2 : 1;
         this.enviarRecursoTecnico.emit(this.eRecursoTecnico);
+        this.enviarDados.emit(this.listaProcessos);
       }
     this.aleatorio = false;
   }

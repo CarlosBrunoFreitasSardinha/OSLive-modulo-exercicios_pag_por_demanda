@@ -28,10 +28,12 @@
                               </li>
 
                         <ul class="sub-menu collapse.show" id="exercicio">
-                              <select  class="form-control" id="selectAlgoritmo" (change)="escolheExercicio($event)">
+                              <select  class="form-control" id="selectAlgoritmo" (change)="escolheExercicio($event)"
+                              [(ngModel)]="exercicioSelecionado.exec"
+                                    >
                                     <option value=info disabled selected>Exercícios Disponíveis</option>
-                                    <option *ngFor="let idx of listaDeExercicios" 
-                                          [value]="[idx.tipo, idx.exec]">{{idx.tipo}}</option>
+                                    <option *ngFor="let idx of listaDeExercicios;index as x" 
+                                          [value]="idx.exec">{{idx.tipo}}</option>
                               </select>
                         </ul>
 

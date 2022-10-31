@@ -41,7 +41,7 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
   paginavitima: number = 0;
   secureNumberAlgo: number = 0;
   segundaChance = true;
-  resposta: number = 1;
+  resposta: number = 50;
 
   public memoriaF: Array<MemoriaFisica> = [];
   public filaDePaginas: Array<Pagina> = [];
@@ -54,33 +54,18 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
 
   ngOnInit(): void {
     this.preencherMemoriaFisica();
-    console.log()
   }
 
   ngOnChanges(): void {
+    this.resposta = 50;
     if( this.algoritmoSelecionado == 0 || this.algoritmoSelecionado == 1 || this.algoritmoSelecionado == 2){
       this.secureNumberAlgo = this.algoritmoSelecionado.valueOf();
     }
     this.preencherMemoriaFisica();
-    
-    if(this.algoritmoSelecionado == 0){
-      this.arrayOrdem = Utils.embaralhamentoFisherYates(Utils.listaNum(this.algoritmoFCFS.lista.length));
-      this.paginavitima = 0;
-    }
-
-    else if(this.algoritmoSelecionado == 1){
-      this.arrayOrdem = Utils.listaNum(this.algoritmoHistorico.lista.length);
-      this.paginavitima = this.algoritmoHistorico.verificaBitReferencia();
-    }
-
-    else if(this.algoritmoSelecionado == 2 && this.algoritmoSegundaChance.lista.length > 0){
-      this.arrayOrdem = Utils.embaralhamentoFisherYates(Utils.listaNum(this.algoritmoSegundaChance.lista.length));
-      this.paginavitima = this.algoritmoSegundaChance.paginaVitimaEscolhida();
-    }
   }
 
   preencherMemoriaFisica(){
-    this.arrayOrdem =[];
+    this.arrayOrdem  = Utils.embaralhamentoFisherYates(Utils.listaNum(TAM));
     this.memoriaF = [];
     this.filaDePaginas = [];
 
@@ -112,6 +97,18 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
             this.alocaPaginaEmMemoriaFisica(this.filaDePaginas[ordemAleatoriaPaginas[i]]);
             if(this.algoritmoSelecionado==2)this.algoritmoSegundaChance.bitReferencia[i] = this.algoritmoSegundaChance.bitReferencia[i]==0 ?1 :0;
         }
+    }
+    
+    if(this.algoritmoSelecionado == 0){
+      this.paginavitima = 0;
+    }
+
+    else if(this.algoritmoSelecionado == 1){
+      this.paginavitima = this.algoritmoHistorico.verificaBitReferencia();
+    }
+
+    else if(this.algoritmoSelecionado == 2 && this.algoritmoSegundaChance.lista.length > 0){
+      this.paginavitima = this.algoritmoSegundaChance.paginaVitimaEscolhida();
     }
   }
   
@@ -149,19 +146,19 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
 
   correcao():void{
     
-
       if(this.resposta != this.paginavitima && this.segundaChance) {
         this.segundaChance = false;
       }
       else{
         this.corrigir=!this.corrigir;
-        this.segundaChance = true;
+        if(!this.corrigir)this.segundaChance = true;
       }
   }
 
   visualizarRespostaExercicio():void{
     this.visualizarResposta=!this.visualizarResposta;
-    this.corrigir=false;
+    if(this.visualizarResposta)this.corrigir=true;
+    else this.corrigir=false;
   }
   reiniciar():void{
     this.back = this.back == 1 ? 2 : 1;

@@ -105,7 +105,6 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
   }
 
   insereResposta(event: any):void{
-    // console.log("\n\t InsereResposta")
     const arr = event.target.value.split(',');
     var i = Number(arr[0]);
     var j = Number(arr[1]);

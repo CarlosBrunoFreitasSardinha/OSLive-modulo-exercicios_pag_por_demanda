@@ -17,7 +17,6 @@ export namespace Utils{
                         "#4B706A",
                         "#6A5ACD",
                         "#a5e3fc",
-                        "#D2691E",
                         "#FF69B4",
                         "#FFD700",
                         "#696969"
@@ -30,7 +29,7 @@ export namespace Utils{
       }
 
       export function listaNum(num:number):Array<number>{
-            var listNum = [];
+            var listNum:Array<number> = [];
             for(var i=0; i<num;i++)listNum.push(i);
             return listNum;
       }
