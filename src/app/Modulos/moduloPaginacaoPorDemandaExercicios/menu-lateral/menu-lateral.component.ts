@@ -83,9 +83,9 @@ export class MenuLateralComponent implements OnInit, OnChanges {
   }
 
   escolheEscalonador(event:any){
-    const arr = event.target.value.split(',');    
-    this.escalonador={tipo:arr[0], exec: Number(arr[1])};
-    this.enviarTipoAlgoritmo.emit(Number(arr[1]));
+    this.escalonador.tipo = this.algoritmoEscalonamento[this.escalonador.exec.valueOf()-1].tipo;
+    this.escalonador.exec = this.algoritmoEscalonamento[this.escalonador.exec.valueOf()-1].exec;
+    this.enviarTipoAlgoritmo.emit(this.escalonador.exec);
     
     this.eRecursoTecnico = this.eRecursoTecnico ==1? 0 : 1;
     this.enviarRecursoTecnico.emit(this.eRecursoTecnico);

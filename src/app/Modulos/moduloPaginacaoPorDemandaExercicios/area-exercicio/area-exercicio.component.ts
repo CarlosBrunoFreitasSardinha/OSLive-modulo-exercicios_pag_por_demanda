@@ -85,6 +85,8 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
         }
         this.enviarDadosMemoria.emit(this.filaAlgoritmoSelecionado);
     }
+
+    this.verificaGabarito(event);
   }
 
   alocaPaginaEmMemoriaFisica(pagX: Pagina):boolean{
@@ -157,6 +159,8 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
         }
       }
       this.nivelAcerto = (acertos/total)*100;
+      var y = this.nivelAcerto.toFixed(0);
+      this.nivelAcerto = parseFloat(y);
     }
     else{
       total = total>8?8:total;
@@ -167,6 +171,8 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
           }
       }
       this.nivelAcerto = (acertos/total)*100;
+      var y = this.nivelAcerto.toFixed(0);
+      this.nivelAcerto = parseFloat(y);
     }
   }
   constructor() { }
