@@ -163,7 +163,7 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
       this.nivelAcerto = parseFloat(y);
     }
     else{
-      total = total>8?8:total;
+      total = total>this.TAM ?this.TAM :total;
       for(var i=0; i<this.memoriaF.length;i++){
           if(this.memoriaF[i].nome == this.respostaMemoriaFisica[i].nome
                 && this.memoriaF[i].nome!=this.strMemoVazia){

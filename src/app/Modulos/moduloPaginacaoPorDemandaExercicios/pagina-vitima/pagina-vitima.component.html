@@ -276,7 +276,7 @@
                   </button>
             </div>
             <div class="modal-body">
-                  <h4 *ngIf="!segundaChance" style="color: red;"> Tente Novamente!!!</h4>
+                  <h4 *ngIf="!segundaChance" style="color: red;"> Resposta Incorreta, Tente Novamente!!!</h4>
                   <p style="line-height: 1.5; text-align: justify;" > 
                         No algoritmo FCFS (First Come First Served) escolhe-se a página que está há mais tempo na memória como vítima. <br>
                         As páginas são ordenadas em ordem crescente de Timestamp, ou seja,  a página que está há mais tempo na memória fica na frente da fila. Assim, a página vítima será a primeira da fila.<br>
@@ -300,7 +300,7 @@
                   </button>
             </div>
             <div class="modal-body">
-                  <h4 *ngIf="!segundaChance" style="color: red;"> Tente Novamente!!!</h4>
+                  <h4 *ngIf="!segundaChance" style="color: red;"> Resposta Incorreta, Tente Novamente!!!</h4>
                   <p style="line-height: 1.5; text-align: justify;" > 
                         No algoritmo de Histórico de Referência, guarda-se um histórico dos bits de referência que possibilitará a identificação do processo que está a mais tempo sem ser acessado e que liberará a memória RAM.  
                         Quando o bit de referência está igual a 1 indica que a página foi acessada entre os tempos Ti-1 e Ti  - por exemplo, na imagem P0 está com bit 1 em T4 porque foi acessado entre T3 (i-1) e T4 (i).<br>
@@ -326,13 +326,13 @@
                   </button>
             </div>
             <div class="modal-body">
-                  <h4 *ngIf="!segundaChance" style="color: red;"> Tente Novamente!!!</h4>
+                  <h4 *ngIf="!segundaChance" style="color: red;"> Resposta Incorreta, Tente Novamente!!!</h4>
                   <p style="line-height: 1.5; text-align: justify;" > 
                         No algoritmo de Segunda Chance, as páginas são percorridas de forma circular em uma fila ordenada por Timestamp (ordem crescente, com mais antigo na frente). São associados bits de referência a cada uma das páginas, o bit de referência 1 indica que foram acessadas recentemente.<br>
                         No processo de escolha da página vítima, percorre-se a fila e verifica-se o bit de referência associado à página, de forma que as páginas que tem o bit de referência igual a 1 recebem uma segunda chance. A primeira página que tiver o bit de referência 0 (não foi acessada recentemente) é escolhida como vítima.<br>
                         As páginas que receberam segunda chance têm seu bit de referência alterado para 1, sua marca de tempo (Timepstamp) é ajustada para o momento atual e vão o final da fila (simulando uma nova página na memória). 
                         <br>
-                        <br><img src="assets/second_chance_chart.jpg" width="98%" >
+                        <br><img src="assets/segundaChangeImage.png" width="98%" >
                   </p>
             </div>
             <div class="modal-footer">

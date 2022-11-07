@@ -11,16 +11,16 @@ export namespace Utils{
 
       export function gera_cor(coresJaUtilizadas:Array<Processo> = []): string{
                   var coresDisponiveis:Array<string> = [
-                        "#0780A7",
-                        "#785964",
-                        "#bf565c",
-                        "#4B706A",
-                        "#6A5ACD",
-                        "#a5e3fc",
-                        "#FF69B4",
-                        "#FFD700",
-                        "#696969"
-                  ]
+                        "#F8D7D0",//ROSA PASTEL
+                        "#FDF3B8",//AMARELO PASTEL
+                        "#89D3B1",//VERDE ESCURO PASTEL
+                        "#A4DFFF",//AZUL CLARO PASTEL
+                        "#C6ACC7",//ANIL PASTEL
+                        "#F0C4A5",//LARANJA PASTEL
+                        "#C9D2A0",//VERDE CLARO PASTEL
+                        "#FF9B94",//VERMELHO PASTEL
+                        "#F1E6E4",//CINZA PASTEL
+                  ]//https://blog.dezaina.com.br/cores-pasteis-tudo-o-que-voce-precisa-saber/
                   for (var i = 0; i < coresJaUtilizadas.length; i++ ) {
                         var pos = coresDisponiveis.indexOf(coresJaUtilizadas[i].cor);
                         if(pos!=-1)coresDisponiveis.splice(pos, 1);
