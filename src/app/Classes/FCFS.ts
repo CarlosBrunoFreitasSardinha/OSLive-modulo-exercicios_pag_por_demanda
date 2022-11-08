@@ -13,7 +13,7 @@ export class FCFS {
                   if(memoriaFisica[i].nome.localeCompare(STR_MEMORIA_VAZIA)==0)return i;
             }
             return -1;
-      }     
+      }
       listaVazia():boolean{
             return this.lista.length ==0;
       }
