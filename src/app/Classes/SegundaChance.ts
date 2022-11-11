@@ -15,32 +15,30 @@ export class SegundaChance {
             return -1;
       }
 
-      segundaChance(_time: number,): number{         
-            while(true){
-                  for(var i = 0; i< this.bitReferencia.length; i++){
-                        if(this.bitReferencia[i] == 0 ){
-                              return i;
-                        }
-                        else {
-                              this.bitReferencia[i] = 0;
-                              this.lista[i].timeStamp = _time;
-                              _time += 1;
+      segundaChance(_time: number,): number{
+            for(var i = 0; i< this.bitReferencia.length; i++){
+                  if(this.bitReferencia[i] == 0 ){
+                        return i;
+                  }
+                  else {
+                        this.bitReferencia[i] = 0;
+                        this.lista[i].timeStamp = _time;
+                        _time += 1;
 
-                              var temp = this.lista[i];
-                              this.lista.splice(i,1);
-                              this.lista.push(temp);
-                  
-                              var temp2 = this.bitReferencia[i];
-                              this.bitReferencia.splice(i,1);
-                              this.bitReferencia.push(temp2);
-                              i--;
-                        }
+                        var temp = this.lista[i];
+                        this.lista.splice(i,1);
+                        this.lista.push(temp);
+
+                        var temp2 = this.bitReferencia[i];
+                        this.bitReferencia.splice(i,1);
+                        this.bitReferencia.push(temp2);
+                        i--;
                   }
             }
+            return 0;
       }
       
       paginaVitimaEscolhida(): number{
-            
             for(var i = 0; i< this.bitReferencia.length; i++){
                   if(this.bitReferencia[i] == 0 ){
                         return i;
@@ -48,13 +46,12 @@ export class SegundaChance {
             }
             return 0;
       }
-      addPaginaEmMemoriaFisica(memoriaFisica: Array<MemoriaFisica>, paginaX: Pagina, timestamp:number):number{
+      addPaginaEmMemoriaFisica(memoriaFisica: Array<MemoriaFisica>, paginaX: Pagina, _timestamp:number):number{
             var posicaoParaInsercao:number = this.memoriaFisicaCheia(memoriaFisica);
             var posMemoFisica = 0;
-            var TAM: number = 4;
 
             if(posicaoParaInsercao == -1){
-                  posicaoParaInsercao = 
+                  posicaoParaInsercao = this.segundaChance(_timestamp);
                   posMemoFisica = this.lista[posicaoParaInsercao].indiceMemoriaFisica;
                   
                   this.lista[posicaoParaInsercao].timeStamp = 0;
@@ -63,16 +60,14 @@ export class SegundaChance {
                   this.lista.splice(posicaoParaInsercao, 1);
                   this.bitReferencia.splice(posicaoParaInsercao, 1);
             }
-            else{
-                  posMemoFisica = posicaoParaInsercao;
-            }
+            else{ posMemoFisica = posicaoParaInsercao; }
             
             memoriaFisica[posMemoFisica].nome = paginaX.toString();
             memoriaFisica[posMemoFisica].cor = paginaX.cor;
-            memoriaFisica[posMemoFisica].horaCarga = timestamp;
+            memoriaFisica[posMemoFisica].horaCarga = _timestamp;
 
             paginaX.indiceMemoriaFisica = posMemoFisica;
-            paginaX.timeStamp = timestamp;
+            paginaX.timeStamp = _timestamp;
 
             this.lista.push(paginaX);
             this.bitReferencia.push((Math.floor(Math.random() * 15))%2);

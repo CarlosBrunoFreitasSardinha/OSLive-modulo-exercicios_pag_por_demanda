@@ -5,8 +5,7 @@ export class Pagina{
       public cor: string;
       public timeStamp: number;
 
-        constructor(_nome: string,
-                    _cor:string = "#FFFFFF", 
+        constructor(_nome: string, _cor:string = "#FFFFFF", 
                     _indiceMemoriaLogicaProc: number = 0, 
                     _indiceMemoriaFisica: number = -1,
                     _timeStamp: number = 0, ) {

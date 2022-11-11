@@ -18,7 +18,7 @@ export class FCFS {
             return this.lista.length ==0;
       }
 
-      addPaginaEmMemoriaFisica(memoriaFisica: Array<MemoriaFisica>, paginaX: Pagina, timestamp:number, RespostaAluno: boolean = false):number{
+      addPaginaEmMemoriaFisica(memoriaFisica: Array<MemoriaFisica>, paginaX: Pagina, timestamp:number):number{
             var posicaoParaInsercao:number = this.memoriaFisicaCheia(memoriaFisica);
             if(posicaoParaInsercao==-1){
                   posicaoParaInsercao = this.lista[0].indiceMemoriaFisica;
@@ -34,7 +34,7 @@ export class FCFS {
             paginaX.indiceMemoriaFisica = posicaoParaInsercao;
             paginaX.timeStamp = timestamp;
             
-            if(!RespostaAluno)this.lista.push(paginaX);
+            this.lista.push(paginaX);
 
             return posicaoParaInsercao;
       }
@@ -59,5 +59,4 @@ export class FCFS {
             }
         return -1;
       }
-      
 }

@@ -16,9 +16,7 @@ export class Processo{
           }
         }
 
-        toString() { //public : by default
-
+        toString() {
           return `\n Nome: ${this.nome} qtPaginas: ${this.pagina.length} Cor: ${this.cor} bit: ${this.bit}`;
-          
         }
 }

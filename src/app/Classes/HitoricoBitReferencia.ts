@@ -1,6 +1,7 @@
 import { Pagina } from './Pagina';
 import { MemoriaFisica } from './MemoriaFisica';
-import { TAM, STR_MEMORIA_VAZIA, MEMORIA_FISICA_COR} from 'src/app/Bibliotecas/Constantes';
+import { TAM, TAM_HISTORICO_REF, STR_MEMORIA_VAZIA, MEMORIA_FISICA_COR} from 'src/app/Bibliotecas/Constantes';
+import { Utils } from '../Bibliotecas/Utils';
 
 export class HitoricoBitReferencia {
       public lista: Array<Pagina> = [];
@@ -24,52 +25,30 @@ export class HitoricoBitReferencia {
       }
 
       verificaBitReferencia(): number{
-            var posicaoMenosAcessada = 0;
-            var count = 0;
-            var pos = 0;
-            var zero: Array<number> = [];
-            var apagar: Array<number> = [];
-            var parar:boolean = false;
+            var posicaoComzero: Array<number> = Utils.listaNum(TAM);
             
-            for(var i =0; i< this.historicoBit.length; i++){
-                  if(this.historicoBit[i][0] == 0){
-                        zero.push(i);
-                  }
-            }
-
-            while(!parar){
-                  pos+=1;
-                  apagar = [];
+            for(var j = 0;j < TAM_HISTORICO_REF;j++){
+                  var apagar: Array<number> = [];
                   
-                  for(var i = 0; i< zero.length; i++){
-                        if(this.historicoBit[zero[i]][pos] == 0) {
-                              posicaoMenosAcessada = zero[i];
-                              count+=1;
-                        }
-                        else apagar.push(zero[i]);
+                  for(var i = 0; i< posicaoComzero.length; i++){
+                        if(this.historicoBit[posicaoComzero[i]][j] == 1)apagar.push(posicaoComzero[i]);
                   }
-
-                  if(pos == 3)parar = true;
-                  
-                  if(count==0) apagar = [];
-                  else if(count == 1)parar = true;
+                  if(posicaoComzero.length==apagar.length) apagar = [];
                   else {
                         for( let i of apagar){
-                              var x = zero.indexOf(i);
-                              zero.splice(x, 1)
+                              var x = posicaoComzero.indexOf(i);
+                              posicaoComzero.splice(x, 1);
                         }
-                        posicaoMenosAcessada = zero[0];
-                        count=0;
+                        if((posicaoComzero.length-apagar.length) == 1) j = TAM_HISTORICO_REF;
                   }
             }
-
-            return posicaoMenosAcessada;
+            return posicaoComzero[0];
       }
       
-      addPaginaEmMemoriaFisica(memoriaFisica: Array<MemoriaFisica>, paginaX: Pagina, timestamp:number):number{
+      addPaginaEmMemoriaFisica(memoriaFisica: Array<MemoriaFisica>, paginaX: Pagina, 
+                              timestamp:number):number{
             var posicaoParaInsercao: number = this.memoriaFisicaCheia(memoriaFisica);
             var posMemoFisica = 0;
-            var TAM: number = 4;
 
             if(posicaoParaInsercao == -1){
                   posicaoParaInsercao = this.verificaBitReferencia();
@@ -93,7 +72,7 @@ export class HitoricoBitReferencia {
             paginaX.timeStamp = timestamp;
 
             this.lista.push(paginaX);
-            this.historicoBit.push(this.bitAcesso(TAM));
+            this.historicoBit.push(this.bitAcesso(TAM_HISTORICO_REF));
 
             return posMemoFisica;
       }
@@ -120,6 +99,4 @@ export class HitoricoBitReferencia {
             }
         return -1;
       }
-      
-      
 }
