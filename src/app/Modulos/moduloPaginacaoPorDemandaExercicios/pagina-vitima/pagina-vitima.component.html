@@ -330,7 +330,7 @@
                   <p style="line-height: 1.5; text-align: justify;" > 
                         No algoritmo de Segunda Chance, as páginas são percorridas de forma circular em uma fila ordenada por Timestamp (ordem crescente, com mais antigo na frente). São associados bits de referência a cada uma das páginas, o bit de referência 1 indica que foram acessadas recentemente.<br>
                         No processo de escolha da página vítima, percorre-se a fila e verifica-se o bit de referência associado à página, de forma que as páginas que tem o bit de referência igual a 1 recebem uma segunda chance. A primeira página que tiver o bit de referência 0 (não foi acessada recentemente) é escolhida como vítima.<br>
-                        As páginas que receberam segunda chance têm seu bit de referência alterado para 1, sua marca de tempo (Timepstamp) é ajustada para o momento atual e vão o final da fila (simulando uma nova página na memória). 
+                        As páginas que receberam segunda chance têm seu bit de referência alterado para 0, sua marca de tempo (Timepstamp) é ajustada para o momento atual e vão o final da fila (simulando uma nova página na memória). 
                         <br>
                         <br><img src="assets/segundaChangeImage.png" width="98%" >
                   </p>
