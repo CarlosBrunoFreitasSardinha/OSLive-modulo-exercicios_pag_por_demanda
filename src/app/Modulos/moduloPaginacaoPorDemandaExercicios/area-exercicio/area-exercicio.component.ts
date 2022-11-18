@@ -86,7 +86,7 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
         this.enviarDadosMemoria.emit(this.filaAlgoritmoSelecionado);
     }
 
-    this.verificaGabarito(event);
+    this.preencherGabaritoMemoriaLogica(event);
   }
 
   alocaPaginaEmMemoriaFisica(pagX: Pagina):boolean{
@@ -106,7 +106,7 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
     return false;
   }
 
-  insereResposta(event: any):void{
+  preencherGabaritoMemoriaFisica(event: any):void{
     const arr = event.target.value.split(',');
     var i = Number(arr[0]);
     var j = Number(arr[1]);
@@ -120,7 +120,7 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
     }
     this.opcaoSelecionada[i] = [i,j];
     this.opcaoSelecionadaCorrecao[i] = (this.respostaMemoriaFisica[i].nome == this.memoriaF[i].nome);
-    this.verificaGabarito(event);
+    this.preencherGabaritoMemoriaLogica(event);
   }
 
   correcao():void{
@@ -138,7 +138,7 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
     return new Array(i);
   }
 
-  verificaGabarito(event: any):void{
+  preencherGabaritoMemoriaLogica(event: any):void{
     var acertos = 0;
     var total = Utils.quantPaginas(this.listaProcessos);
     if(this.exercicioSelecionado == 1){

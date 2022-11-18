@@ -80,7 +80,7 @@
                                                                                                       ?'selectOptionAcerto':'selectOptionErro'
                                                                                                       :''
                                                                                                 " 
-                                                                                                (change)="verificaGabarito($event)" 
+                                                                                                (change)="preencherGabaritoMemoriaLogica($event)" 
 
                                                                                     [(ngModel)]="respostaMemoriaLogica[proc].pagina[pag].indiceMemoriaFisica">
                                                                                                 <option [value]='-1'  selected> {{strMemoVazia}} </option>
@@ -112,7 +112,7 @@
                                                                                                       class="form-control selectOption"  
                                                                                                       id="resposta" name="resposta" 
                                                                                                       style="text-align: center;"
-                                                                                                      (change)="verificaGabarito($event)" 
+                                                                                                      (change)="preencherGabaritoMemoriaLogica($event)" 
                                                                                                       [ngClass]="corrigir?  respostaMemoriaLogica[proc].pagina[pag].timeStamp != -1 &&
                                                                                                       ((respostaMemoriaLogica[proc].pagina[pag].timeStamp !=0) == 
                                                                                                       (listaProcessos[proc].pagina[pag].timeStamp !=0))
@@ -169,7 +169,7 @@
                                           <select *ngIf="exercicioSelecionado==2 && !visualizarResposta " class="form-control selectOption"  id="resposta" name="resposta" style="text-align: center;"
                                           
                                           [ngClass]="corrigir? (opcaoSelecionadaCorrecao[k])?'selectOptionAcerto':'selectOptionErro':''" 
-                                          (change)="insereResposta($event)" [(ngModel)]="opcaoSelecionada[k]">
+                                          (change)="preencherGabaritoMemoriaFisica($event)" [(ngModel)]="opcaoSelecionada[k]">
                                           
                                                       <option [value]='[k, -1]' selected> {{strMemoVazia}} </option>
                                                       <option *ngFor="let pr of filaDePaginas; index as l;" [value]="[k, l]">
@@ -214,9 +214,8 @@
             <p>&nbsp;</p>
       </div>
       <div class="col-12"  *ngIf="listaProcessos.length">
-            <div class="row align-items-center">
-                  <div class="col-2">&nbsp;</div>
-                  <div class="col-5 ">
+            <div class="row justify-content-center">
+                  <div class="col-7 ">
                         <button class="btn btn-success btn-lg btnSolicitacaoResposta" (click)="correcao()">
                               <i class="fa fa-play" aria-hidden="true"></i>
                               Corrigir Resposta
@@ -230,13 +229,15 @@
                               Limpar
                         </button>
                   </div>
-                  <div *ngIf="nivelAcerto==100 && corrigir" class="col-3 alert alert-success" role="alert">
+                  <div class="col-3 alert alert-success" role="alert"
+                        *ngIf="nivelAcerto==100 && corrigir">
                         <h4 class="alert-heading">
                               <i class="fa fa-star" aria-hidden="true"> Muito bem!</i></h4>
                         <hr>
                         <p style="text-align: center;">Você obteve {{nivelAcerto}}% de Acerto</p>
                   </div>
-                  <div *ngIf="nivelAcerto!=100 && corrigir" class="col-3 alert alert-danger" role="alert">
+                  <div class="col-3 alert alert-danger" role="alert"
+                        *ngIf="nivelAcerto!=100 && corrigir" >
                         <h4 class="alert-heading">
                               <i class="fa fa-exclamation-triangle" aria-hidden="true"> Que pena!</i></h4>
                         <hr>

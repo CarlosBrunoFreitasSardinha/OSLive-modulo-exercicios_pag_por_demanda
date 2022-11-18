@@ -1,5 +1,5 @@
 
-<div class="nav-side-menu">
+<div class="nav-side-menu col-12">
       <div class="menu-list">	
 
             <ul id="menu-content" class="menu-content collapse out">
@@ -110,14 +110,14 @@
 
                                     <!-- Listar processos na tabela --> <!--aria-expanded="{{processos.length == 0? 'false' : 'true'}}"class="{{processos.length == 0? 'sub-menu collapsed collapse' : 'sub-menu collapsed collapse in'}}"-->
                                     <ul id="tabelaProcesso" style="height: auto !important;">
-                                          <table class="table table-borded" id="tabelaProcesso" style="font-size: 12px" 
+                                          <table class="table table-borded" id="tabelaProcesso"
                                           *ngIf="listaProcessos.length != 0">
-                                                <tr align="center">
+                                                <tr style="text-align: center; ">
                                                       <td>Processo</td>
                                                       <td>Páginas</td>
                                                 </tr>
                                                 <tr style="text-align:center;" *ngFor="let pr of processosOrdenados(listaProcessos)">
-                                                      <td style="width: 5px;"> {{pr.nome}}
+                                                      <td style="width:10px;"> {{pr.nome}}
                                                             
                                                             <b><i class="fa fa-square" aria-hidden="true" style="color:{{pr.cor}};box-shadow: inset 10em 1em rgba(0, 0, 0, 0.25);"></i> 
                                                                   &nbsp;</b>

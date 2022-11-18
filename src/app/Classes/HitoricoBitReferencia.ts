@@ -31,7 +31,8 @@ export class HitoricoBitReferencia {
                   var apagar: Array<number> = [];
                   
                   for(var i = 0; i< posicaoComzero.length; i++){
-                        if(this.historicoBit[posicaoComzero[i]][j] == 1)apagar.push(posicaoComzero[i]);
+                        if(this.historicoBit[posicaoComzero[i]][j] == 1)
+                              apagar.push(posicaoComzero[i]);
                   }
                   if(posicaoComzero.length==apagar.length) apagar = [];
                   else {
@@ -39,7 +40,8 @@ export class HitoricoBitReferencia {
                               var x = posicaoComzero.indexOf(i);
                               posicaoComzero.splice(x, 1);
                         }
-                        if((posicaoComzero.length-apagar.length) == 1) j = TAM_HISTORICO_REF;
+                        if((posicaoComzero.length-apagar.length) == 1)
+                              j = TAM_HISTORICO_REF;
                   }
             }
             return posicaoComzero[0];

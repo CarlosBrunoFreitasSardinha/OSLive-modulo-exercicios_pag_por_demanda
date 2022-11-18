@@ -195,6 +195,12 @@
     }
   
 /* IDs --------------------------------------------------------------------------------------*/
+      #tabelaProcesso{
+        margin:auto;
+        font-size: 11px;
+        margin-left: 2px;
+  
+      }
       #processo{
             width: 70%;
             margin: auto;
@@ -220,12 +226,6 @@
       #selectExemplo{
             width: 90%;
             margin: auto;
-      
-      }
-      #tabelaProcesso{
-        margin:auto;
-        font-size: 9px;
-        margin-left: 2px;
       
       }
       #execucao{
