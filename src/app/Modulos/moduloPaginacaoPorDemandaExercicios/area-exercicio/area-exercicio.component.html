@@ -215,13 +215,14 @@
       </div>
       <div class="col-12"  *ngIf="listaProcessos.length">
             <div class="row justify-content-center">
-                  <div class="col-7 ">
+                  <div class="col-11">
                         <button *ngIf="nivelAcerto==100" class="btn btn-success btn-lg btnSolicitacaoResposta" (click)="correcao()"
                         data-toggle="modal" data-target="#acerto">
                               <i class="fa fa-play" aria-hidden="true"></i>
                               Corrigir Resposta
                         </button>
-                        <button *ngIf="!(nivelAcerto==100)" class="btn btn-success btn-lg btnSolicitacaoResposta" (click)="correcao()">
+                        <button *ngIf="!(nivelAcerto==100)" class="btn btn-success btn-lg btnSolicitacaoResposta" (click)="correcao()"
+                        data-toggle="modal" data-target="#erro">
                               <i class="fa fa-play" aria-hidden="true"></i>
                               Corrigir Resposta
                         </button>
@@ -233,20 +234,6 @@
                               <i class="fa fa-stop" aria-hidden="true"></i>
                               Limpar
                         </button>
-                  </div>
-                  <div class="col-3 alert alert-success" role="alert"
-                        *ngIf="nivelAcerto==100 && corrigir">
-                        <h4 class="alert-heading">
-                              <i class="fa fa-star" aria-hidden="true"> Muito bem!</i></h4>
-                        <hr>
-                        <p style="text-align: center;">Você obteve {{nivelAcerto}}% de Acerto</p>
-                  </div>
-                  <div class="col-3 alert alert-danger" role="alert"
-                        *ngIf="nivelAcerto!=100 && corrigir" >
-                        <h4 class="alert-heading">
-                              <i class="fa fa-exclamation-triangle" aria-hidden="true"> Que pena!</i></h4>
-                        <hr>
-                        <p style="text-align: center;">Você obteve {{nivelAcerto}}% de Acerto.<br> Tente Novamente!!!</p>
                   </div>
             </div>
       </div>
@@ -378,3 +365,40 @@
 </div>
 
 
+<!-- INFO ACERTO-->
+<div class="modal fade center" id="acerto" tabindex="1" role="dialog" aria-labelledby="label_acerto" aria-hidden="true">
+      <div class="modal-dialog modal-lg  alert-success" role="document">
+      <div class="modal-content  alert-success">
+            <div class="modal-header  alert-success">
+                  <h4 class="alert-heading">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                              Muito bem! Você obteve {{nivelAcerto}}% de Acerto.</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-footer alert-success">
+            <button type="button" class="btn btn-outline-success" data-dismiss="modal">Fechar</button>
+            </div>
+      </div>
+      </div>
+</div>
+
+<!-- INFO ERRO-->
+<div class="modal fade center" id="erro" tabindex="1" role="dialog" aria-labelledby="label_acerto" aria-hidden="true">
+      <div class="modal-dialog modal-lg  alert-danger" role="document">
+      <div class="modal-content  alert-danger">
+            <div class="modal-header  alert-danger">
+                  <h4 class="alert-heading">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"> </i>
+                              Que pena! Você obteve {{nivelAcerto}}% de Acerto.<br> Tente Novamente!!!</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-footer alert-danger">
+            <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Fechar</button>
+            </div>
+      </div>
+      </div>
+</div>
