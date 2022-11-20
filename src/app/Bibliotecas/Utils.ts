@@ -1,4 +1,5 @@
 import { Processo } from "../Classes/Processo";
+import {QUANT_MIN_PAG_POR_PROC, QUANT_MAX_PAG_POR_PROC} from "./Constantes"
 
 export namespace Utils{
       export function embaralhamentoFisherYates(array:Array<number>):Array<number> {
@@ -39,5 +40,22 @@ export namespace Utils{
             for(let i of listProc)listNum+=i.pagina.length;
             return listNum;
       }
+      
+      export function quantPaginasMenoresQueX(listProc:Array<Processo>, x:number):number{
+            var listNum = 0;
+            for(let i of listProc)if(i.pagina.length<x)listNum+=1;
+            return listNum;
+      }
 
+      export function listaNumAleatoriosComQuantMinimaFinal(numPag:number = 1, PagVitima: boolean = false):Array<number>{
+            var listNum:Array<number> = [];
+            
+            for (var i = 0; i < numPag; i++) {
+                  var x = 0;
+                  if(!PagVitima) x = (Number)(Math.round(Math.random() * QUANT_MIN_PAG_POR_PROC) + (QUANT_MAX_PAG_POR_PROC-QUANT_MIN_PAG_POR_PROC));
+                  else x = (Number)(Math.round(Math.random() * (QUANT_MAX_PAG_POR_PROC-QUANT_MIN_PAG_POR_PROC)) + QUANT_MIN_PAG_POR_PROC);
+                  listNum.push(x);
+            }
+            return listNum;
+      }
 }

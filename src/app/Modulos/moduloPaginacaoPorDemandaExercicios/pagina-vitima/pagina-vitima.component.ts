@@ -91,7 +91,7 @@ export class PaginaVitimaComponent implements OnInit, OnChanges{
     }
 
     // Embaralha a lista de processos a serem alocados ->em seguida os aloca
-    if(this.filaDePaginas.length>this.TAM){
+    if(this.filaDePaginas.length>=this.TAM){
         var ordemAleatoriaPaginas: Array<number> = Utils.embaralhamentoFisherYates(Utils.listaNum(this.filaDePaginas.length));
         for(var i = 0; i<this.TAM;i++){
             this.alocaPaginaEmMemoriaFisica(this.filaDePaginas[ordemAleatoriaPaginas[i]]);

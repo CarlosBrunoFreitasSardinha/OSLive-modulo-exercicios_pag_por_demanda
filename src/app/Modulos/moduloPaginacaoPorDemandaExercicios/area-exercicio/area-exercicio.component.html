@@ -104,8 +104,8 @@
                                                                                                 {{exercicioSelecionado==1 && !visualizarResposta
                                                                                                             ? strMemoVazia
                                                                                                             :paginaProcessoX.timeStamp !=0 
-                                                                                                                  ? '1'
-                                                                                                                  : '0'
+                                                                                                                  ? arrBitEstado[2]
+                                                                                                                  : arrBitEstado[1]
                                                                                                 }}</b></button>
 
                                                                                     <select *ngIf="exercicioSelecionado==1 && !visualizarResposta" 
@@ -216,7 +216,12 @@
       <div class="col-12"  *ngIf="listaProcessos.length">
             <div class="row justify-content-center">
                   <div class="col-7 ">
-                        <button class="btn btn-success btn-lg btnSolicitacaoResposta" (click)="correcao()">
+                        <button *ngIf="nivelAcerto==100" class="btn btn-success btn-lg btnSolicitacaoResposta" (click)="correcao()"
+                        data-toggle="modal" data-target="#acerto">
+                              <i class="fa fa-play" aria-hidden="true"></i>
+                              Corrigir Resposta
+                        </button>
+                        <button *ngIf="!(nivelAcerto==100)" class="btn btn-success btn-lg btnSolicitacaoResposta" (click)="correcao()">
                               <i class="fa fa-play" aria-hidden="true"></i>
                               Corrigir Resposta
                         </button>
@@ -325,8 +330,8 @@
             </div>
             <div class="modal-body">
             <p style="line-height: 1.8; text-align: justify;" > 
-                  Mecanismos modernos de paginação como a paginação por demanda, permitem que quando um processo for criado, apenas 
-                  as páginas que serão utilizadas no momento da execução sejam carregadas para a memória principal. 
+                  Mecanismos modernos de paginação, como a paginação por demanda, permitem que apenas as páginas que serão utilizadas 
+                  no momento da execução sejam carregadas para a memória principal quando um processo é criado.
                   <br>
                   As demais páginas, assim como todas as páginas do processo (inclusive as páginas na RAM), ficam armazenadas no disco. 
                   Caso uma página que não esteja na RAM seja referenciada, uma cópia dela é feita para a memória principal 
@@ -371,3 +376,5 @@
       </div>
       </div>
 </div>
+
+

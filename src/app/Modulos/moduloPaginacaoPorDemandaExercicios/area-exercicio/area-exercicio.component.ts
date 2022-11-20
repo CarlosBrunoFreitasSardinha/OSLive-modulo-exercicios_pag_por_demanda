@@ -5,7 +5,7 @@ import { MemoriaFisica } from '../../../Classes/MemoriaFisica';
 import { Processo } from '../../../Classes/Processo';
 import { Utils } from 'src/app/Bibliotecas/Utils';
 import { FCFS } from 'src/app/Classes/FCFS';
-import { TAM, STR_MEMORIA_VAZIA, MEMORIA_FISICA_COR, TIMESTAMP_INICIAL, STR_BIT_ESTADO } from 'src/app/Bibliotecas/Constantes';
+import { TAM, STR_MEMORIA_VAZIA, MEMORIA_FISICA_COR, TIMESTAMP_INICIAL, STR_BIT_ESTADO, QUANT_MAX_PAG_POR_PROC } from 'src/app/Bibliotecas/Constantes';
 
 @Component({
   selector: 'app-area-exercicio',
@@ -61,31 +61,56 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
     this.corrigir = false;
     this.visualizarResposta = false;
     this.filaDePaginas = [];
+    var quantPagMaiorQueTamMemoriaFisica = Utils.quantPaginas(this.listaProcessos) > this.TAM;
+    var paginasMenoresQueUm = Utils.quantPaginasMenoresQueX(this.listaProcessos, (QUANT_MAX_PAG_POR_PROC/2));
+
 
     // cria Lista de Paginas
     for(let item of this.listaProcessos){
-        for(let i of item.pagina){
-          i.indiceMemoriaFisica = -1;
-          i.timeStamp=0;
-          this.filaDePaginas.push(i);
+        if(quantPagMaiorQueTamMemoriaFisica){
+            var limit = Utils.embaralhamentoFisherYates(Utils.listaNum(item.pagina.length));
+
+            item.pagina[0].indiceMemoriaFisica = -1;
+            item.pagina[0].timeStamp=0;
+            this.filaDePaginas.push(item.pagina[limit[0]]);
+    
+            if(item.pagina.length>1){
+                item.pagina[1].indiceMemoriaFisica = -1;
+                item.pagina[1].timeStamp=0;
+                
+                this.filaDePaginas.push(item.pagina[limit[1]]);
+              }
+            if(paginasMenoresQueUm!=0 && item.pagina.length>2){
+                paginasMenoresQueUm-=1;
+
+                item.pagina[2].indiceMemoriaFisica = -1;
+                item.pagina[2].timeStamp=0;
+                
+                this.filaDePaginas.push(item.pagina[limit[2]]);
+              }
+          }
+        else {
+            for(let i of item.pagina){
+              i.indiceMemoriaFisica = -1;
+              i.timeStamp=0;
+              this.filaDePaginas.push(i);
+            }
         }
-    }
+      }
+    
     // cria os espaços na memória Fisica
     for(var i:number =0; i<this.TAM; i++){
       this.memoriaF.push(new MemoriaFisica(i, this.strMemoVazia, this.strMemoFisicaCor,  0));
       this.respostaMemoriaFisica.push(new MemoriaFisica(i, this.strMemoVazia, this.strMemoFisicaCor,  0));
     }
     // embaralha a ordem das Paginas
-    if(this.filaDePaginas.length>0){
-      var ordemAleatoriaPaginas: Array<number> = Utils.embaralhamentoFisherYates(Utils.listaNum(this.filaDePaginas.length));
-      var quantAlocados = this.filaDePaginas.length;
-      if(this.filaDePaginas.length>7)quantAlocados = this.TAM;
-      for(var i = 0; i<quantAlocados;i++){
-          this.alocaPaginaEmMemoriaFisica(this.filaDePaginas[ordemAleatoriaPaginas[i]]);
-        }
-        this.enviarDadosMemoria.emit(this.filaAlgoritmoSelecionado);
-    }
+    var ordemAleatoriaPaginas: Array<number> = Utils.embaralhamentoFisherYates(Utils.listaNum(this.filaDePaginas.length));
 
+    for(var i = 0; i<this.filaDePaginas.length;i++){
+        this.alocaPaginaEmMemoriaFisica(this.filaDePaginas[ordemAleatoriaPaginas[i]]);
+      }
+        
+    this.enviarDadosMemoria.emit(this.filaAlgoritmoSelecionado);
     this.preencherGabaritoMemoriaLogica(event);
   }
 

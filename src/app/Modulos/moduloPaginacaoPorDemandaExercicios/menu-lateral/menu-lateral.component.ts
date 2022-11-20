@@ -104,34 +104,14 @@ export class MenuLateralComponent implements OnInit, OnChanges {
       }
         if(this.aleatorio || this.PaginaVitimaCondicaoMinima){
           var sequencia:Array<number> = Utils.embaralhamentoFisherYates(Utils.listaNum(this.nProcessos));
+          var listNunsAleatoriosPages = Utils.listaNumAleatoriosComQuantMinimaFinal(this.nProcessos, (this.exercicioSelecionado.exec == 3));
           
           for (var i = 0; i < this.nProcessos; i++) {
-            var x = 0;
-            if(this.listaNomes[sequencia[i]].exec==1){
-                  if(this.exercicioSelecionado.exec == 3){
-
-                    if(this.listaProcessos.length>=2){
-                          if(this.listaProcessos.length==2 && Utils.quantPaginas(this.listaProcessos) < 3){ 
-                              x = (Number)(Math.round(Math.random() * 2) + 2);
-                            }
-
-                          else if(this.listaProcessos.length==3 && Utils.quantPaginas(this.listaProcessos) < 8){ 
-                            x = 4; 
-                          }
-                          else x = (Number)(Math.round(Math.random() * 3) + 1);
-                      } else x = (Number)(Math.round(Math.random() * 3) + 1);
-                  } else x = (Number)(Math.round(Math.random() * 3) + 1);
-
-                  this.cadastrar(new Processo(this.listaNomes[sequencia[i]].nome, x, Utils.gera_cor(this.listaProcessos)));
+                  this.cadastrar(new Processo(this.listaNomes[sequencia[i]].nome, 
+                                              listNunsAleatoriosPages[i], 
+                                              Utils.gera_cor(this.listaProcessos)));
                   this.listaNomes[i].exec = 0;
-            }
-            else{
-                  var x = (Number)(Math.round(Math.random() * 3) + 1);
-                  this.cadastrar(new Processo(this.listaNomes[sequencia[i]].nome, x, Utils.gera_cor(this.listaProcessos)));
-                  this.listaNomes[i].exec = 0;
-                }
           }
-          this.PaginaVitimaCondicaoMinima = this.exercicioSelecionado.exec == 3 && Utils.quantPaginas(this.listaProcessos) < 8;
           
           this.eRecursoTecnico = this.eRecursoTecnico ==1? 2 : 1;
           this.enviarRecursoTecnico.emit(this.eRecursoTecnico);
