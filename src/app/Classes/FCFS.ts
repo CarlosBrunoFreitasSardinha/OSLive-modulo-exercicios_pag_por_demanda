@@ -8,7 +8,7 @@ export class FCFS {
 
       constructor (){
       }
-      memoriaFisicaCheia(memoriaFisica: Array<MemoriaFisica>): number{
+      primeiraPosicaoDisponivel(memoriaFisica: Array<MemoriaFisica>): number{
             for(var i =0; i< memoriaFisica.length;i++){
                   if(memoriaFisica[i].nome.localeCompare(STR_MEMORIA_VAZIA)==0)return i;
             }
@@ -19,7 +19,7 @@ export class FCFS {
       }
 
       addPaginaEmMemoriaFisica(memoriaFisica: Array<MemoriaFisica>, paginaX: Pagina, timestamp:number):number{
-            var posicaoParaInsercao:number = this.memoriaFisicaCheia(memoriaFisica);
+            var posicaoParaInsercao:number = this.primeiraPosicaoDisponivel(memoriaFisica);
             if(posicaoParaInsercao==-1){
                   posicaoParaInsercao = this.lista[0].indiceMemoriaFisica;
                   this.lista[0].timeStamp = 0;

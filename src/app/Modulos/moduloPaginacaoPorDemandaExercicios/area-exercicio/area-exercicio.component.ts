@@ -148,21 +148,6 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
     this.preencherGabaritoMemoriaLogica(event);
   }
 
-  correcao():void{
-    if(!this.visualizarResposta)this.corrigir=!this.corrigir;
-  }
-  visualizarRespostaExercicio():void{
-    this.visualizarResposta=!this.visualizarResposta;
-    this.corrigir=false;
-  }
-  reiniciar():void{
-    this.back = this.back == 1 ? 2 : 1;
-    this.enviarBack.emit(this.back);
-  }
-  counter(i: number) {
-    return new Array(i);
-  }
-
   preencherGabaritoMemoriaLogica(event: any):void{
     var acertos = 0;
     var total = Utils.quantPaginas(this.listaProcessos);
@@ -179,8 +164,7 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
                 (this.respostaMemoriaLogica[i].pagina[j].timeStamp !=1) == (this.listaProcessos[i].pagina[j].timeStamp !=0)
                 )
               )
-            ){ acertos++;
-          }
+            ){ acertos++; }
         }
       }
       this.nivelAcerto = (acertos/total)*100;
@@ -199,6 +183,24 @@ export class AreaExercicioComponent implements OnInit, OnChanges{
       var y = this.nivelAcerto.toFixed(0);
       this.nivelAcerto = parseFloat(y);
     }
+  }
+
+  correcao():void{
+    if(!this.visualizarResposta)this.corrigir=!this.corrigir;
+  }
+
+  visualizarRespostaExercicio():void{
+    this.visualizarResposta=!this.visualizarResposta;
+    this.corrigir=false;
+  }
+
+  reiniciar():void{
+    this.back = this.back == 1 ? 2 : 1;
+    this.enviarBack.emit(this.back);
+  }
+
+  counter(i: number) {
+    return new Array(i);
   }
   constructor() { }
 }

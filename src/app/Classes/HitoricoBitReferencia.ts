@@ -9,7 +9,7 @@ export class HitoricoBitReferencia {
 
       constructor (){
       }
-      memoriaFisicaCheia(memoriaFisica: Array<MemoriaFisica>): number{
+      primeiraPosicaoDisponivel(memoriaFisica: Array<MemoriaFisica>): number{
             for(var i =0; i< memoriaFisica.length;i++){
                   if(memoriaFisica[i].nome.localeCompare(STR_MEMORIA_VAZIA)==0)return i;
             }
@@ -49,7 +49,7 @@ export class HitoricoBitReferencia {
       
       addPaginaEmMemoriaFisica(memoriaFisica: Array<MemoriaFisica>, paginaX: Pagina, 
                               timestamp:number):number{
-            var posicaoParaInsercao: number = this.memoriaFisicaCheia(memoriaFisica);
+            var posicaoParaInsercao: number = this.primeiraPosicaoDisponivel(memoriaFisica);
             var posMemoFisica = 0;
 
             if(posicaoParaInsercao == -1){
